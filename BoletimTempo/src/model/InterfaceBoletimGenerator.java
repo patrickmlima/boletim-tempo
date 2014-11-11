@@ -3,7 +3,7 @@ import java.util.EventObject;
 
 /**
  * model.InterfaceBoletimGenerator
- * Creation data: 08/11/2014
+ * Creation date: 08/11/2014
  * @author Patrick M Lima
  * A classe atua como InterfaceBoletimGenerator entre a classe DataProcessament
  * e qualquer entidade que queira utilizar os dados.
@@ -15,6 +15,7 @@ public class InterfaceBoletimGenerator extends EventObject
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	//Variável que guarda o nome do turno
 	private String turnName;
 	public InterfaceBoletimGenerator(BoletimGenerator source)
 	{

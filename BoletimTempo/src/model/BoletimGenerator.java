@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.io.BufferedReader;
@@ -14,8 +13,16 @@ import model.InterfaceBoletimGenerator;
 import model.FileManager;
 import listener.TurnListener;
 
+/**
+ * model.BoletimGetnerator
+ * Creation date: 08/11/2014
+ * Processa as informações contidas no arquivo e as salva por turno
+ * @author Patrick M Lima
+ *
+ */
 public class BoletimGenerator 
 {
+	//Variáveis para guardar os dados do boletim
 	private String currentDay;
 	private double averagePressure;
 	private int countPressure;
@@ -27,21 +34,24 @@ public class BoletimGenerator
 	private double directionMaxWind;
 	private double totalRain;
 	
+	//Variáveis de Arquivo
 	private String filePath;
 	private String fileOutName;	
 	private File fileOut;
 	private BufferedReader freader;
 	private BufferedWriter fwriter;
 	
+	//Lista com os listeners de fim de turno
 	private ArrayList <TurnListener>localListeners = new ArrayList<TurnListener>();
 
+	//Variável auxiliar que guarda o separador de caminho do sistema
 	private String SEPARATOR = File.separator;
 	
-	private Scanner sc = new Scanner(System.in);
 	public BoletimGenerator()
 	{		
 		currentDay = "";
 		ResetValues();
+		//caminho que serão salvos os arquivos de saída
 		filePath = "."+SEPARATOR+"src"+SEPARATOR+"data"+SEPARATOR;
 	}
 	
@@ -58,6 +68,11 @@ public class BoletimGenerator
 		totalRain = 0.0;
 	}
 	
+	/**
+	 * Função usada para abrir o arquivo de saída, onde
+	 * serão salvas as informações do boletim
+	 * @param fname
+	 */
 	protected synchronized void OpenFileOut(String fname)
 	{
 		fileOutName = filePath+fname;
@@ -76,6 +91,9 @@ public class BoletimGenerator
 		}
 	}
 	
+	/**
+	 * Função teste para processar todas as linhas do arquivo e gerar seu boletim
+	 */
 	public void PrintLines()
 	{
 		try{
@@ -95,8 +113,10 @@ public class BoletimGenerator
 		}
 	}
 	
-	/*Obtem data e hora dos dados a serem processados,
-	 * a partir de uma linha do arquivo Baixa1
+	/**
+	 * Obtem data e hora da linha lida, bem como as informações a serem
+	 * processadas (temperatura, pressão, umidade, etc.)
+	 * @param line
 	 */
 	public void SeparateStrings(String line)
 	{
@@ -124,10 +144,12 @@ public class BoletimGenerator
 			try
 			{
 				ProcessInformations(str);
+				
 				if(fwriter == null)
-				{
+				{//caso o objeto de escrita não esteja associado a um arquivo ele é, então, aberto
 					OpenFileOut(day+"."+month+"."+year+".txt");
 				}
+				//Verifica o fim dos turnos
 				if(hour.equals("06") && minutes.equals("00"))
 				{
 					//fim turno madrugada
@@ -149,6 +171,8 @@ public class BoletimGenerator
 					SaveResults("Turno Noite:");
 				}
 				
+				//Se o dia atual é diferente do lido, então é aberto um novo arquivo para salvar
+				//os dados processados (temperatura mínima, temperatura máxima, precipitação, etc.)
 				if(!this.currentDay.equals(day))
 				{
 					if(fileOut != null && fileOut.exists())
@@ -166,6 +190,11 @@ public class BoletimGenerator
 		}
 	}
 	
+	/**
+	 * Função para processar as informações da linha lida (obter média de pressão, maior e menor 
+	 * temperatura, etc.)
+	 * @param line
+	 */
 	private void ProcessInformations(ArrayList<String> line)
 	{
 		String rain = line.get(line.size()-1);
@@ -200,6 +229,10 @@ public class BoletimGenerator
 		}
 	}	
 	
+	/**
+	 * Função para salvar os resultados num arquivo de saída.
+	 * @param turn_name
+	 */
 	private void SaveResults(String turn_name)
 	{
 		try
@@ -213,9 +246,9 @@ public class BoletimGenerator
 			fwriter.newLine();
 			fwriter.append("Temp. max: "+temperatureMax+" °C");
 			fwriter.newLine();
-			fwriter.append("Humidade min: "+humidityMin+"%");
+			fwriter.append("Umidade min: "+humidityMin+"%");
 			fwriter.newLine();
-			fwriter.append("Humidade max: "+humidityMax+"%");
+			fwriter.append("Umidade max: "+humidityMax+"%");
 			fwriter.newLine();
 			fwriter.append("Máxima velocidade do vento: "+maxWindVelocity+" m/s"+" -- direção: "+directionMaxWind+"°");
 			fwriter.newLine();
@@ -233,18 +266,19 @@ public class BoletimGenerator
 		}
 	}
 	
-	
+	//Imprime os dados processados na tela (apenas pra teste)
 	public void printResult()
 	{
 		System.out.println("Pressão média: "+averagePressure/countPressure);
 		System.out.println("Temp. min: "+temperatureMin);
 		System.out.println("Temp. max: "+temperatureMax);
-		System.out.println("Humidade min: "+humidityMin);
-		System.out.println("Humidade max: "+humidityMax);
+		System.out.println("Umidade min: "+humidityMin);
+		System.out.println("Umidade max: "+humidityMax);
 		System.out.println("Máxima velocidade do vento: "+maxWindVelocity+" -- direção: "+directionMaxWind);
 		System.out.println("Total de precipitação: "+totalRain);
 	}
 
+	//Funções get para passar dados para a model.InterfaceBoeltimGenerator
 	public double getAveragePressure()
 	{ return averagePressure;}
 	public double gettemperatureMin()
@@ -264,6 +298,10 @@ public class BoletimGenerator
 	public String getFileOutName()
 	{ return fileOutName; }
 	
+	/**
+	 * Adiciona um listener ao ArrayList localListeners
+	 * @param listener
+	 */
 	public void addModelListener(TurnListener listener)
 	{
 		if(this.localListeners.contains(listener))
@@ -271,6 +309,10 @@ public class BoletimGenerator
 		this.localListeners.add(listener);
 	}
 	
+	/**
+	 * "Dispara" os listeners armazenados em localListeneres
+	 * @param turn_name
+	 */
 	public void shootEndTurn(String turn_name)
 	{
 		for(TurnListener ltr : this.localListeners)
@@ -279,6 +321,11 @@ public class BoletimGenerator
 		}
 	}
 	
+	/**
+	 * Função que obtêm a ultima linha do arquivo CR3000_Estacao_Baixa1.dat
+	 * @param file
+	 * @return
+	 */
 	public String getLastLine(File file) 
 	{
 	    RandomAccessFile fileHandler = null;
