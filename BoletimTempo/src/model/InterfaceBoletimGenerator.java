@@ -14,14 +14,14 @@ public class InterfaceBoletimGenerator extends EventObject
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	//Variável que guarda o nome do turno
 	private String turnName;
 	public InterfaceBoletimGenerator(BoletimGenerator source)
 	{
 		super (source);
 	}
-	
+
 	public InterfaceBoletimGenerator(BoletimGenerator source, String turn_name)
 	{
 		this (source);
@@ -51,5 +51,5 @@ public class InterfaceBoletimGenerator extends EventObject
 	{ return ((BoletimGenerator)this.source).gettotalRain();}
 	public String getFileOutName()
 	{ return ((BoletimGenerator)this.source).getFileOutName(); }
-	
+
 }

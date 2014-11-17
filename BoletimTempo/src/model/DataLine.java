@@ -1,0 +1,117 @@
+package model;
+
+/**
+ * Representa uma linha do arquivo contendo apenas os dados de interesse
+ *  timestamp + 6 últimas colunas.
+ *  
+ * @author Elloa
+ *
+ */
+public class DataLine {
+
+	private String timeStamp;
+	private int day;
+	private int month;
+	private int year;
+	private int hour;
+	private int minute;
+	private double pressure;
+	private double temperature;
+	private double humidity;
+	private double speed;
+	private double direction;
+	private double rain;
+	
+	/**
+	 * Construído a partir de uma string extraída do arquivo
+	 * 
+	 * @param s string extraída do arquivo baixa1
+	 */
+	public DataLine(String s){
+		String[] lista = s.split(",");
+		timeStamp = lista[0];
+		processDay();
+		rain = Double.parseDouble(lista[25]);
+		direction = Double.parseDouble(lista[24]);
+		speed = Double.parseDouble(lista[23]);
+		humidity = Double.parseDouble(lista[22]);
+		temperature = Double.parseDouble(lista[21]);
+		pressure = Double.parseDouble(lista[20]);
+	}
+	
+	
+	private void processDay(){
+		String temp = timeStamp;
+		temp = temp.replace("\"", " ");
+		temp = temp.replace("-", " ");
+		temp = temp.replace(":", " ");
+		String[] temp2 = temp.split(" ");
+		year = Integer.parseInt(temp2[0]);
+		month = Integer.parseInt(temp2[1]);
+		day = Integer.parseInt(temp2[2]);
+		hour = Integer.parseInt(temp2[3]);
+		minute = Integer.parseInt(temp2[4]);
+	}
+
+
+	public String getTimeStamp() {
+		return timeStamp;
+	}
+
+
+	public double getPressure() {
+		return pressure;
+	}
+
+
+	public double getTemperature() {
+		return temperature;
+	}
+
+
+	public double getHumidity() {
+		return humidity;
+	}
+
+
+	public double getDirection() {
+		return direction;
+	}
+
+
+	public double getRain() {
+		return rain;
+	}
+	
+	public double getSpeed(){
+		return speed;
+	}
+	
+	public String toString(){
+		return timeStamp + " " +pressure +" " + temperature + " " +humidity + " " + speed+ " " +direction +" " + rain;
+	}
+
+	public int getDay() {
+		return day;
+	}
+
+	public int getMonth() {
+		return month;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public int getHour() {
+		return hour;
+	}
+
+	public int getMinute() {
+		return minute;
+	}
+	
+	
+	
+	
+}

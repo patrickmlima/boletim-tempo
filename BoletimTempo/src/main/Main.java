@@ -1,10 +1,13 @@
 package main;
 
-import model.BoletimGenerator;
-import model.InterfaceBoletimGenerator;
+import java.io.IOException;
+
 import listener.TurnListener;
+import model.InterfaceBoletimGenerator;
+import controller.Controller;
 
 public class Main implements TurnListener{
+	
 	@Override
 	public void TurnFinished(InterfaceBoletimGenerator obj) {
 		System.out.println("Turno finalizado: "+obj.getTurnName());
@@ -12,21 +15,18 @@ public class Main implements TurnListener{
 
 	public static void main(String[] args) {
 		
-//		try {
-			BoletimGenerator obj = new BoletimGenerator();
-			obj.addModelListener(new Main());
-			obj.PrintLines();
-//			FileManager f = new FileManager();
-//			System.out.println(f.getLine());
-//			System.out.println(f.getLine());
-//			System.out.println(f.getLine());
-//			System.out.println(f.getLine());
-//			System.out.println(f.getLine());
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-	
+		
+		try {
+			Controller.getInstance().readFile();
+			Controller.getInstance().saveAllDays();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+			
+
+
 	}
 
 }

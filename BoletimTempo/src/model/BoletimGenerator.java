@@ -45,14 +45,14 @@ public class BoletimGenerator
 	private ArrayList <TurnListener>localListeners = new ArrayList<TurnListener>();
 
 	//Variável auxiliar que guarda o separador de caminho do sistema
-	private String SEPARATOR = File.separator;
+	
 	
 	public BoletimGenerator()
 	{		
 		currentDay = "";
 		ResetValues();
 		//caminho que serão salvos os arquivos de saída
-		filePath = "."+SEPARATOR+"src"+SEPARATOR+"data"+SEPARATOR;
+		filePath = "."+ Util.SEPARATOR+"src"+Util.SEPARATOR+"data"+Util.SEPARATOR;
 	}
 	
 	protected synchronized void ResetValues()

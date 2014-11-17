@@ -8,18 +8,18 @@ import java.io.IOException;
  * model.FileManager
  * Creation date: 10/11/2014
  * @author Elloá B. Guedes
+ * 
  * Classe que retorna um objeto do tipo BufferedReader
  * associado ao arquivo que contêm os dados a serem processados.
+ * 
  */
 public class FileManager {
-	private final String SEPARATE = File.separator;
-	private String filePath = "."+SEPARATE+"src"+SEPARATE+"data"+SEPARATE;
-	private String fileName = "CR3000_Estacao_Baixa1.dat";
+
 	private int linesToSkip = 3;
 	private BufferedReader br;
 
 	public FileManager() throws IOException{
-		br = new BufferedReader(new FileReader(new File(filePath + fileName)));
+		br = new BufferedReader(new FileReader(new File(Util.BAIXA1)));
 		skipLines();
 	}
 
@@ -27,14 +27,47 @@ public class FileManager {
 		return br;
 	}
 
-	public String getLine() throws IOException {
-		return br.readLine();
-	}
 
+	/**
+	 * Quantidade de linhas a pular no arquivo baixa1 antes dos dados, refrentes ao cabeçalho.
+	 * 
+	 * 
+	 * @throws IOException
+	 */
 	private void skipLines() throws IOException{
 		for (int i = 0; i<= linesToSkip; i++){
 			br.readLine();
 		}
 	}
+	
+	/**
+	 * Checa se ainda há linhas disponíveis do arquivo
+	 * 
+	 * @return true, se ainda há linhas no arquivo
+	 */
+	public boolean hasNextLine() {
+		
+        try {
+            br.mark(1);
+            if (br.read() < 0) {
+                return false;
+            }
+            return true;
+        } catch (IOException e) {
+        	return false;
+          }
+    }
+	
+	/**
+	 * Pega a próxima linha do arquivo,se houver
+	 * @return uma linha do arquivo
+	 */
+	public String nextLine() {
+        try {
+            return br.readLine();
+        } catch (IOException e) {
+            return null;
+        }
+    }
 
 }
