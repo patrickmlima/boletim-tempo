@@ -58,11 +58,12 @@ public class SerializeWeatherDay {
 
 			// Data
 			Element data = doc.createElement("data");
-			dias.appendChild(data);
+			dia.appendChild(data);
 
 			Element ano = doc.createElement("ano");
 			ano.appendChild(doc.createTextNode(Integer.toString(weatherDay.getYear())));
 			data.appendChild(ano);
+			
 			// Mês
 			Element mes = doc.createElement("mes");
 			mes.appendChild(doc.createTextNode(Integer.toString(weatherDay.getMonth())));
@@ -78,10 +79,20 @@ public class SerializeWeatherDay {
 			for (DayPeriod dayPeriod : turnos) {
 
 				String sTurno;
-				if (counter == 0) sTurno = "madrugada";
-				else if (counter == 1) sTurno = "manha";
-				else if (counter == 2) sTurno = "tarde";
-				else sTurno = "noite";
+				if (counter == 0) {
+					sTurno = "madrugada";
+				}
+				else if (counter == 1){
+					sTurno = "manha";
+				}
+				else if (counter == 2) {
+					sTurno = "tarde";
+				}
+				else {
+					sTurno = "noite";
+				}
+				
+				
 				
 
 				// Elementos de cada dia		
@@ -89,35 +100,35 @@ public class SerializeWeatherDay {
 				dia.appendChild(turno);
 				{
 					Element pressaoMedia = doc.createElement("pressao_media");
-					pressaoMedia.appendChild(doc.createTextNode(Double.toString(weatherDay.getDawn().getAvgPressure())));
+					pressaoMedia.appendChild(doc.createTextNode(Double.toString(dayPeriod.getAvgPressure())));
 					turno.appendChild(pressaoMedia);
 
 					Element temperaturaMax = doc.createElement("temperatura_maxima");
-					temperaturaMax.appendChild(doc.createTextNode(Double.toString(weatherDay.getDawn().getHighTemp())));
+					temperaturaMax.appendChild(doc.createTextNode(Double.toString(dayPeriod.getHighTemp())));
 					turno.appendChild(temperaturaMax);
 
 					Element temperaturaMin = doc.createElement("temperatura_minima");
-					temperaturaMin.appendChild(doc.createTextNode(Double.toString(weatherDay.getDawn().getLowTemp())));
+					temperaturaMin.appendChild(doc.createTextNode(Double.toString(dayPeriod.getLowTemp())));
 					turno.appendChild(temperaturaMin);
 
 					Element umidadeMin = doc.createElement("umidade_minima");
-					umidadeMin.appendChild(doc.createTextNode(Double.toString(weatherDay.getDawn().getLowHumid())));
+					umidadeMin.appendChild(doc.createTextNode(Double.toString(dayPeriod.getLowHumid())));
 					turno.appendChild(umidadeMin);
 
 					Element umidadeMax = doc.createElement("umidade_maxima");
-					umidadeMax.appendChild(doc.createTextNode(Double.toString(weatherDay.getDawn().getHighHumid())));
+					umidadeMax.appendChild(doc.createTextNode(Double.toString(dayPeriod.getHighHumid())));
 					turno.appendChild(umidadeMax);
 
 					Element speed = doc.createElement("velocidade_maxima");
-					speed.appendChild(doc.createTextNode(Double.toString(weatherDay.getDawn().getMaxSpeed())));
+					speed.appendChild(doc.createTextNode(Double.toString(dayPeriod.getMaxSpeed())));
 					turno.appendChild(speed);
 
 					Element direction = doc.createElement("direcao_velocidade_maxima");
-					direction.appendChild(doc.createTextNode(Double.toString(weatherDay.getDawn().getMaxDirect())));
+					direction.appendChild(doc.createTextNode(Double.toString(dayPeriod.getMaxDirect())));
 					turno.appendChild(direction);
 
 					Element rain = doc.createElement("precipitacao_acumulada");
-					rain.appendChild(doc.createTextNode(Double.toString(weatherDay.getDawn().getAcumRain())));
+					rain.appendChild(doc.createTextNode(Double.toString(dayPeriod.getAcumRain())));
 					turno.appendChild(rain);
 
 
@@ -139,6 +150,8 @@ public class SerializeWeatherDay {
 		System.out.println("File saved!");
 
 	}
+	
+	
 
 
 
