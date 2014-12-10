@@ -49,21 +49,17 @@ public class DayPeriod {
 
 				DataLine d = it.next();
 
+				//Comparações alteradas em 10/12/2014 por Patrick
 				//update Max Temperature
 				if (d.getTemperature() > highTemp) {
 					highTemp = d.getTemperature();
-				}
-
-				if (d.getTemperature() < lowTemp) {
+				}else if (d.getTemperature() < lowTemp) {
 					lowTemp = d.getTemperature();
 				}
 
-
 				if (d.getHumidity() > highHumid){
 					highHumid = d.getHumidity();
-				}
-
-				if (d.getHumidity() < lowHumid){
+				}else if (d.getHumidity() < lowHumid){
 					lowHumid = d.getHumidity();
 				}
 
@@ -75,9 +71,7 @@ public class DayPeriod {
 				acumRain += d.getRain();
 				avgPressure += d.getPressure();
 
-
 			}
-
 			avgPressure /= size;
 		}	
 
@@ -151,9 +145,5 @@ public class DayPeriod {
 	public double getAcumRain() {
 		return acumRain;
 	}
-
-
-
-
 
 }

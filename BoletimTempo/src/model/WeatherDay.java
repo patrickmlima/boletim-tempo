@@ -30,7 +30,7 @@ public class WeatherDay {
 	private int size = 0;
 
 	/**
-	 * Informacoes sobre a data desde dia meteorologico
+	 * Informacoes sobre a data deste dia meteorologico
 	 * 
 	 * @param year
 	 * @param month
@@ -50,16 +50,17 @@ public class WeatherDay {
 	 * Apos utilizar o construtor deve ser passada uma linha
 	 * DataLine com as informações que devem ser acrescentadas a 
 	 * este dia. Só depois de inseridas todas as linhas é que deve
-	 * haver o processament.
+	 * haver o processamento.
 	 * 
 	 * @param d uma DataLine a ser acrescentada na meteorologia deste dia.
 	 */
+	//função alterada em 19/11/2014
 	public void addMeasurement(DataLine d){
-		if ((d.getHour() > 0)&&(d.getHour() < 6)){
+		if ((d.getHour()==0 && d.getMinute()>=10) || (d.getHour()>0 && d.getHour()<6) || (d.getHour()==6 && d.getMinute()==0)){
 			listDawn.add(d);
-		} else if ((d.getHour() >=6)&&(d.getHour() < 12)){
+		} else if ((d.getHour()==6 && d.getMinute()>=10) || (d.getHour()>6 && d.getHour()<12) || (d.getHour()==12 && d.getMinute()==0)){
 			listMorning.add(d);
-		} else if ((d.getHour() >= 12)&&(d.getHour() < 18)){
+		} else if ((d.getHour()==12 && d.getMinute()>=10) || (d.getHour()>12 && d.getHour()<18) || (d.getHour()==18 && d.getMinute()==0)){
 			listAfternoon.add(d);
 		} else {
 			listNight.add(d);
