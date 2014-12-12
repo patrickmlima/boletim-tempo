@@ -132,13 +132,15 @@ public class SerializeWeatherDay {
 					turno.appendChild(rain);
 
 
-
 				}
 				
 				counter++;
 
 			}
-
+			//elemento adicionado em 12/12/2014 por Patrick
+			Element indiceCalor = doc.createElement("indice_de_calor");
+			indiceCalor.appendChild(doc.createTextNode(Double.toString(weatherDay.getHeatIndex())));
+			dia.appendChild(indiceCalor);
 
 		}
 

@@ -16,6 +16,8 @@ public class WeatherDay {
 	private int year;
 	private int month;
 	private int day;
+	//Adicionado em 12/12/2014 por Patrick
+	private double heatIndex = 0.0;
 
 	private DayPeriod dawn;
 	private DayPeriod morning;
@@ -79,6 +81,18 @@ public class WeatherDay {
 		morning = new DayPeriod(listMorning);
 		afternoon = new DayPeriod(listAfternoon);
 		night = new DayPeriod(listNight);
+
+		//adicionado em 12/12/2014 por Patrick
+		double highTemp=0.0, humidityHTemp=0.0;
+		for(DayPeriod d : getDayPeriods())
+		{
+			if(d.getHighTemp()>highTemp)
+			{
+				highTemp = d.getHighTemp();
+				humidityHTemp = d.getHumidityHighTemp();
+			}
+		}
+		this.heatIndex = (new HeatIndex(highTemp, humidityHTemp)).getIndex();
 
 	}
 
@@ -180,13 +194,19 @@ public class WeatherDay {
 	/**
 	 * Retorna a quantidade de medicoes utilizadas para composicao dos dados deste dia meteorologico.
 	 * 
-	 * @return
+	 * @return 
 	 */
 	public int getSize() {
 		return size;
 	}
 	
-	
+	/**
+	 * Retorna o índice de calor daquele dia.
+	 * @return o valor do índice de calor de um determinado dia.
+	 */
+	public double getHeatIndex() {
+		return heatIndex;
+	}
 
 
 

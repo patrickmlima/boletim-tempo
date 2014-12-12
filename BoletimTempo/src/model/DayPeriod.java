@@ -3,6 +3,7 @@ package model;
 import java.util.Iterator;
 import java.util.List;
 
+
 /**
  * Equivale a um período do dia e as suas respectivas medições.
  * Construído a partir de um conjunto de DataLine das quais
@@ -12,7 +13,6 @@ import java.util.List;
  *
  */
 public class DayPeriod {
-
 	private int size;
 	private double avgPressure = 0.0;
 	private double highTemp;
@@ -22,7 +22,9 @@ public class DayPeriod {
 	private double maxSpeed;
 	private double maxDirect;
 	private double acumRain = 0.0;
-
+	
+	//Adicionado em 12/12/2014 por Patrick
+	private double humidityHighTemp = 0.0;
 
 
 	/**
@@ -53,6 +55,7 @@ public class DayPeriod {
 				//update Max Temperature
 				if (d.getTemperature() > highTemp) {
 					highTemp = d.getTemperature();
+					humidityHighTemp = d.getHumidity();
 				}else if (d.getTemperature() < lowTemp) {
 					lowTemp = d.getTemperature();
 				}
@@ -146,4 +149,8 @@ public class DayPeriod {
 		return acumRain;
 	}
 
+	//adicionado em 12/12/2014 por Patrick
+	public double getHumidityHighTemp(){
+		return humidityHighTemp;
+	}
 }
