@@ -99,7 +99,7 @@ public class TurnFigure {
 		g2.drawString(Double.toString(dayPeriod.getHighTemp()) + " °C", imSun.getWidth(null)+110, 190);
 		g2.drawString(Double.toString(dayPeriod.getLowTemp()) + " °C", imSun.getWidth(null)+110, 250);
 		g2.drawImage(imWind, 10, 280, null);
-		g2.drawString(Double.toString(dayPeriod.getMaxSpeed()) + " m/S", 30, 430);
+		g2.drawString(Double.toString(dayPeriod.getMaxSpeed()) + " m/s", 30, 430);
 		g2.drawImage(imThermo, imSun.getWidth(null)+120, 300, null);
 		g2.drawString("duvida", imSun.getWidth(null)+175, 369);
 		g2.dispose();
