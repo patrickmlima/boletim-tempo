@@ -8,6 +8,7 @@ import model.DataLine;
 import model.FileManager;
 import model.SerializeWeatherDay;
 import model.WeatherDay;
+import model.TurnFigure;
 
 
 /**
@@ -21,6 +22,7 @@ public class Controller {
 	private FileManager fm;
 	private List<WeatherDay> days;
 	private SerializeWeatherDay swd;
+	private TurnFigure turnGen;
 	private static Controller instance;
 
 
@@ -79,8 +81,10 @@ public class Controller {
 	 */
 	public void saveAllDays(){
 		swd = new SerializeWeatherDay(days);
+		turnGen = new TurnFigure(days);
 		try {
 			swd.writeDaybyDay();
+			turnGen.generateFigures();
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
