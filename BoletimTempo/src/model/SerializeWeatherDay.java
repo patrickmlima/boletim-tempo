@@ -24,14 +24,16 @@ import org.w3c.dom.Element;
 public class SerializeWeatherDay {
 
 	List<WeatherDay> days;
+	private String fileName;
 
 	/**
 	 * Constroi um arquivo a partir de um conjunto de dias meteorologicos passados como parametro
 	 * 
 	 * @param list
 	 */
-	public SerializeWeatherDay(List<WeatherDay> list){
+	public SerializeWeatherDay(List<WeatherDay> list, String fileName){
 		this.days = list;
+		this.fileName = fileName;
 	}
 
 	/**
@@ -78,22 +80,7 @@ public class SerializeWeatherDay {
 
 			for (DayPeriod dayPeriod : turnos) {
 
-				String sTurno;
-				if (counter == 0) {
-					sTurno = "madrugada";
-				}
-				else if (counter == 1){
-					sTurno = "manha";
-				}
-				else if (counter == 2) {
-					sTurno = "tarde";
-				}
-				else {
-					sTurno = "noite";
-				}
-				
-				
-				
+				String sTurno = Util.ranksPeriod(counter);
 
 				// Elementos de cada dia		
 				Element turno = doc.createElement(sTurno);
@@ -102,14 +89,14 @@ public class SerializeWeatherDay {
 					Element pressaoMedia = doc.createElement("pressao_media");
 					pressaoMedia.appendChild(doc.createTextNode(Double.toString(dayPeriod.getAvgPressure())));
 					turno.appendChild(pressaoMedia);
+					
+					Element temperaturaMin = doc.createElement("temperatura_minima");
+					temperaturaMin.appendChild(doc.createTextNode(Double.toString(dayPeriod.getLowTemp())));
+					turno.appendChild(temperaturaMin);
 
 					Element temperaturaMax = doc.createElement("temperatura_maxima");
 					temperaturaMax.appendChild(doc.createTextNode(Double.toString(dayPeriod.getHighTemp())));
 					turno.appendChild(temperaturaMax);
-
-					Element temperaturaMin = doc.createElement("temperatura_minima");
-					temperaturaMin.appendChild(doc.createTextNode(Double.toString(dayPeriod.getLowTemp())));
-					turno.appendChild(temperaturaMin);
 
 					Element umidadeMin = doc.createElement("umidade_minima");
 					umidadeMin.appendChild(doc.createTextNode(Double.toString(dayPeriod.getLowHumid())));
@@ -130,8 +117,6 @@ public class SerializeWeatherDay {
 					Element rain = doc.createElement("precipitacao_acumulada");
 					rain.appendChild(doc.createTextNode(Double.toString(dayPeriod.getAcumRain())));
 					turno.appendChild(rain);
-
-
 				}
 				
 				counter++;
@@ -147,7 +132,7 @@ public class SerializeWeatherDay {
 		final Transformer transformer = TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-		transformer.transform(new DOMSource(doc), new StreamResult(new File(Util.OUTPUT_FOLDER + "alldays.xml")));
+		transformer.transform(new DOMSource(doc), new StreamResult(new File(Util.OUTPUT_FOLDER + fileName + ".xml")));
 
 		System.out.println("File saved!");
 

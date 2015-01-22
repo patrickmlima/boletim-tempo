@@ -23,9 +23,9 @@ public class DataLine {
 	private double rain;
 	
 	/**
-	 * Construído a partir de uma string extraída do arquivo
+	 * Made from an extracted file string 
 	 * 
-	 * @param s string extraída do arquivo baixa1
+	 * @param s string extracted from baixa1 file
 	 */
 	public DataLine(String s){
 		String[] lista = s.split(",");
@@ -39,7 +39,9 @@ public class DataLine {
 		pressure = Double.parseDouble(lista[20]);
 	}
 	
-	
+	/**
+	 * Takes other informations about the data in a line
+	 */
 	private void processDay(){
 		String temp = timeStamp;
 		temp = temp.replace("\"", " ");
@@ -110,8 +112,9 @@ public class DataLine {
 	public int getMinute() {
 		return minute;
 	}
-	
-	
-	
+
+	public String getDate() {
+		return Integer.toString(getDay()) + "/" + Integer.toString(getMonth()) + "/" + Integer.toString(getYear());
+	}
 	
 }

@@ -9,9 +9,8 @@ import java.io.IOException;
  * Creation date: 10/11/2014
  * @author Elloá B. Guedes
  * 
- * Classe que retorna um objeto do tipo BufferedReader
- * associado ao arquivo que contêm os dados a serem processados.
- * 
+ * Class which returns a BufferedReader object associated with
+ * the file which contains the data that will be processed 
  */
 public class FileManager {
 
@@ -29,8 +28,7 @@ public class FileManager {
 
 
 	/**
-	 * Quantidade de linhas a pular no arquivo baixa1 antes dos dados, refrentes ao cabeçalho.
-	 * 
+	 * The number of lines to skip in the baixa1 file before the data, regarding the file header.
 	 * 
 	 * @throws IOException
 	 */
@@ -41,7 +39,7 @@ public class FileManager {
 	}
 	
 	/**
-	 * Checa se ainda há linhas disponíveis do arquivo
+	 * Checks if there are still available lines in the file yet
 	 * 
 	 * @return true, se ainda há linhas no arquivo
 	 */
@@ -59,8 +57,8 @@ public class FileManager {
     }
 	
 	/**
-	 * Pega a próxima linha do arquivo,se houver
-	 * @return uma linha do arquivo
+	 * Takes the next file line, if there
+	 * @return a file line
 	 */
 	public String nextLine() {
         try {
@@ -69,5 +67,4 @@ public class FileManager {
             return null;
         }
     }
-
 }

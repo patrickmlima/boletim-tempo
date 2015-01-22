@@ -5,10 +5,9 @@ import java.util.List;
 
 
 /**
- * Equivale a um período do dia e as suas respectivas medições.
- * Construído a partir de um conjunto de DataLine das quais
- * são extraídas e processadas as métricas de interesse.
- * 
+ * It's equivalent to a day period and their measurements.
+ * Made from a set of DataLine in which are extracted and
+ * processed the metrics of interest  
  * @author Elloa
  *
  */
@@ -23,15 +22,13 @@ public class DayPeriod {
 	private double maxDirect;
 	private double acumRain = 0.0;
 	
-	//Adicionado em 12/12/2014 por Patrick
 	private double humidityHighTemp = 0.0;
 
 
 	/**
-	 * Cria um período do dia e processa as metricas relativas a este
-	 * período
+	 * Creates a DayPeriod and processes its metrics
 	 * 
-	 * @param data
+	 * @param data a List which contains DataLine objects
 	 */
 	public DayPeriod(List<DataLine> data){
 
@@ -51,7 +48,6 @@ public class DayPeriod {
 
 				DataLine d = it.next();
 
-				//Comparações alteradas em 10/12/2014 por Patrick
 				//update Max Temperature
 				if (d.getTemperature() > highTemp) {
 					highTemp = d.getTemperature();
@@ -84,72 +80,47 @@ public class DayPeriod {
 
 
 	/**
-	 * Retorna a quantidade de medições passadas como
-	 * parâmetro pra este turno do dia
+	 * Returns the number of measurements passed through
+	 * parameter for this day period
 	 * 
-	 * @return
+	 * @return the number of measurements from this day period 
 	 */
 	public int getSize() {
 		return size;
 	}
 
-
-
-
 	public double getAvgPressure() {
 		return avgPressure;
 	}
-
-
-
 
 	public double getHighTemp() {
 		return highTemp;
 	}
 
-
-
-
 	public double getLowTemp() {
 		return lowTemp;
 	}
-
-
-
 
 	public double getHighHumid() {
 		return highHumid;
 	}
 
-
-
-
 	public double getLowHumid() {
 		return lowHumid;
 	}
-
-
-
 
 	public double getMaxSpeed() {
 		return maxSpeed;
 	}
 
-
-
-
 	public double getMaxDirect() {
 		return maxDirect;
 	}
-
-
-
 
 	public double getAcumRain() {
 		return acumRain;
 	}
 
-	//adicionado em 12/12/2014 por Patrick
 	public double getHumidityHighTemp(){
 		return humidityHighTemp;
 	}

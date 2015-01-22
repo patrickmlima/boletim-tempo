@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Represents a meteorological day, which is composed from 4 periods and
+ * your respective measurements. The data from this day are initially stored
+ * and then are processed 
+ * 
  * Representa um dia meteorológico, o qual é composto de 4 períodos e
  * suas respectivas medições. Os dados referentes a este dia são inicialmente armazenados
  * e só depois processados
@@ -16,7 +20,6 @@ public class WeatherDay {
 	private int year;
 	private int month;
 	private int day;
-	//Adicionado em 12/12/2014 por Patrick
 	private double heatIndex = 0.0;
 
 	private DayPeriod dawn;
@@ -32,11 +35,11 @@ public class WeatherDay {
 	private int size = 0;
 
 	/**
-	 * Informacoes sobre a data deste dia meteorologico
+	 * Informations about the date of this weather day
 	 * 
-	 * @param year
-	 * @param month
-	 * @param day
+	 * @param year the weather day year
+	 * @param month the weather day month
+	 * @param day the day of the weather day 
 	 */
 	public WeatherDay(int year, int month, int day){
 		this.year = year;
@@ -49,14 +52,12 @@ public class WeatherDay {
 	}
 
 	/**
-	 * Apos utilizar o construtor deve ser passada uma linha
-	 * DataLine com as informações que devem ser acrescentadas a 
-	 * este dia. Só depois de inseridas todas as linhas é que deve
-	 * haver o processamento.
+	 * After use the constructor a DataLine with the informations
+	 * which should be added to this day must be passed.
+	 * Only after all the lines has been inserted must have processing. 
 	 * 
-	 * @param d uma DataLine a ser acrescentada na meteorologia deste dia.
+	 * @param d a DataLine to be added on the weather of this day.
 	 */
-	//função alterada em 19/11/2014
 	public void addMeasurement(DataLine d){
 		if ((d.getHour()==0 && d.getMinute()>=10) || (d.getHour()>0 && d.getHour()<6) || (d.getHour()==6 && d.getMinute()==0)){
 			listDawn.add(d);
@@ -73,8 +74,8 @@ public class WeatherDay {
 
 
 	/**
-	 * Apos todos os dados deste dia terem sido adicionados,
-	 * é que deve ser efetuado o processamento das medicoes do dia.
+	 * After all the data of the day have been added, then 
+	 * must have processing of the measurements of the day.
 	 */
 	public void processMeasurements(){
 		dawn = new DayPeriod(listDawn);
@@ -82,7 +83,6 @@ public class WeatherDay {
 		afternoon = new DayPeriod(listAfternoon);
 		night = new DayPeriod(listNight);
 
-		//adicionado em 12/12/2014 por Patrick
 		double highTemp=0.0, humidityHTemp=0.0;
 		for(DayPeriod d : getDayPeriods())
 		{
@@ -97,89 +97,102 @@ public class WeatherDay {
 	}
 
 	/**
-	 * Checa se duas datas são iguais.
+	 * Checks if two dates are equals
 	 * 
 	 * @param year
 	 * @param month
 	 * @param day
-	 * @return se ano, mes e dia são iguais ao deste dia.
+	 * @return if the year, month and day are equals to this day.
 	 */
 	public boolean equals(int year, int month, int day){
-		return (this.year == year)&&(this.month == month)&&(this.day == day);
+		return (this.day == day && this.month == month && this.year == year);
+	}
+	
+	/**
+	 * Checks if a date belongs to the same period which this WeatherDay
+	 * @param year 
+	 * @param month
+	 * @param day
+	 * @param hour
+	 * @param minute
+	 * @return if the date and time (hour and minute) belongs to this WeatherDay
+	 */
+	public boolean isSamePeriod(int year, int month, int day, int hour, int minute) {
+		return ( this.equals(year, month, day) || (this.day+1 == day && hour == 0 && minute == 0) ); 
 	}
 
 	/**
-	 * Imprime o dia atual no formato ano, mês e dia
+	 * Prints the current day in the format year, month and day
 	 */
 	public String toString(){
 		return this.year + "-" + this.month + "-" + this.day;
 	}
 
 	/**
-	 * Fornece os dados do periodo classificado como sendo madrugada
+	 * Supplies the period's data labeled as dawn
 	 * 
-	 * @return dados da madrugada
+	 * @return dawn's data
 	 */
 	public DayPeriod getDawn() {
 		return dawn;
 	}
 
 	/**
-	 * Fornece os dados do periodo classificado como sendo manha
+	 * Supplies the period's data labeled as morning
 	 * 
-	 * @return dados da manha
+	 * @return morning's data
 	 */
 	public DayPeriod getMorning() {
 		return morning;
 	}
 
 	/**
-	 * Fornece os dados do periodo classificado como sendo tarde
+	 * Supplies the period's data labeled as afternoon
 	 * 
-	 * @return dados da tarde
+	 * @return afternoon's data
 	 */
 	public DayPeriod getAfternoon() {
 		return afternoon;
 	}
 
 	/**
-	 * Fornece os dados do periodo classificado como sendo noite
+	 * Supplies the period's data labeled as night
 	 * 
-	 * @return dados da noite
+	 * @return night's data
 	 */
 	public DayPeriod getNight() {
 		return night;
 	}
 
 	/**
-	 * Retorna ano
-	 * @return um inteiro contendo o ano deste dia
+	 * Returns year
+	 * @return an integer that contains the year of this day
 	 */
 	public int getYear() {
 		return year;
 	}
 
 	/**
-	 * retorna mes
+	 * returns month
 	 * 
-	 * @return um inteiro contendo o mes deste dia
+	 * @return an integer that contains the month of this day
 	 */
 	public int getMonth() {
 		return month;
 	}
 
 	/**
-	 * retorna dia
-	 * @return um inteiro contendo o dia deste dia meteorologico
+	 * returns day
+	 * @return a integer that contains the day of this meteorological day
 	 */
 	public int getDay() {
 		return day;
 	}
 
 	/**
-	 * Devolve uma lista contendo os quatro períodos do dia
+	 * Returns a list which contains the four day periods
 	 * 
-	 * @return lista contendo os quatro periodos do dia
+	 * @return list containing the four day periods
 	 */
 	public List<DayPeriod> getDayPeriods(){
 		List<DayPeriod> d = new ArrayList<DayPeriod>();
@@ -192,22 +205,19 @@ public class WeatherDay {
 	}
 
 	/**
-	 * Retorna a quantidade de medicoes utilizadas para composicao dos dados deste dia meteorologico.
+	 * Returns the number of measurements used to compose the data of this meteorological day.
 	 * 
-	 * @return 
+	 * @return an integer containing the number of measurements of the day
 	 */
 	public int getSize() {
 		return size;
 	}
 	
 	/**
-	 * Retorna o índice de calor daquele dia.
-	 * @return o valor do índice de calor de um determinado dia.
+	 * Returns the heat index of this day
+	 * @return a double containing the heat index of this meteorological day.
 	 */
 	public double getHeatIndex() {
 		return heatIndex;
 	}
-
-
-
 }
