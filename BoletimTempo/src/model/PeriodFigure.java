@@ -115,6 +115,10 @@ public class PeriodFigure {
 		g2d.dispose();
 		
 		try {
+			File folder = new File(Util.PERIOD_FIGURES_FOLDER);
+			if(!folder.exists()) {
+				folder.mkdir();
+			}
 			//Salvar a imagem
 			ImageIO.write(biToSave, "png", new File(Util.PERIOD_FIGURES_FOLDER + date + "-" + periodName + ".png"));
 		}
@@ -124,13 +128,13 @@ public class PeriodFigure {
 	}
 
 /*	//**
-	 * Resize a image to a shorter size
-	 * @param im the Image object to be decreased
+	 * Resize a image 
+	 * @param im the Image object to be resized
 	 * @param w an integer which represents the new width
 	 * @param h an integer which represents the new height
-	 * @return a BufferedImage object (a Image decreased)
+	 * @return a BufferedImage object (a Image resized)
 	 *//*
-	private BufferedImage reduceSize(Image im, int w, int h) {
+	private BufferedImage resize(Image im, int w, int h) {
 		BufferedImage bfi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = (Graphics2D) bfi.createGraphics();
 		g2.drawImage(im, 0, 0, w, h, null);
