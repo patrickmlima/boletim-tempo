@@ -117,4 +117,8 @@ public class DataLine {
 		return Integer.toString(getDay()) + "/" + Integer.toString(getMonth()) + "/" + Integer.toString(getYear());
 	}
 	
+	public boolean equals(int day, int month, int year) {
+		return (this.day == day && this.month == month && this.year == year);
+	}
+	
 }

@@ -109,7 +109,7 @@ public class WeatherDay {
 	}
 	
 	/**
-	 * Checks if a date belongs to the same period which this WeatherDay
+	 * Checks if a date belongs to the same WeatherDay
 	 * @param year 
 	 * @param month
 	 * @param day
@@ -117,8 +117,8 @@ public class WeatherDay {
 	 * @param minute
 	 * @return if the date and time (hour and minute) belongs to this WeatherDay
 	 */
-	public boolean isSamePeriod(int year, int month, int day, int hour, int minute) {
-		return ( this.equals(year, month, day) || (this.day+1 == day && hour == 0 && minute == 0) ); 
+	public boolean isSameWeatherDay(int year, int month, int day, int hour, int minute) {
+		return ( this.equals(year, month, day) || (this.equals(year, month, day-1) && hour == 0 && minute == 0) ); 
 	}
 
 	/**
