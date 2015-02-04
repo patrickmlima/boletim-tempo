@@ -2,7 +2,8 @@ package controller;
 
 import java.io.IOException;
 
-import model.WeatherDayInterface;
+import model.process.WeatherDayInterface;
+import model.util.DateUtil;
 
 /**
  * It's the means to access the weather report 
@@ -63,5 +64,16 @@ public class Controller {
 		wdInterface.readRangeDays(initialDay, finalDay);
 		wdInterface.saveDays();
 		wdInterface.clearDays();
+	}
+	
+	public boolean validateDate(String date) {
+		return DateUtil.isValidDate(date);
+	}
+	
+	public boolean validateDate(String firstDate, String lastDate) {
+		if(validateDate(firstDate) && validateDate(lastDate)) {
+			return DateUtil.isChronological(firstDate, lastDate);
+		}
+		return false;
 	}
 }
