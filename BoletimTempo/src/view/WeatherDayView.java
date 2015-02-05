@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 
 import java.awt.Font;
 
@@ -52,8 +53,12 @@ public class WeatherDayView extends JPanel {
 		btnSearch.setFont(new Font("Cambria Math", Font.PLAIN, 18));
 		
 		textAreaWeatherDay = new JTextArea();
-		textAreaWeatherDay.setFont(new Font("Cambria", Font.PLAIN, 16));
-		textAreaWeatherDay.setBackground(SystemColor.activeCaption);
+		textAreaWeatherDay.setWrapStyleWord(true);
+		textAreaWeatherDay.setLineWrap(true);
+		
+		JScrollPane scroll = new JScrollPane(textAreaWeatherDay);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		textPaneFileName = new JTextPane();
 		textPaneFileName.setFont(new Font("Cambria Math", Font.PLAIN, 18));
@@ -66,7 +71,7 @@ public class WeatherDayView extends JPanel {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textPaneFileName, GroupLayout.PREFERRED_SIZE, 259, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(112, Short.MAX_VALUE))
-				.addComponent(textAreaWeatherDay, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+				.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -76,7 +81,7 @@ public class WeatherDayView extends JPanel {
 						.addComponent(textPaneFileName)
 						.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(7)
-					.addComponent(textAreaWeatherDay, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
+					.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 	}
