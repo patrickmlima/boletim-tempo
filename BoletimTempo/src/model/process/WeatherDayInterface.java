@@ -45,10 +45,7 @@ public class WeatherDayInterface {
 	 */
 	public void readRangeDays(String dtInitial, String dtFinal) {
 		fileName = dtInitial.replace("/", ".") + "_to_" + dtFinal.replace("/", ".");
-
 		findDays(DateUtil.adjustDate(dtInitial), DateUtil.adjustDateToInt(dtFinal));
-
-		System.out.println("Conjunto de dias processados.");
 	}
 	
 	/**
@@ -57,10 +54,7 @@ public class WeatherDayInterface {
 	 */
 	public void readADay(String day) {
 		fileName = day.replace("/", ".");
-		
 		findDays(DateUtil.adjustDate(day), DateUtil.adjustDateToInt(day));
-		
-		System.out.println("Único dia processado.");
 	}
 	
 	/**
