@@ -134,9 +134,6 @@ public class SerializeWeatherDay {
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 		transformer.transform(new DOMSource(doc), new StreamResult(new File(Util.OUTPUT_FOLDER + fileName + ".xml")));
-
-		System.out.println("File saved!");
-
 	}
 	
 	

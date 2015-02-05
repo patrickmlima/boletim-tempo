@@ -56,7 +56,6 @@ public class PeriodFigure {
 				count++;
 			}
 		}
-		System.out.println("All figures were generated.");
 	}
 	
 	/**
