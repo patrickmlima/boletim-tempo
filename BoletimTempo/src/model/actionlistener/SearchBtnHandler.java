@@ -1,5 +1,6 @@
 package model.actionlistener;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -58,14 +59,20 @@ public class SearchBtnHandler implements ActionListener{
 		String[] periodNames = {"Madrugada", "Manhã", "Tarde", "Noite"};
 		int k;
 		
+		Font fontNormal = new  Font("Cambria", Font.PLAIN, 18);
+		tArea.setFont(fontNormal);
 		for(int i = 0; i < dias.getLength(); i++) {
 			 childs = dias.item(i).getChildNodes();
 			 
 			 data = childs.item(1).getChildNodes();
+			 
 			 tArea.append("Data: ");
 			 tArea.append(data.item(5).getTextContent() + "-" + data.item(3).getTextContent() + "-" + data.item(1).getTextContent());
 			 tArea.append("\n");
-			 tArea.append("Índice de calor: " + childs.item(11).getTextContent() + " °C\n");
+			 
+			 tArea.append("Índice de calor: ");
+			 tArea.append(childs.item(11).getTextContent() + " °C\n");
+			 ;
 			 tArea.append("Turnos:\n");
 			 
 			 k=0;
