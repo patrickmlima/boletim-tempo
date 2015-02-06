@@ -46,10 +46,14 @@ public class SerializeWeatherDay {
 	 */
 	public void writeDaybyDay() throws Throwable{
 		DocumentBuilderFactory dayBuilder = DocumentBuilderFactory.newInstance();
+		dayBuilder.setValidating(true);
+		
 		DocumentBuilder docBuilder = dayBuilder.newDocumentBuilder();
 
 		// root elements
 		Document doc = docBuilder.newDocument();
+		doc.setXmlStandalone(true);
+		
 		Element dias = doc.createElement("dias");
 		doc.appendChild(dias);
 
@@ -133,14 +137,8 @@ public class SerializeWeatherDay {
 		final Transformer transformer = TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+		transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "weatherDay.dtd");
 		transformer.transform(new DOMSource(doc), new StreamResult(new File(Util.OUTPUT_FOLDER + fileName + ".xml")));
 	}
 	
-	
-
-
-
-
-
-
 }
