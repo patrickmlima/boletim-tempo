@@ -11,11 +11,10 @@ import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextArea;
 
-import java.awt.SystemColor;
-
 import javax.swing.JTextPane;
 
 import model.actionlistener.SearchBtnHandler;
+import model.componetchangelistener.WeatherDayViewCleaner;
 
 public class WeatherDayView extends JPanel {
 	/**
@@ -42,13 +41,14 @@ public class WeatherDayView extends JPanel {
 	 * Create the panel.
 	 */
 	public WeatherDayView() {
+		addComponentListener(new WeatherDayViewCleaner());
 		initialize();
 	}
 	
 	public void initialize() {
 		
 		JButton btnSearch = new JButton("Procurar...");
-		btnSearch.addActionListener(new SearchBtnHandler(this));
+		btnSearch.addActionListener(new SearchBtnHandler());
 		btnSearch.setToolTipText("Clique aqui para procurar o Boletim");
 		btnSearch.setFont(new Font("Cambria Math", Font.PLAIN, 18));
 		
@@ -85,4 +85,5 @@ public class WeatherDayView extends JPanel {
 		);
 		setLayout(groupLayout);
 	}
+
 }
