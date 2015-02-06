@@ -1,9 +1,10 @@
 package model.actionlistener;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
+import javax.swing.JButton;
 
 import view.ProcessDataView;
 import view.WorkWindow;
@@ -11,9 +12,7 @@ import view.popup.Dialog;
 import controller.Controller;
 
 public class ProcessBtnHandler implements ActionListener{
-	ProcessDataView pdv;
-	public ProcessBtnHandler(ProcessDataView pdv) {
-		this.pdv = pdv;
+	public ProcessBtnHandler() {
 	}
 	
 	@Override
@@ -24,7 +23,8 @@ public class ProcessBtnHandler implements ActionListener{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}		
+		ProcessDataView pdv = (ProcessDataView) ((JButton) ev.getSource()).getParent();
 		if(pdv.isAllDaysSelected()) {
 			WorkWindow.getInstance().setNotClosable();
 			controller.computeWeatherDay();
