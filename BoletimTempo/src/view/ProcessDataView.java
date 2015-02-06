@@ -16,6 +16,10 @@ import javax.swing.ButtonGroup;
 import javax.swing.text.MaskFormatter;
 
 import model.actionlistener.ProcessBtnHandler;
+import model.actionlistener.RadioBtnListener;
+
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class ProcessDataView extends JPanel {
 	/**
@@ -85,8 +89,13 @@ public class ProcessDataView extends JPanel {
 		fTextFieldTheDay = new JFormattedTextField(maskDate);
 		fTextFieldTheDay.setToolTipText("Insira o dia a ser processado");
 		fTextFieldTheDay.setFont(new Font("Cambria Math", Font.PLAIN, 18));
+		fTextFieldTheDay.setEnabled(false);
 		
 		rdbtnRangeDays = new JRadioButton("Intervalo de dias");
+		rdbtnRangeDays.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+			}
+		});
 		rdbtnRangeDays.setToolTipText("Selecione para processar um intervalo de dias");
 		buttonGroup.add(rdbtnRangeDays);
 		rdbtnRangeDays.setFont(new Font("Cambria Math", Font.PLAIN, 20));
@@ -94,16 +103,23 @@ public class ProcessDataView extends JPanel {
 		fTextFieldFirstDay = new JFormattedTextField(maskDate);
 		fTextFieldFirstDay.setToolTipText("Insira o dia inicial");
 		fTextFieldFirstDay.setFont(new Font("Cambria Math", Font.PLAIN, 18));
+		fTextFieldFirstDay.setEnabled(false);
 		
 		fTextFieldLastDay = new JFormattedTextField(maskDate);
 		fTextFieldLastDay.setToolTipText("Insira o dia final");
 		fTextFieldLastDay.setFont(new Font("Cambria Math", Font.PLAIN, 18));
+		fTextFieldLastDay.setEnabled(false);
 		
 		JLabel lblA = new JLabel("a");
 		lblA.setFont(new Font("Cambria Math", Font.PLAIN, 20));
 		
+		RadioBtnListener rbl = new RadioBtnListener(fTextFieldTheDay, fTextFieldFirstDay, fTextFieldLastDay);
+		rdbtnAllDays.addActionListener(rbl);
+		rdbtnADay.addActionListener(rbl);
+		rdbtnRangeDays.addActionListener(rbl);
+		
 		JButton btnOk = new JButton("Processar");
-		btnOk.addActionListener(new ProcessBtnHandler(this));
+		btnOk.addActionListener(new ProcessBtnHandler());
 		btnOk.setToolTipText("Clique aqui para iniciar o processamento");
 		btnOk.setFont(new Font("Cambria Math", Font.PLAIN, 18));
 		GroupLayout groupLayout = new GroupLayout(this);
