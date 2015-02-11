@@ -43,18 +43,18 @@ public class WeatherDayInterface {
 	 * @param dtInitial first day to read
 	 * @param dtFinal last day to read
 	 */
-	public void readRangeDays(String dtInitial, String dtFinal) {
+	public boolean readRangeDays(String dtInitial, String dtFinal) {
 		fileName = dtInitial.replace("/", ".") + "_to_" + dtFinal.replace("/", ".");
-		findDays(DateUtil.adjustDate(dtInitial), DateUtil.adjustDateToInt(dtFinal));
+		return findDays(DateUtil.adjustDate(dtInitial), DateUtil.adjustDateToInt(dtFinal));
 	}
 	
 	/**
 	 * Reads only a day and processes its data
 	 * @param day the day to be read
 	 */
-	public void readADay(String day) {
+	public boolean readADay(String day) {
 		fileName = day.replace("/", ".");
-		findDays(DateUtil.adjustDate(day), DateUtil.adjustDateToInt(day));
+		return findDays(DateUtil.adjustDate(day), DateUtil.adjustDateToInt(day));
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class WeatherDayInterface {
 	 * @param dateInit the initial date 
 	 * @param dateFinal the final date in array format 
 	 */
-	private void findDays(String dateInit, int[] dateFinal) {
+	private boolean findDays(String dateInit, int[] dateFinal) {
 		String line = null;
 		DataLine dline = null;
 		
@@ -81,8 +81,13 @@ public class WeatherDayInterface {
 				break;
 			}
 		}
+		if(this.days.isEmpty())
+			return false;
+		else {
+			process();
+			return true;
+		}
 		
-		process();
 	}
 	
 	/**
