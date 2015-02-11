@@ -14,13 +14,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import view.FileChooser;
 import view.WeatherDayView;
-import view.popup.Dialog;
 
 public class SearchBtnHandler implements ActionListener {
 	public SearchBtnHandler() {
@@ -30,18 +27,13 @@ public class SearchBtnHandler implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		JButton c = (JButton) arg0.getSource();
 		WeatherDayView wdv = (WeatherDayView) c.getParent();
-		
+
 		FileChooser fc = new FileChooser();
 		File f = fc.getSelectedFile();
 		if (f != null) {
 			try {
-				if(validate(f)) {
-					wdv.setFilePath(f.getName());
-					wdv.getTextAreaWeatherDay().setText("");
-					showDataFile(f, wdv);
-				} else {
-					showDialog();
-				}
+				wdv.getTextAreaWeatherDay().setText("");
+				showDataFile(f, wdv);
 			} catch (ParserConfigurationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -55,28 +47,8 @@ public class SearchBtnHandler implements ActionListener {
 		}
 	}
 
-	private boolean validate(File file) {
-		try {
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			dbf.setNamespaceAware(false);
-			dbf.setValidating(true);
-
-			DocumentBuilder docBuilder = dbf.newDocumentBuilder();
-			docBuilder.setErrorHandler(new MyErrorHandler());
-
-			docBuilder.parse(file);
-			return true;
-		} catch (ParserConfigurationException pce) {
-			return false;
-		} catch (IOException io) {
-			return false;
-		} catch (SAXException se) {
-			return false;
-		}
-	}
-
-	private void showDataFile(File file, WeatherDayView wdv) throws ParserConfigurationException,
-			SAXException, IOException {
+	private void showDataFile(File file, WeatherDayView wdv)
+			throws ParserConfigurationException, SAXException, IOException {
 
 		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder();
@@ -137,29 +109,5 @@ public class SearchBtnHandler implements ActionListener {
 			tArea.append("\n");
 		}
 
-	}
-
-	private class MyErrorHandler implements ErrorHandler {
-
-		@Override
-		public void warning(SAXParseException e) throws SAXException {
-			System.out.println("warning: SAXParseException");
-		}
-
-		@Override
-		public void error(SAXParseException e) throws SAXException {
-			System.out.println("Error: SAXParseException");
-		}
-
-		@Override
-		public void fatalError(SAXParseException e) throws SAXException {
-			System.out.println("fatalError!!");
-		}
-	}
-	
-	private void showDialog() {
-		new Dialog("Não é possível abrir arquivo",
-				"O tipo de arquivo não corresponde à um",
-				"arquivo processado por esse sistema").setVisible(true);
 	}
 }

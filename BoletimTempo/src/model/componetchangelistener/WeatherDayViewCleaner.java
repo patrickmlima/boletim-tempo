@@ -15,7 +15,6 @@ public class WeatherDayViewCleaner extends ComponentAdapter {
 	public void componentHidden(ComponentEvent source) {
 		WeatherDayView wdv = (WeatherDayView) source.getSource();
 		wdv.getTextAreaWeatherDay().setText("");
-		wdv.setFilePath("");
 	}
 
 }

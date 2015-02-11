@@ -20,25 +20,8 @@ public class ShowFigureHandler implements ActionListener {
 	//
 	@Override
 	public void actionPerformed(ActionEvent source) {
-		if(source.getActionCommand().equals("Abrir")) {
-			if(fpv.getPeriodFigures() != null) {
-				fpv.getPeriodFigures().clear();
-			}else if(fpv.getTextDate() != null) {
-				String day = DateUtil.adjustDate(fpv.getTextDate()).replace("/", ".");
-				Image img = null;
-				String[] periods = new String[]{"madrugada", "manhã", "tarde", "noite"};
-				
-				for(String period : periods) {
-					 img = new ImageIcon(Util.PERIOD_FIGURES_FOLDER + day + "-" + period + ".png").getImage();
-					 if(img != null) {
-						 fpv.addPeriodFigure(img);
-					 }
-				}
-				
-				if(fpv.getPeriodFigures() != null) {
-
-				}
-			}
+		if(source.getActionCommand().equals("Salvar")) {
+			//salvar
 			
 		} else if(source.getActionCommand().equals("Próximo")) {
 			//ir para proxima figura
