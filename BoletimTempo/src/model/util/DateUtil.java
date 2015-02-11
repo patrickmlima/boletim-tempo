@@ -9,18 +9,7 @@ import java.util.Date;
  * @author Patrick M Lima
  *
  */
-public class DateUtil {
-	public static boolean isValidDate(String date) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		dateFormat.setLenient(false);
-		try {
-			dateFormat.parse(date);
-			return true;
-		} catch(ParseException e) {
-			return false;
-		}
-	}
-	
+public class DateUtil {	
 	public static boolean isChronological(String d1, String d2) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		sdf.setLenient(false);

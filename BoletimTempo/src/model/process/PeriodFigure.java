@@ -51,7 +51,7 @@ public class PeriodFigure {
 				
 				String date = Integer.toString(wd.getDay()) +"."+ Integer.toString(wd.getMonth()) +"."+ Integer.toString(wd.getYear());
 				
-				organizeImage(period, date, periodName);
+				organizeImage(period, date, periodName, wd.getHeatIndex());
 				
 				count++;
 			}
@@ -64,7 +64,7 @@ public class PeriodFigure {
 	 * @param date the date of the object DayPeriod
 	 * @param turnName a specific turn name which can be either, dawn, morning, afternoon, night.
 	 */
-	public void organizeImage(DayPeriod dayPeriod, String date, String periodName) {
+	public void organizeImage(DayPeriod dayPeriod, String date, String periodName, double heatIndex) {
 		Graphics2D g2d = null;
 		BufferedImage biToSave = null;
 		Image img = null;
@@ -109,7 +109,7 @@ public class PeriodFigure {
 		g2d.drawString(String.format("%.2f", dayPeriod.getHighTemp() ).replace(",", ".") + "°C", 1500, 1370);
 		g2d.drawString(String.format("%.2f", dayPeriod.getLowTemp() ).replace(",", ".") + "°C", 1500, 1700);
 		g2d.drawString(String.format("%.2f", dayPeriod.getMaxSpeed()).replace(",", ".") + " km/h", 50, 2900);
-		g2d.drawString(String.format("%.2f", 30.555).replace(",", ".") + "°C",  1500, 2900);
+		g2d.drawString(String.format("%.2f", heatIndex).replace(",", ".") + "°C",  1500, 2900);
 		if(dayPeriod.getAcumRain() > 0.0) {
 			g2d.drawString( String.format("%.2f", dayPeriod.getAcumRain()).replace(",", ".") + " mm", 50, 1400);
 		}

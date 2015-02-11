@@ -7,10 +7,6 @@ import java.util.List;
  * Represents a meteorological day, which is composed from 4 periods and
  * your respective measurements. The data from this day are initially stored
  * and then are processed 
- * 
- * Representa um dia meteorológico, o qual é composto de 4 períodos e
- * suas respectivas medições. Os dados referentes a este dia são inicialmente armazenados
- * e só depois processados
  * 	
  * @author Elloa
  *
