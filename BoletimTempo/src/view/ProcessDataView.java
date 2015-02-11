@@ -9,6 +9,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import java.awt.Font;
 import java.text.ParseException;
+import java.util.Properties;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -21,6 +22,12 @@ import model.actionlistener.RadioBtnListener;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
 public class ProcessDataView extends JPanel {
 	/**
 	 * 
@@ -30,10 +37,13 @@ public class ProcessDataView extends JPanel {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JRadioButton rdbtnAllDays;
 	private JRadioButton rdbtnADay;
-	private JFormattedTextField fTextFieldTheDay;
 	private JRadioButton rdbtnRangeDays;
-	private JFormattedTextField fTextFieldFirstDay;
-	private JFormattedTextField fTextFieldLastDay;
+	private JDateChooser dateChooserADay;
+	private JDateChooser dateChooserFirstDay;
+	private JDateChooser dateChooserLastDay;
+	private JLabel lblSelect1;
+	private JLabel lblSelect2;
+	private JLabel lblA;
 	
 	public boolean isAllDaysSelected() {
 		return rdbtnAllDays.isSelected();
@@ -47,16 +57,28 @@ public class ProcessDataView extends JPanel {
 		return rdbtnRangeDays.isSelected();
 	}
 	
-	public String getTheDayDate() {
-		return fTextFieldTheDay.getText();
+	public JDateChooser getDateChooserADay() {
+		return dateChooserADay;
 	}
 	
-	public String getFirstDayDate() {
-		return fTextFieldFirstDay.getText();
+	public JDateChooser getDateChooserFirstDay() {
+		return dateChooserFirstDay;
 	}
 	
-	public String getLastDayDate() {
-		return fTextFieldLastDay.getText();
+	public JDateChooser getDateChooserLastDay() {
+		return dateChooserLastDay;
+	}
+	
+	public JLabel getLabelSelect1() {
+		return lblSelect1;
+	}
+	
+	public JLabel getLabelSelect2() {
+		return lblSelect2;
+	}
+	
+	public JLabel getLabelA() {
+		return lblA;
 	}
 	
 	/**
@@ -66,114 +88,138 @@ public class ProcessDataView extends JPanel {
 		initialize();
 	}
 	
-	public void initialize() {
+	public void initialize() {		
+		//Cria os labels com a mensagem inicial
+		JLabel lblSelecioneUmaOpo = new JLabel("Selecione uma op\u00E7\u00E3o para processamento dos");
+		lblSelecioneUmaOpo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSelecioneUmaOpo.setFont(new Font("Cambria Math", Font.BOLD | Font.ITALIC, 20));
 		
+		JLabel lblDiasMeteorolgicos = new JLabel("dias meteorol\u00F3gicos");
+		lblDiasMeteorolgicos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDiasMeteorolgicos.setFont(new Font("Cambria Math", Font.BOLD | Font.ITALIC, 20));
+
+		//Cria o radiobutton para processar todos os dias
 		rdbtnAllDays = new JRadioButton("Todos os dias");
 		rdbtnAllDays.setToolTipText("Selecione para processar todos os dias");
-		buttonGroup.add(rdbtnAllDays);
 		rdbtnAllDays.setFont(new Font("Cambria Math", Font.PLAIN, 20));
-		
+
+		//cria o radiobutton para processar um único dia
 		rdbtnADay = new JRadioButton("\u00DAnico dia");
 		rdbtnADay.setToolTipText("Selecione para processar um \u00FAnico dia");
-		buttonGroup.add(rdbtnADay);
 		rdbtnADay.setFont(new Font("Cambria Math", Font.PLAIN, 20));
 		
-		MaskFormatter maskDate = null;
-		try {
-			maskDate = new MaskFormatter("##/##/####");
-			maskDate.setPlaceholderCharacter('_');
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		lblSelect1 = new JLabel("Selecionar");
+		lblSelect1.setFont(new Font("Cambria Math", Font.ITALIC, 18));
+		lblSelect1.setEnabled(false);
+		//cria o datechooser para aquele dia
+		dateChooserADay = new JDateChooser();
+		dateChooserADay.setToolTipText("Clieque para escolher o dia");
+		dateChooserADay.setEnabled(false);
 		
-		fTextFieldTheDay = new JFormattedTextField(maskDate);
-		fTextFieldTheDay.setToolTipText("Insira o dia a ser processado");
-		fTextFieldTheDay.setFont(new Font("Cambria Math", Font.PLAIN, 18));
-		fTextFieldTheDay.setEnabled(false);
-		
+		//cria o radiobutton para processar um intervalo de dias
 		rdbtnRangeDays = new JRadioButton("Intervalo de dias");
-		rdbtnRangeDays.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-			}
-		});
 		rdbtnRangeDays.setToolTipText("Selecione para processar um intervalo de dias");
-		buttonGroup.add(rdbtnRangeDays);
 		rdbtnRangeDays.setFont(new Font("Cambria Math", Font.PLAIN, 20));
 		
-		fTextFieldFirstDay = new JFormattedTextField(maskDate);
-		fTextFieldFirstDay.setToolTipText("Insira o dia inicial");
-		fTextFieldFirstDay.setFont(new Font("Cambria Math", Font.PLAIN, 18));
-		fTextFieldFirstDay.setEnabled(false);
+		lblSelect2 = new JLabel("Selecionar");
+		lblSelect2.setFont(new Font("Cambria Math", Font.ITALIC, 18));
+		lblSelect2.setEnabled(false);
+		//cria o datechooser para o primeiro dia
+		dateChooserFirstDay = new JDateChooser();
+		dateChooserFirstDay.setToolTipText("Clique para escolher o primeiro dia");
+		dateChooserFirstDay.setEnabled(false);
 		
-		fTextFieldLastDay = new JFormattedTextField(maskDate);
-		fTextFieldLastDay.setToolTipText("Insira o dia final");
-		fTextFieldLastDay.setFont(new Font("Cambria Math", Font.PLAIN, 18));
-		fTextFieldLastDay.setEnabled(false);
+		lblA = new JLabel("a");
+		lblA.setFont(new Font("Cambria Math", Font.ITALIC, 18));
+		lblA.setEnabled(false);
+		//cria o datechooser para o último dia
+		dateChooserLastDay = new JDateChooser();
+		dateChooserLastDay.setToolTipText("Clieque para escolher o \u00FAltimo dia");
+		dateChooserLastDay.setEnabled(false);
 		
-		JLabel lblA = new JLabel("a");
-		lblA.setFont(new Font("Cambria Math", Font.PLAIN, 20));
+
+		//groups the radio buttons
+		buttonGroup.add(rdbtnAllDays);
+		buttonGroup.add(rdbtnADay);
+		buttonGroup.add(rdbtnRangeDays);
 		
-		RadioBtnListener rbl = new RadioBtnListener(fTextFieldTheDay, fTextFieldFirstDay, fTextFieldLastDay);
-		rdbtnAllDays.addActionListener(rbl);
-		rdbtnADay.addActionListener(rbl);
-		rdbtnRangeDays.addActionListener(rbl);
+		//cria o listener do radioButtons
+		RadioBtnListener rdbtnlistener = new RadioBtnListener();
+		//adiciona os listeners dos radiobuttons
+		rdbtnAllDays.addActionListener(rdbtnlistener);
+		rdbtnADay.addActionListener(rdbtnlistener);
+		rdbtnRangeDays.addActionListener(rdbtnlistener);
 		
-		JButton btnOk = new JButton("Processar");
-		btnOk.addActionListener(new ProcessBtnHandler());
-		btnOk.setToolTipText("Clique aqui para iniciar o processamento");
-		btnOk.setFont(new Font("Cambria Math", Font.PLAIN, 18));
+		//cria um panel para "abrigar" o botão 'Processar' (usando flow layout para garantir a centralização)
+		JPanel panel = new JPanel();
+
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(lblSelecioneUmaOpo, GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+				.addComponent(lblDiasMeteorolgicos, GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(198)
-					.addComponent(btnOk)
-					.addGap(195))
+					.addGap(37)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(rdbtnADay)
+						.addComponent(rdbtnAllDays, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(21)
+							.addComponent(lblSelect1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(dateChooserADay, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE))
+						.addComponent(rdbtnRangeDays)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(21)
+							.addComponent(lblSelect2)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(dateChooserFirstDay, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblA)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(dateChooserLastDay, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(85, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(rdbtnAllDays, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
-					.addGap(47))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(rdbtnADay)
-					.addContainerGap(389, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(fTextFieldTheDay, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(359, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(rdbtnRangeDays)
-					.addContainerGap(327, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(fTextFieldFirstDay, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblA)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(fTextFieldLastDay, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(206, Short.MAX_VALUE))
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(15)
+					.addContainerGap()
+					.addComponent(lblSelecioneUmaOpo, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+					.addGap(1)
+					.addComponent(lblDiasMeteorolgicos)
+					.addGap(18)
 					.addComponent(rdbtnAllDays)
 					.addGap(18)
-					.addComponent(rdbtnADay)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(fTextFieldTheDay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(rdbtnRangeDays)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(fTextFieldFirstDay, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(rdbtnADay)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblSelect1)
+								.addComponent(dateChooserADay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addComponent(rdbtnRangeDays)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblSelect2)
+								.addComponent(dateChooserFirstDay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(lblA)
-						.addComponent(fTextFieldLastDay, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-					.addComponent(btnOk)
-					.addGap(57))
+						.addComponent(dateChooserLastDay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JButton btnProcess = new JButton("Processar");
+		panel.add(btnProcess);
+		btnProcess.setToolTipText("Clique aqui para iniciar o processamento");
+		btnProcess.setFont(new Font("Cambria Math", Font.PLAIN, 18));
+		btnProcess.addActionListener(new ProcessBtnHandler());
+		
 		setLayout(groupLayout);
 	}
 }
