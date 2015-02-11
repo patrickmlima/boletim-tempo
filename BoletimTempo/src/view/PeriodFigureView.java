@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
+import java.awt.Color;
 
 public class PeriodFigureView extends JPanel {
 	/**
@@ -23,31 +24,11 @@ public class PeriodFigureView extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private CircularArrayList<Image> periodFigures;
-	private JFormattedTextField fTextFieldDate;
-	JLabel lblFigure;
-	
-	public String getTextDate() {
-		return fTextFieldDate.getText();
-	}
-	
-	public JLabel getLabelFigure() {
-		return this.lblFigure;
-	}
-	
-	public CircularArrayList<Image> getPeriodFigures() {
-		return this.periodFigures;
-	}
-	
-	public void addPeriodFigure(Image img) {
-		periodFigures.add(img);
-	}
 
 	/**
 	 * Create the panel.
 	 */
 	public PeriodFigureView() {
-		periodFigures = new CircularArrayList<Image>();
 		initialize();
 	}
 	
@@ -60,55 +41,45 @@ public class PeriodFigureView extends JPanel {
 			e.printStackTrace();
 		}
 		
-		fTextFieldDate = new JFormattedTextField(maskDate);
-		fTextFieldDate.setToolTipText("Digite a data do boletim desejado");
-		fTextFieldDate.setFont(new Font("Cambria Math", Font.PLAIN, 18));
+		JButton buttonNext = new JButton("Anterior");
+		buttonNext.setToolTipText("Clique para ver as figuras do dia anterior");
+		buttonNext.setFont(new Font("Cambria Math", Font.PLAIN, 18));
 		
-		ShowFigureHandler listener = new ShowFigureHandler(this);
+		JButton btnSaveFigures = new JButton("Salvar figuras");
+		btnSaveFigures.setToolTipText("Clique aqui para salvar as figuras do turno");
+		btnSaveFigures.setFont(new Font("Cambria Math", Font.PLAIN, 18));
 		
-		JButton btnOpen = new JButton("Abrir");
-		btnOpen.setToolTipText("Clique para abrir as figuras");
-		btnOpen.setFont(new Font("Cambria Math", Font.PLAIN, 18));
-		btnOpen.addActionListener(listener);
+		JPanel panelShowFigures = new JPanel();
+		panelShowFigures.setBackground(Color.GRAY);
 		
-		JButton btnNext = new JButton("Próximo");
-		btnNext.setToolTipText("Clique para ver o pr\u00F3ximo turno");
-		btnNext.setFont(new Font("Cambria Math", Font.PLAIN, 18));
-		btnNext.addActionListener(listener);
-		
-		JButton btnPrevious = new JButton("Anterior");
-		btnPrevious.setToolTipText("Clique para ver o turno anterior");
-		btnPrevious.setFont(new Font("Cambria Math", Font.PLAIN, 18));
-		btnPrevious.addActionListener(listener);
-		
-		lblFigure = new JLabel("");
+		JButton buttonPrevious = new JButton("Pr\u00F3ximo");
+		buttonPrevious.setToolTipText("Clique para ver as figuras do pr\u00F3ximo dia");
+		buttonPrevious.setFont(new Font("Cambria Math", Font.PLAIN, 18));
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(fTextFieldDate, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnOpen)
-					.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-					.addComponent(btnPrevious)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNext)
+					.addComponent(buttonNext, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(buttonPrevious)
+					.addPreferredGap(ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
+					.addComponent(btnSaveFigures)
 					.addContainerGap())
-				.addComponent(lblFigure, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+				.addComponent(panelShowFigures, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnOpen)
-						.addComponent(fTextFieldDate, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNext)
-						.addComponent(btnPrevious))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblFigure, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE))
+					.addComponent(panelShowFigures, GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(buttonNext, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+							.addComponent(buttonPrevious))
+						.addComponent(btnSaveFigures))
+					.addContainerGap())
 		);
 		setLayout(groupLayout);
 
