@@ -7,7 +7,7 @@ import javax.swing.JRadioButton;
 
 import view.ProcessDataView;
 
-public class RadioBtnListener implements ActionListener {
+public class DaysRadioBtnListener implements ActionListener {
 	
 	private void setEnabledComponents(ProcessDataView instanceView, boolean status1, boolean status2) {
 		instanceView.getLabelSelect1().setEnabled(status1);
