@@ -25,7 +25,7 @@ import org.w3c.dom.Element;
  */
 public class SerializeWeatherDay {
 
-	List<WeatherDay> days;
+	private List<WeatherDay> days;
 	private String fileName;
 
 	/**
@@ -46,13 +46,11 @@ public class SerializeWeatherDay {
 	 */
 	public void writeDaybyDay() throws Throwable{
 		DocumentBuilderFactory dayBuilder = DocumentBuilderFactory.newInstance();
-		dayBuilder.setValidating(true);
 		
 		DocumentBuilder docBuilder = dayBuilder.newDocumentBuilder();
 
 		// root elements
 		Document doc = docBuilder.newDocument();
-		doc.setXmlStandalone(true);
 		
 		Element dias = doc.createElement("dias");
 		doc.appendChild(dias);
@@ -137,9 +135,10 @@ public class SerializeWeatherDay {
 		final Transformer transformer = TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-		File outputFile = File.createTempFile(fileName, "_temporario.xml", new File(Util.OUTPUT_FOLDER));
+		File outputFile = File.createTempFile(fileName, ".xml", new File(Util.OUTPUT_FOLDER));
 		outputFile.deleteOnExit();
 		transformer.transform(new DOMSource(doc), new StreamResult(outputFile));
+		Util.weatherDataFile = outputFile;
 	}
 	
 }

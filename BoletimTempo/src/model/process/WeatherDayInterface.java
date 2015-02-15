@@ -1,9 +1,11 @@
 package model.process;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
+import model.util.CircularArrayList;
 import model.util.DateUtil;
 
 /**
@@ -126,14 +128,17 @@ public class WeatherDayInterface {
 	 */
 	public void saveDays(){
 		swd = new SerializeWeatherDay(days, fileName);
-		turnGen = new PeriodFigure(days);
 		try {
 			swd.writeDaybyDay();
-			turnGen.generateFigures();
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public CircularArrayList<BufferedImage[]> generatePeriodFigures() {
+		turnGen = new PeriodFigure(days);
+		return turnGen.generateFigures();
 	}
 	
 	public void clearDays() {

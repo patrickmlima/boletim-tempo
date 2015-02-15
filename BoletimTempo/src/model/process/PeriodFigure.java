@@ -8,12 +8,9 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
-import javax.imageio.ImageIO;
 
+import model.util.CircularArrayList;
 import model.util.Util;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Class which generate a turn figure (figure which illustrates  the data
@@ -39,11 +36,12 @@ public class PeriodFigure {
 	 * Takes the weatherDay List attribute, runs it, find the periods and send them to
 	 * the figure being generated 
 	 */
-	public void generateFigures() {
+	public CircularArrayList<BufferedImage[]> generateFigures() {
+		CircularArrayList<BufferedImage[]> periodFigures = new CircularArrayList<BufferedImage[]>();
+		BufferedImage[] bi = new BufferedImage[4];
 		int count;
 		String periodName;
 		for(WeatherDay wd : weatherDay) {
-			
 			count = 0;
 			periodName = "";
 			for(DayPeriod period : wd.getDayPeriods()) {
@@ -51,11 +49,12 @@ public class PeriodFigure {
 				
 				String date = Integer.toString(wd.getDay()) +"."+ Integer.toString(wd.getMonth()) +"."+ Integer.toString(wd.getYear());
 				
-				organizeImage(period, date, periodName, wd.getHeatIndex());
-				
+				bi[count] = organizeImage(period, date, periodName, wd.getHeatIndex());
 				count++;
 			}
+			periodFigures.add(bi);
 		}
+		return periodFigures;
 	}
 	
 	/**
@@ -64,7 +63,7 @@ public class PeriodFigure {
 	 * @param date the date of the object DayPeriod
 	 * @param turnName a specific turn name which can be either, dawn, morning, afternoon, night.
 	 */
-	public void organizeImage(DayPeriod dayPeriod, String date, String periodName, double heatIndex) {
+	private BufferedImage organizeImage(DayPeriod dayPeriod, String date, String periodName, double heatIndex) {
 		Graphics2D g2d = null;
 		BufferedImage biToSave = null;
 		Image img = null;
@@ -115,16 +114,17 @@ public class PeriodFigure {
 		}
 		g2d.dispose();
 		
-		try {
-			File folder = new File(Util.PERIOD_FIGURES_FOLDER);
-			if(!folder.exists()) {
-				folder.mkdir();
-			}
-			//Salvar a imagem
-			ImageIO.write(biToSave, "png", new File(Util.PERIOD_FIGURES_FOLDER + date + "-" + periodName + ".png"));
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+		return biToSave;
+//		try {
+//			File folder = new File(Util.PERIOD_FIGURES_FOLDER);
+//			if(!folder.exists()) {
+//				folder.mkdir();
+//			}
+//			//Salvar a imagem
+//			ImageIO.write(biToSave, "png", new File(Util.PERIOD_FIGURES_FOLDER + date + "-" + periodName + ".png"));
+//		}
+//		catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 }
