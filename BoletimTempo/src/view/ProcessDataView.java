@@ -4,30 +4,27 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JFormattedTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import java.awt.Font;
-import java.text.ParseException;
-import java.util.Properties;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
-import javax.swing.text.MaskFormatter;
 
-import model.actionlistener.ProcessBtnHandler;
-import model.actionlistener.RadioBtnListener;
+import model.actionlistener.ProcessDataBtnHandler;
+import model.actionlistener.DaysRadioBtnListener;
 
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-
-import javax.swing.JFormattedTextField.AbstractFormatter;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+/**
+ * Class which brings together all necessary elements to process
+ * the data file 
+ * @author Patrick M Lima
+ *
+ */
 public class ProcessDataView extends JPanel {
 	/**
 	 * 
@@ -88,6 +85,9 @@ public class ProcessDataView extends JPanel {
 		initialize();
 	}
 	
+	/**
+	 * Initializes the components
+	 */
 	public void initialize() {		
 		//Cria os labels com a mensagem inicial
 		JLabel lblSelecioneUmaOpo = new JLabel("Selecione uma op\u00E7\u00E3o para processamento dos");
@@ -113,7 +113,8 @@ public class ProcessDataView extends JPanel {
 		lblSelect1.setEnabled(false);
 		//cria o datechooser para aquele dia
 		dateChooserADay = new JDateChooser();
-		dateChooserADay.setToolTipText("Clieque para escolher o dia");
+		dateChooserADay.getCalendarButton().setToolTipText("Clique para escolher o dia");
+		dateChooserADay.setToolTipText("");
 		dateChooserADay.setEnabled(false);
 		
 		//cria o radiobutton para processar um intervalo de dias
@@ -126,7 +127,8 @@ public class ProcessDataView extends JPanel {
 		lblSelect2.setEnabled(false);
 		//cria o datechooser para o primeiro dia
 		dateChooserFirstDay = new JDateChooser();
-		dateChooserFirstDay.setToolTipText("Clique para escolher o primeiro dia");
+		dateChooserFirstDay.getCalendarButton().setToolTipText("Clique para escolher o primeiro dia");
+		dateChooserFirstDay.setToolTipText("");
 		dateChooserFirstDay.setEnabled(false);
 		
 		lblA = new JLabel("a");
@@ -134,9 +136,9 @@ public class ProcessDataView extends JPanel {
 		lblA.setEnabled(false);
 		//cria o datechooser para o último dia
 		dateChooserLastDay = new JDateChooser();
-		dateChooserLastDay.setToolTipText("Clieque para escolher o \u00FAltimo dia");
+		dateChooserLastDay.getCalendarButton().setToolTipText("Clique para escolher o \u00FAltimo dia");
+		dateChooserLastDay.setToolTipText("");
 		dateChooserLastDay.setEnabled(false);
-		
 
 		//groups the radio buttons
 		buttonGroup.add(rdbtnAllDays);
@@ -144,7 +146,7 @@ public class ProcessDataView extends JPanel {
 		buttonGroup.add(rdbtnRangeDays);
 		
 		//cria o listener do radioButtons
-		RadioBtnListener rdbtnlistener = new RadioBtnListener();
+		DaysRadioBtnListener rdbtnlistener = new DaysRadioBtnListener();
 		//adiciona os listeners dos radiobuttons
 		rdbtnAllDays.addActionListener(rdbtnlistener);
 		rdbtnADay.addActionListener(rdbtnlistener);
@@ -153,6 +155,7 @@ public class ProcessDataView extends JPanel {
 		//cria um panel para "abrigar" o botão 'Processar' (usando flow layout para garantir a centralização)
 		JPanel panel = new JPanel();
 
+		//Cria o layout e adiciona os componentes
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -214,11 +217,13 @@ public class ProcessDataView extends JPanel {
 		);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
+		//Cria o botão 'Processar'
 		JButton btnProcess = new JButton("Processar");
-		panel.add(btnProcess);
 		btnProcess.setToolTipText("Clique aqui para iniciar o processamento");
 		btnProcess.setFont(new Font("Cambria Math", Font.PLAIN, 18));
-		btnProcess.addActionListener(new ProcessBtnHandler());
+		btnProcess.addActionListener(new ProcessDataBtnHandler());
+		//Aciona ele a um panel com FlowLayout (para centralizá-lo)
+		panel.add(btnProcess);
 		
 		setLayout(groupLayout);
 	}
