@@ -1,25 +1,24 @@
 package main;
 
-import java.io.IOException;
+import java.awt.EventQueue;
 
-import controller.Controller;
+import view.WorkWindow;
 
 public class Main{
 
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		
-		try {
-//			Controller.getInstance().computeWeatherDay();
-//			Controller.getInstance().computeWeatherDay("06/02/2014", "08/02/2014");
-			Controller.getInstance().computeWeatherDay("07/02/2014");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-			
-
-
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					WorkWindow.getInstance();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }
