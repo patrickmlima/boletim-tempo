@@ -11,7 +11,7 @@ import java.awt.Font;
 import javax.swing.JTextArea;
 
 import model.actionlistener.SaveDataFileBtnHandler;
-import model.componetchangelistener.WeatherDayViewChanges;
+import model.componentchangelistener.WeatherDayViewChanges;
 
 /**
  * Class which brings together all necessary view components to show the data

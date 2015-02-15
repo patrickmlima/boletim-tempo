@@ -7,7 +7,7 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 
 import model.actionlistener.ShowFigureBtnsHandler;
-import model.componetchangelistener.PeriodFigureViewChanges;
+import model.componentchangelistener.PeriodFigureViewChanges;
 
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
