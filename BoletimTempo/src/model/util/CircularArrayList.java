@@ -57,5 +57,7 @@ public class CircularArrayList<E> extends ArrayList<E> {
 		index = -1;
 	}
 	
-	
+	public int getIndex() {
+		return index;
+	}
 }

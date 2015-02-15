@@ -18,6 +18,8 @@ public class Util {
 	public static String NIGHT = OUTPUT_FOLDER + "img" + Util.SEPARATOR + "night.png";
 	public static String RAINY_NIGHT = OUTPUT_FOLDER + "img" + Util.SEPARATOR + "rainy_night.png";
 	
+	public static File weatherDataFile;
+	
 	/**
 	 * Method to ranks a period 
 	 * @param counter a integer which classifies the period
