@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 
-import model.util.CircularArrayList;
 import model.util.Util;
 
 /**
@@ -32,29 +31,43 @@ public class PeriodFigure {
 		this.weatherDay = weatherDay; 
 	}
 	
+	public boolean hasFiguresToGenerate() {
+		if(this.weatherDay == null)
+			return false;
+		return true;
+	}
+	
+	
 	/**
-	 * Takes the weatherDay List attribute, runs it, find the periods and send them to
-	 * the figure being generated 
+	 * Takes the first weatherDay List attribute, find the periods and send them to
+	 * the figure being generated
+	 * @return a vector with 4 period figures (periods of one day) or null if there's
+	 * no data to generate the figures
 	 */
-	public CircularArrayList<BufferedImage[]> generateFigures() {
-		CircularArrayList<BufferedImage[]> periodFigures = new CircularArrayList<BufferedImage[]>();
-		BufferedImage[] bi = new BufferedImage[4];
-		int count;
-		String periodName;
-		for(WeatherDay wd : weatherDay) {
+	public BufferedImage[] generateADayFigures() {
+		if (!weatherDay.isEmpty()) {
+			int count;
+			
+			WeatherDay wd = weatherDay.get(0);
 			count = 0;
-			periodName = "";
-			for(DayPeriod period : wd.getDayPeriods()) {
+			String periodName = "";
+			BufferedImage[] bi = new BufferedImage[4];
+			for (DayPeriod period : wd.getDayPeriods()) {
 				periodName = Util.ranksPeriod(count);
-				
-				String date = Integer.toString(wd.getDay()) +"."+ Integer.toString(wd.getMonth()) +"."+ Integer.toString(wd.getYear());
-				
-				bi[count] = organizeImage(period, date, periodName, wd.getHeatIndex());
+
+				String date = Integer.toString(wd.getDay()) + "."
+						+ Integer.toString(wd.getMonth()) + "."
+						+ Integer.toString(wd.getYear());
+
+				bi[count] = organizeImage(period, date, periodName,
+						wd.getHeatIndex());
 				count++;
 			}
-			periodFigures.add(bi);
+			weatherDay.remove(0);
+			return bi;
 		}
-		return periodFigures;
+		weatherDay = null;
+		return null;
 	}
 	
 	/**

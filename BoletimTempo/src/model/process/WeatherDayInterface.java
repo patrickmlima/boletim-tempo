@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
-import model.util.CircularArrayList;
 import model.util.DateUtil;
 
 /**
@@ -19,13 +18,17 @@ public class WeatherDayInterface {
 	private FileManager fm;
 	private List<WeatherDay> days;
 	private SerializeWeatherDay swd;
-	private PeriodFigure turnGen;
+	private PeriodFigure figureGenerator;
 	private String fileName = "default";
 	
 	public WeatherDayInterface() throws IOException {
 		fm = new FileManager();
 		days = new ArrayList<WeatherDay>(); 
 		
+	}
+	
+	public PeriodFigure getFigureGenerator() {
+		return figureGenerator;
 	}
 
 	/**
@@ -118,9 +121,11 @@ public class WeatherDayInterface {
 	 * Process the measurements in days list
 	 */
 	public void process() {
+		//process the data about weather days
 		for (WeatherDay weatherDay : days) {
 			weatherDay.processMeasurements();
 		}
+		figureGenerator = new PeriodFigure(days);
 	}
 	
 	/**
@@ -136,11 +141,18 @@ public class WeatherDayInterface {
 		}
 	}
 	
-	public CircularArrayList<BufferedImage[]> generatePeriodFigures() {
-		turnGen = new PeriodFigure(days);
-		return turnGen.generateFigures();
+	/**
+	 * generates the period figures of a day
+	 * @return a vector with 4 period figures
+	 */
+	public BufferedImage[] generatePeriodFigures() {
+		return figureGenerator.generateADayFigures();
 	}
 	
+	/**
+	 * Clear the weatherDay data processed references as
+	 * well the fileManager 
+	 */
 	public void clearDays() {
 		this.days.clear();
 		try {
