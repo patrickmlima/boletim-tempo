@@ -7,6 +7,12 @@ import javax.swing.JRadioButton;
 
 import view.ProcessDataView;
 
+/**
+ * Implements the RadioButtons (in ProcessDataView) actionListener, to 
+ * handle their changes in the view
+ * @author Patrick M Lima
+ *
+ */
 public class DaysRadioBtnListener implements ActionListener {
 	
 	private void setEnabledComponents(ProcessDataView instanceView, boolean status1, boolean status2) {
