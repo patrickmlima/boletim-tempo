@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import controller.Controller;
 import model.util.ApplicationStatus;
 import model.util.Util;
 import view.WeatherDayView;
@@ -30,7 +29,8 @@ import view.popup.DialogBox;
  *
  */
 public class SaveDataFileBtnHandler implements ActionListener{
-	
+	private String title;
+	private String msg;
 	/**
 	 * Constructor
 	 */
@@ -38,10 +38,12 @@ public class SaveDataFileBtnHandler implements ActionListener{
 	}
 	
 	/**
-	 * Method which handle the action
+	 * Method which handle the save action
 	 */
 	@Override
 	public void actionPerformed(ActionEvent action) {
+		title = "Arquivo não pôde ser salvo";
+		msg = "Verifique se você inseriu um nome ou diretório válido e tente novamente.";
 		//Pega a instância de WeatherDayView 
 		WeatherDayView wdView = (WeatherDayView) ((JButton) action.getSource()).getParent();
 		
@@ -71,12 +73,14 @@ public class SaveDataFileBtnHandler implements ActionListener{
 			//analisa o retorno e caso tenha ocorrido tudo bem mostra uma mensagem
 			if(result) {
 				(new DialogBox()).initialize(" ", "Arquivo salvo com sucesso.", wdView, "OK");
-				changeToNext();
+				changeToFiguresTab();
+			}else {
+				if (title != null)
+					(new DialogBox()).initialize(title, msg, wdView, "error");
 			}
 				
 		}
-	}
-	
+	}	
 	
 	/**
 	 * Method which storage the processed data in a XML file
@@ -102,18 +106,20 @@ public class SaveDataFileBtnHandler implements ActionListener{
 	private boolean saveAsTxtFile(File file, JTextArea textArea) {
 		try {
 			File f = new File(file.getAbsolutePath() + ".txt");
-			if(!chooseReplaceFile(f))
-				return false;
-			
-			BufferedWriter out = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(f), "UTF-8") );
-			out.write(textArea.getText());  
-			out.flush();  
-			out.close();  
-		
-			return true;
-		} catch ( IOException exc ) {
-			return false;
+			if (chooseReplaceFile(f)) {
+
+				BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+						new FileOutputStream(f), "UTF-8"));
+				out.write(textArea.getText());
+				out.flush();
+				out.close();
+
+				return true;
+			}
+		} catch (IOException exc) {
+
 		}
+		return false;
 	}
 	
 	/**
@@ -125,25 +131,26 @@ public class SaveDataFileBtnHandler implements ActionListener{
 	 * @throws IOException if the file can't be accessed
 	 */
 	private boolean copyXmlFile(File source, File destination) throws IOException {    
-		if(!chooseReplaceFile(destination))
-			return false;
-		
-		FileChannel sourceChannel = null;  
-		FileChannel destinationChannel = null;  
+		if (chooseReplaceFile(destination)) {
+			FileChannel sourceChannel = null;
+			FileChannel destinationChannel = null;
 
-		try {  
-			sourceChannel = new FileInputStream(source).getChannel();  
-			destinationChannel = new FileOutputStream(destination).getChannel();  
-			sourceChannel.transferTo(0, sourceChannel.size(),  
-					destinationChannel);  
-		} finally {  
-			if (sourceChannel != null && sourceChannel.isOpen())  
-				sourceChannel.close();  
-			if (destinationChannel != null && destinationChannel.isOpen()) {
-				destinationChannel.close();
+			try {
+				sourceChannel = new FileInputStream(source).getChannel();
+				destinationChannel = new FileOutputStream(destination)
+						.getChannel();
+				sourceChannel.transferTo(0, sourceChannel.size(),
+						destinationChannel);
+			} finally {
+				if (sourceChannel != null && sourceChannel.isOpen())
+					sourceChannel.close();
+				if (destinationChannel != null && destinationChannel.isOpen()) {
+					destinationChannel.close();
+				}
 			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	/**
@@ -154,24 +161,24 @@ public class SaveDataFileBtnHandler implements ActionListener{
 	 */
 	private boolean chooseReplaceFile(File file) {
 		if (file.exists()) {
-			int result = JOptionPane.showConfirmDialog(null, "O arquivo com o nome selecionado já existe\n"
-					+ "Deseja sobrescrever-lo?", "Aviso", JOptionPane.OK_OPTION, JOptionPane.CANCEL_OPTION);
-		
-			if(result == JOptionPane.CANCEL_OPTION)
+			int result = JOptionPane.showConfirmDialog(null,
+					"O arquivo com o nome selecionado já existe\n"
+							+ "Deseja sobrescrever-lo?", "Aviso",
+					JOptionPane.OK_OPTION, JOptionPane.CANCEL_OPTION);
+			if (result == JOptionPane.NO_OPTION) {
+				title = null;
 				return false;
-
+			}
 			file.delete();
 		}
 		return true;
 	}
 	
-	private void changeToNext() {
-		WorkWindow.getInstance().setStatus(ApplicationStatus.DATA_FILE_SAVED);
-		try {
-			Controller.getInstance().generatePeriodFigures();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	private void changeToFiguresTab() {
+		if (WorkWindow.getInstance().getApplicationStatus() == ApplicationStatus.DATA_PROCESSED)
+			WorkWindow.getInstance().setStatus(
+					ApplicationStatus.DATA_FILE_SAVED);
 		WorkWindow.getInstance().setSelectedTab(2);
 	}
+		
 }

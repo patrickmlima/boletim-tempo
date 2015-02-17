@@ -26,14 +26,19 @@ public class ProcessDataBtnHandler implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent source) {
 		Controller controller = null;
+		//pega uma instancia do controller
 		try {
 			controller = Controller.getInstance();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(WorkWindow.getInstance().getStatus() != ApplicationStatus.INITIALIZED) {
-			controller.clearWeatherDay();
+		
+		//Caso o status seja diferente do status 'inicial' da aplicação
+		if(WorkWindow.getInstance().getApplicationStatus() != ApplicationStatus.INITIALIZED) {
+			//limpa os dados em memória
+			controller.clear();
+			//configuras as abas para ativar apenas a de processamento de dados
 			WorkWindow.getInstance().configureTabbedPaneEnable();
 		}
 		
@@ -53,7 +58,7 @@ public class ProcessDataBtnHandler implements ActionListener {
 			(new DialogBox()).initialize("Processamento finalizado",
 					"Todos os dias foram processados\n e salvos com sucesso.",
 					processDataView, "OK");
-			changeTabbed(workWindow);
+			changeToWeatherDayTab();
 			workWindow.setClosable();
 			break;
 
@@ -65,7 +70,9 @@ public class ProcessDataBtnHandler implements ActionListener {
 				(new DialogBox()).initialize("Processamento finalizado",
 						"Todos os dias foram processados\n e salvos com sucesso.",
 						processDataView, "OK");
-				changeTabbed(workWindow);
+
+				//muda a aba
+				changeToWeatherDayTab();
 			}
 			//senão, exibe uma mensagem informando que o dia não foi processado
 			else {
@@ -94,8 +101,9 @@ public class ProcessDataBtnHandler implements ActionListener {
 					(new DialogBox()).initialize("Processamento finalizado",
 							"Todos os dias foram processados\n e salvos com sucesso.",
 							processDataView, "OK");
-
-					changeTabbed(workWindow);
+					
+					//muda a aba
+					changeToWeatherDayTab();
 				}
 				//senão, exibe uma mesagem informando o não processamento
 				else {
@@ -108,14 +116,14 @@ public class ProcessDataBtnHandler implements ActionListener {
 				//se as datas não são cronológicas exibe uma mensagem informando o fato
 			} else {
 				(new DialogBox()).initialize("Processamento não realizado",
-						"As datas precisam estar em\n ordem cronológia.",
+						"As datas precisam estar em\n ordem cronológica.",
 						processDataView, "incorrect");
 			}
 			break;
 
 		case NO_DATE_SELECTED:
 			(new DialogBox()).initialize("Processamento não realizado",
-					"Selecione uma data para iniciar o processamento",
+					"Selecione a(s) data(s) para iniciar o processamento",
 					processDataView, "incorrect");
 			break;
 
@@ -125,11 +133,11 @@ public class ProcessDataBtnHandler implements ActionListener {
 		}
 	}		
 	
-	private void changeTabbed(WorkWindow workWindow) {
-		workWindow.setSelectedTab(1);
-//		workWindow.configureTabbedPaneEnable(tabbedPane);
-	}
-	
+	/**
+	 * Ranks the cases according the options selected in the view
+	 * @param processDataView the instance of view
+	 * @return an enum which represents the possible states 
+	 */
 	private ProcessDataViewCases ranksTheCase(ProcessDataView processDataView) {
 		if (processDataView.isAllDaysSelected()) {
 			return ProcessDataViewCases.ALL_DAY_SELECTED;
@@ -145,6 +153,14 @@ public class ProcessDataBtnHandler implements ActionListener {
 			return ProcessDataViewCases.NO_OPTIONS_SELECTED;
 		}
 
+	}
+	
+	/**
+	 * Change the tab to show the WeatherDayView
+	 */
+	private void changeToWeatherDayTab() {
+		WorkWindow.getInstance().setStatus(ApplicationStatus.DATA_PROCESSED);
+		WorkWindow.getInstance().setSelectedTab(1);
 	}
 
 }
