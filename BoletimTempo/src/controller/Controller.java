@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import model.process.WeatherDayInterface;
-import model.util.CircularArrayList;
 import model.util.DateUtil;
 
 /**
@@ -20,7 +19,7 @@ public class Controller {
 
 	private static Controller instance;
 	private WeatherDayInterface wdInterface;
-	private CircularArrayList<BufferedImage[]> periodFigures;
+	private BufferedImage[] periodFigures;
 
 	/**
 	 * 
@@ -42,10 +41,6 @@ public class Controller {
 			instance = new Controller();
 		}
 		return instance;
-	}
-	
-	public CircularArrayList<BufferedImage[]> getPeriodFigures() {
-		return periodFigures;
 	}
 
 	/**
@@ -87,50 +82,62 @@ public class Controller {
 		wdInterface.clearDays();
 		return false;
 	}
-
+	
+	/**
+	 * Validates a range of dates
+	 * @param firstDate
+	 * @param lastDate
+	 * @return true if the date are chronological
+	 */
 	public boolean validateDate(String firstDate, String lastDate) {
 		return DateUtil.isChronological(firstDate, lastDate);
 	}
 	
-	public void clearWeatherDay() {
+	/**
+	 * Clear the reference to processed data in memory
+	 */
+	public void clear() {
 		wdInterface.clearDays();
+		periodFigures = null;
 	}
 	
-	public void generatePeriodFigures() {
-		this.periodFigures = wdInterface.generatePeriodFigures();
-	}
-	
+	/**
+	 * gets the images of a period.
+	 * @return a vector which contains the figures
+	 */
 	public BufferedImage[] getImages() {
-		if (periodFigures != null) {
-			if (periodFigures.getIndex() == -1)
-				return periodFigures.getNext();
-			return periodFigures.get(periodFigures.getIndex());
-		}
-		return null;
-		
+		periodFigures = wdInterface.generatePeriodFigures();
+		return periodFigures;
 	}
 	
-	public boolean saveFigures(int index, File saveFile) {
-		String[] periodsName = new String[]{"madrugada", "manha", "tarde", "noite"};
-		BufferedImage[] bi = periodFigures.get(index);
-		for(int i = 0; i < bi.length; i++) {
+	/**
+	 * storage the figures
+	 * @param saveFile reference to save the figures (chosen by the user)
+	 * @return a boolean indicating the result
+	 */
+	public boolean saveFigures(File saveFile) {
+			String[] periodsName = new String[] { "madrugada", "manha",
+					"tarde", "noite" };
 			try {
-				ImageIO.write(bi[i], "png", new File(saveFile.getAbsolutePath() + "-" + periodsName[i] + ".png"));
+				for (int i = 0; i < periodFigures.length; i++) {
+					ImageIO.write(periodFigures[i], "png",
+							new File(saveFile.getAbsolutePath() + "-"
+									+ periodsName[i] + ".png"));
+				}
+				periodFigures = null;
+				return true;
 			} catch (IOException e) {
-				return false;
+
 			}
-		}
-		return true;
-//		try {
-//		File folder = new File(Util.PERIOD_FIGURES_FOLDER);
-//		if(!folder.exists()) {
-//			folder.mkdir();
-//		}
-//		//Salvar a imagem
-//		ImageIO.write(biToSave, "png", new File(Util.PERIOD_FIGURES_FOLDER + date + "-" + periodName + ".png"));
-//	}
-//	catch (IOException e) {
-//		e.printStackTrace();
-//	}
+
+		return false;
+	}
+	
+	/**
+	 * Indicates if there are still period figures to be generated
+	 * @return a boolean as an answer
+	 */
+	public boolean hasPeriodFiguresToGenerate() {
+		return wdInterface.getFigureGenerator().hasFiguresToGenerate();
 	}
 }
