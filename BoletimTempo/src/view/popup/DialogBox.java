@@ -3,9 +3,12 @@ package view.popup;
 import java.awt.Component;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
+
+import model.util.ImageUtil;
 
 public class DialogBox {
 	public DialogBox() {
@@ -15,11 +18,13 @@ public class DialogBox {
 		Font fontPopup = new Font("Cambria Math", Font.PLAIN, 18);
 		UIManager.put("OptionPane.messageFont", new FontUIResource(fontPopup));
 		UIManager.put("OptionPane.buttonFont", new FontUIResource(fontPopup));
-		UIManager.put("OptionPane.titleFont", new FontUIResource(new Font("Cambria Math", Font.BOLD, 20)));
 		if(type.equals("OK")) {
 			JOptionPane.setDefaultLocale(null);
+			JOptionPane.showMessageDialog(parent, text, title, JOptionPane.PLAIN_MESSAGE, 
+					ImageUtil.resize(50, 50, new ImageIcon(ClassLoader.getSystemResource("resources/img/ok-icon.png")).getImage()));
+		}else if(type.equals("information")) {
+			JOptionPane.setDefaultLocale(null);
 			JOptionPane.showMessageDialog(parent, text, title, JOptionPane.INFORMATION_MESSAGE);
-			
 		} else if(type.equals("incorrect")) {
 			JOptionPane.setDefaultLocale(null);
 			JOptionPane.showMessageDialog(parent, text, title, JOptionPane.WARNING_MESSAGE);
