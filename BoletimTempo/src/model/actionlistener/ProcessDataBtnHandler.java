@@ -1,5 +1,6 @@
 package model.actionlistener;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -53,7 +54,9 @@ public class ProcessDataBtnHandler implements ActionListener {
 		switch(result) {
 		case ALL_DAY_SELECTED:
 			workWindow.setNotClosable();
+			WorkWindow.getInstance().getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			controller.computeWeatherDay();
+			WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
 
 			(new DialogBox()).initialize("Processamento finalizado",
 					"Todos os dias foram processados\n e salvos com sucesso.",
@@ -63,9 +66,12 @@ public class ProcessDataBtnHandler implements ActionListener {
 			break;
 
 		case ONE_DAY_SELECTED:
+			WorkWindow.getInstance().setNotClosable();
+			WorkWindow.getInstance().getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			//se o retorno da computação é true (computou o dia)
 			if (controller.computeWeatherDay(new SimpleDateFormat("dd/MM/yyyy").
 					format(processDataView.getDateChooserADay().getDate())) ) {
+				WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
 				//exibe uma mensagem de finalização
 				(new DialogBox()).initialize("Processamento finalizado",
 						"Todos os dias foram processados\n e salvos com sucesso.",
@@ -76,6 +82,7 @@ public class ProcessDataBtnHandler implements ActionListener {
 			}
 			//senão, exibe uma mensagem informando que o dia não foi processado
 			else {
+				WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
 				(new DialogBox()).initialize("Processamento não realizado",
 						"O dia não é válido ou ainda\n não foi salvo no arquivo de dados.",
 						processDataView, "error");
@@ -94,10 +101,12 @@ public class ProcessDataBtnHandler implements ActionListener {
 			//verifica se as datas estão em ordem cronológica
 			if (controller.validateDate(fDay, lDay)) {
 				workWindow.setNotClosable();
+				WorkWindow.getInstance().getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 				//verifica se os dias foram computados
 				if (controller.computeWeatherDay(fDay, lDay) ) {
 					//se sim, exibe uma mensagem informando o fim do processamento
+					WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
 					(new DialogBox()).initialize("Processamento finalizado",
 							"Todos os dias foram processados\n e salvos com sucesso.",
 							processDataView, "OK");
@@ -107,6 +116,7 @@ public class ProcessDataBtnHandler implements ActionListener {
 				}
 				//senão, exibe uma mesagem informando o não processamento
 				else {
+					WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
 					(new DialogBox()).initialize("Processamento não realizado",
 							"O dia não é válido ou ainda\n não foi salvo no arquivo de dados.",
 							processDataView, "error");
