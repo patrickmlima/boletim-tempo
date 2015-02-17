@@ -21,7 +21,7 @@ public class FileManager {
 		br = new BufferedReader(
 				new InputStreamReader(
 						ClassLoader
-								.getSystemResourceAsStream("resources/data/CR3000_Estacao_Baixa1.dat")));
+								.getSystemResourceAsStream("./data/CR3000_Estacao_Baixa1.dat")));
 		skipLines();
 	}
 
