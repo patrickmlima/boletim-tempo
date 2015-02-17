@@ -16,6 +16,7 @@ import model.util.ImageUtil;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import view.popup.DialogBox;
 import controller.Controller;
 
 import java.awt.Color;
@@ -124,9 +125,15 @@ public class PeriodFigureView extends JPanel {
 				label.setIcon(new ImageIcon(ImageUtil.resize(bi, w, h)));
 				getPanelShowFigures().add(label);
 			}
-		} else
+		} else {
 			WorkWindow.getInstance().setStatus(
 					ApplicationStatus.PERIOD_FIGURES_SAVED);
+			(new DialogBox())
+					.initialize(
+							"Concluído",
+							"Todas as imagens foram salvas.\nRetorne à primeira aba para processar mais dados\nou finalize a aplicação",
+							this, "OK");
+		}
 		revalidate();
 		repaint();
 	}
