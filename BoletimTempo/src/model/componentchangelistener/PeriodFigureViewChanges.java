@@ -28,10 +28,4 @@ public class PeriodFigureViewChanges extends ComponentAdapter {
 			}
 		}
 	}
-	
-	@Override
-	public void componentResized(ComponentEvent component) {
-		componentShown(component);
-	}
-
 }

@@ -103,7 +103,7 @@ public class ShowFigureBtnsHandler implements ActionListener {
 							null,
 							"Descartando essas imagens não será possível salvá-las novamente\n "
 							+ "a menos que um novo processamento deste dia seja feito.\n"
-									+ "Deseja mesmo descartar a imagem?",
+									+ "Deseja mesmo descartar as imagens?",
 							"Atenção", JOptionPane.OK_OPTION,
 							JOptionPane.CANCEL_OPTION);
 			//se o usuário desejar descartar
