@@ -7,17 +7,7 @@ import java.io.File;
  * @author Elloa
  *
  */
-public class Util {
-	public static String SEPARATOR = File.separator;
-	public static String OUTPUT_FOLDER = "." + Util.SEPARATOR + "src" + Util.SEPARATOR + "data" + Util.SEPARATOR;
-	public static String BAIXA1 = OUTPUT_FOLDER + "CR3000_Estacao_Baixa1.dat";
-	
-	public static String PERIOD_FIGURES_FOLDER = OUTPUT_FOLDER + "period_figures" + Util.SEPARATOR;
-	public static String SUNNY = OUTPUT_FOLDER + "img" + Util.SEPARATOR + "sunny.png";
-	public static String RAINY = OUTPUT_FOLDER + "img" + Util.SEPARATOR + "rainy.png";
-	public static String NIGHT = OUTPUT_FOLDER + "img" + Util.SEPARATOR + "night.png";
-	public static String RAINY_NIGHT = OUTPUT_FOLDER + "img" + Util.SEPARATOR + "rainy_night.png";
-	
+public class Util {	
 	public static File weatherDataFile;
 	
 	/**
@@ -38,5 +28,11 @@ public class Util {
 		else {
 			return "noite";
 		}
+	}
+	
+	public static String getSpace() {
+		if(System.getProperty("os.name").toLowerCase().contains("windows") )
+			return " ";
+		return "\\ ";
 	}
 }
