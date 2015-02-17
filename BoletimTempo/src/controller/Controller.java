@@ -42,6 +42,14 @@ public class Controller {
 		}
 		return instance;
 	}
+	
+	/**
+	 * gets the actual period figures 
+	 * @return the period figures (os one day)
+	 */
+	public BufferedImage[] getPeriodFigures() {
+		return periodFigures;
+	}
 
 	/**
 	 * Communicates with WeatherDay instance and computes all days
