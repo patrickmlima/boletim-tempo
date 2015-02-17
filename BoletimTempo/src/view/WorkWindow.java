@@ -7,6 +7,12 @@ import javax.swing.JTabbedPane;
 
 import model.util.ApplicationStatus;
 
+/**
+ * Main application view which brings together all components
+ * which implements the system functionalities
+ * @author Patrick M Lima
+ *
+ */
 public class WorkWindow {
 	private ApplicationStatus status;
 	private static WorkWindow instance;
@@ -25,7 +31,7 @@ public class WorkWindow {
 		this.status = status;
 	}
 	
-	public ApplicationStatus getStatus() {
+	public ApplicationStatus getApplicationStatus() {
 		return status;
 	}
 
@@ -81,6 +87,7 @@ public class WorkWindow {
 		frame = new JFrame();
 		frame.setTitle("BoCLIMA");
 		frame.setBounds(100, 100, 800, 600);
+		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		setClosable();
 
