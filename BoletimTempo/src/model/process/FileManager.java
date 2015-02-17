@@ -1,11 +1,9 @@
 package model.process;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
-import model.util.Util;
 /**
  * model.FileManager
  * Creation date: 10/11/2014
@@ -20,7 +18,10 @@ public class FileManager {
 	private BufferedReader br;
 
 	public FileManager() throws IOException{
-		br = new BufferedReader(new FileReader(new File(Util.BAIXA1)));
+		br = new BufferedReader(
+				new InputStreamReader(
+						ClassLoader
+								.getSystemResourceAsStream("resources/data/CR3000_Estacao_Baixa1.dat")));
 		skipLines();
 	}
 

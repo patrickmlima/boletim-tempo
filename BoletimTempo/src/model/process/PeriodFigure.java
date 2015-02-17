@@ -89,16 +89,16 @@ public class PeriodFigure {
 		
 		if( periodName.equals("manha") || periodName.equals("tarde") ) {
 			if(dayPeriod.getAcumRain() == 0.0) {
-				img = new ImageIcon(Util.SUNNY).getImage();
+				img = new ImageIcon(ClassLoader.getSystemResource("resources/img/sunny.png")).getImage();
 			} else {
-				img = new ImageIcon(Util.RAINY).getImage();
+				img = new ImageIcon(ClassLoader.getSystemResource("resources/img/rainy.png")).getImage();
 			}
 		} else {
 			if(dayPeriod.getAcumRain() == 0.0) {
-				img = new ImageIcon(Util.NIGHT).getImage();
+				img = new ImageIcon(ClassLoader.getSystemResource("resources/img/night.png")).getImage();
 			}
 			else {
-				img = new ImageIcon(Util.RAINY_NIGHT).getImage();
+				img = new ImageIcon(ClassLoader.getSystemResource("resources/img/rainy_night.png")).getImage();
 			}
 		}
 		
