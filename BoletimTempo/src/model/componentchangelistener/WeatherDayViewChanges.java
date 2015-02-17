@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import model.util.ApplicationStatus;
 import model.util.Util;
 
 import org.w3c.dom.Document;
@@ -18,7 +19,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import view.WeatherDayView;
+import view.WorkWindow;
 
+/**
+ * Implements methods which are called when the component changes
+ * @author Patrick M Lima
+ *
+ */
 public class WeatherDayViewChanges extends ComponentAdapter {
 	public WeatherDayViewChanges() {
 		super();
@@ -30,14 +37,27 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 		WeatherDayView wdView = (WeatherDayView) component.getSource();
 		
 		try {
-			showDataFile(Util.weatherDataFile, wdView);
+			if(WorkWindow.getInstance().getApplicationStatus().ordinal() < ApplicationStatus.PERIOD_FIGURES_SAVED.ordinal())
+				showDataFile(Util.weatherDataFile, wdView);
+			
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Puts the data processed in a text area
+	 * @param file which contains the processed data
+	 * @param wdv an instance of WeahterDayView to update the textArea
+	 * @throws ParserConfigurationException if the XML file can't be parsed
+	 * @throws SAXException 
+	 * @throws IOException if the XML file can't be opened
+	 */
 	private void showDataFile(File file, WeatherDayView wdv)
 			throws ParserConfigurationException, SAXException, IOException {
+		if(!wdv.getTextAreaWeatherDay().getText().isEmpty()) {
+			wdv.setTextAreaWeatherDay(null);
+		}
 
 		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder();
@@ -98,21 +118,4 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 			tArea.append("\n");
 		}
 	}
-	
-//	public void saveAsTxt() {
-//		try {  
-//
-//			File f = new File( "conteudo.txt" );  
-//
-//			PrintWriter out = new PrintWriter( new FileOutputStream( f ) );  
-//
-//			out.print( "ao conteúdo da JTextArea vem aqui..." );  
-//			out.flush();  
-//
-//			out.close();  
-//
-//		} catch ( IOException exc ) {
-//
-//		}  
-//	}
 }
