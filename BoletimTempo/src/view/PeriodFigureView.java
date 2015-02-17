@@ -131,7 +131,7 @@ public class PeriodFigureView extends JPanel {
 			(new DialogBox())
 					.initialize(
 							"Concluído",
-							"Todas as imagens foram salvas.\nRetorne à primeira aba para processar mais dados\nou finalize a aplicação",
+							"Todas as imagens foram geradas.\nRetorne à primeira aba para processar mais dados\nou finalize a aplicação",
 							this, "OK");
 		}
 		revalidate();

@@ -35,9 +35,9 @@ public class ShowFigureBtnsHandler implements ActionListener {
 		if (!hasPeriodFigures()) {
 			(new DialogBox())
 					.initialize(
-							"Você salvou todas as figuras",
+							"Você gerou todas as figuras",
 							"Retorne à primeira aba para processar mais dados\n ou finalize a aplicação.",
-							pfView, "OK");
+							pfView, "information");
 			//muda o status da aplicação
 			WorkWindow.getInstance().setStatus(
 					ApplicationStatus.PERIOD_FIGURES_SAVED);
@@ -88,8 +88,11 @@ public class ShowFigureBtnsHandler implements ActionListener {
 					// caso não seja possível salvar as imagens, mostra uma
 					// mensagem informando o fato.
 				} else {
-					(new DialogBox()).initialize("ERRO",
-							"Figuras não puderam ser salvas.", pfView, "error");
+					(new DialogBox())
+							.initialize(
+									"ERRO",
+									"Figuras não puderam ser salvas.\nVerifique se você inseriu um nome\nou diretório válido.",
+									pfView, "error");
 				}
 				WorkWindow.getInstance().setClosable();
 

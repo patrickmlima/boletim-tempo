@@ -30,9 +30,9 @@ public class ProcessDataBtnHandler implements ActionListener {
 		//pega uma instancia do controller
 		try {
 			controller = Controller.getInstance();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			(new DialogBox()).initialize("Erro", "Não foi possível encontrar o arquivo de dados", null, "error");
+			return;
 		}
 		
 		//Caso o status seja diferente do status 'inicial' da aplicação
@@ -138,7 +138,7 @@ public class ProcessDataBtnHandler implements ActionListener {
 			break;
 
 		case NO_OPTIONS_SELECTED:
-			(new DialogBox()).initialize("Por favor", "Selecione uma opção para iniciar o processamento", processDataView, "incorrect");
+			(new DialogBox()).initialize("Por favor", "Selecione uma opção para iniciar o processamento", processDataView, "information");
 			break;
 		}
 	}		
