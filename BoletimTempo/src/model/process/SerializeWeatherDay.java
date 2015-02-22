@@ -45,13 +45,17 @@ public class SerializeWeatherDay {
 	 * @throws Throwable se houver problemas na escrita do arquivo.
 	 */
 	public void writeDaybyDay() throws Throwable{
-		DocumentBuilderFactory dayBuilder = DocumentBuilderFactory.newInstance();
-		
+		DocumentBuilderFactory dayBuilder = DocumentBuilderFactory
+				.newInstance();
+		dayBuilder.setNamespaceAware(true);
+		dayBuilder.setValidating(true);
+
 		DocumentBuilder docBuilder = dayBuilder.newDocumentBuilder();
 
 		// root elements
 		Document doc = docBuilder.newDocument();
-		
+		doc.setXmlStandalone(true);
+
 		Element dias = doc.createElement("dias");
 		doc.appendChild(dias);
 
@@ -135,6 +139,8 @@ public class SerializeWeatherDay {
 		final Transformer transformer = TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+		transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,
+				"weatherDay.dtd");
 		File outputFile = File.createTempFile(fileName, ".xml");
 		outputFile.deleteOnExit();
 		transformer.transform(new DOMSource(doc), new StreamResult(outputFile));

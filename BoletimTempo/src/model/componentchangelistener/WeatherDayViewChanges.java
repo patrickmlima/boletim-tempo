@@ -16,6 +16,8 @@ import model.util.Util;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import view.WeatherDayView;
@@ -61,7 +63,21 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 
 		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder();
-
+		//Declare an entity resolver to get the DTD file 
+		docBuilder.setEntityResolver(new EntityResolver() {
+			@Override
+			public InputSource resolveEntity(String publicId, String systemId)
+					throws SAXException, IOException {
+				if (systemId.contains("weatherDay.dtd")) {
+					return new InputSource(
+							ClassLoader
+									.getSystemResourceAsStream("resources/xml/weatherDay.dtd"));
+				} else {
+					return null;
+				}
+			}
+		});
+		
 		Document doc = docBuilder.parse(file);
 
 		NodeList dias = doc.getElementsByTagName("dia");
