@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import model.process.WeatherDayInterface;
+import model.process.WeatherDayFacade;
 import model.util.DateUtil;
 
 /**
@@ -18,7 +18,7 @@ import model.util.DateUtil;
 public class Controller {
 
 	private static Controller instance;
-	private WeatherDayInterface wdInterface;
+	private WeatherDayFacade wdInterface;
 	private BufferedImage[] periodFigures;
 
 	/**
@@ -27,7 +27,7 @@ public class Controller {
 	 *             if the file can't be accessed or doesn't exist
 	 */
 	private Controller() throws IOException {
-		wdInterface = new WeatherDayInterface();
+		wdInterface = new WeatherDayFacade();
 	}
 
 	/**
