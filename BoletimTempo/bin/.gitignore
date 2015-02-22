@@ -1,6 +1,5 @@
-/controller/
-/data/
-/main/
 /model/
 /resources/
-/view/
+/data/
+
+*.class
