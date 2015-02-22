@@ -10,12 +10,13 @@ import java.awt.Font;
 
 import javax.swing.JTextArea;
 
-import model.actionlistener.SaveDataFileBtnHandler;
-import model.componentchangelistener.WeatherDayViewChanges;
+import view.actionlistener.SaveDataFileBtnHandler;
+import view.componentchangelistener.WeatherDayViewChanges;
 
 /**
  * Class which brings together all necessary view components to show the data
- * that was processed 
+ * that was processed
+ * 
  * @author Patrick M Lima
  *
  */
@@ -25,11 +26,22 @@ public class WeatherDayView extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextArea textAreaWeatherDay;
-	
+
+	/**
+	 * Sets the content of the JTextArea where the processed data will be shown
+	 * 
+	 * @param text
+	 *            text which will be the content of the text area
+	 */
 	public void setTextAreaWeatherDay(String text) {
 		textAreaWeatherDay.setText(text);
 	}
-	
+
+	/**
+	 * Gets the JTextArea where the processed data will be shown
+	 * 
+	 * @return a JTextArea instance
+	 */
 	public JTextArea getTextAreaWeatherDay() {
 		return this.textAreaWeatherDay;
 	}
@@ -41,7 +53,7 @@ public class WeatherDayView extends JPanel {
 		addComponentListener(new WeatherDayViewChanges());
 		initialize();
 	}
-	
+
 	/**
 	 * Initializes the components
 	 */

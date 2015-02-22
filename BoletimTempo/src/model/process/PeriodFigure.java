@@ -12,37 +12,47 @@ import javax.swing.ImageIcon;
 import model.util.Util;
 
 /**
- * Class which generate a turn figure (figure which illustrates  the data
- * obtained in a period processing 
+ * Class which generate a period figure (figure which illustrates the data
+ * obtained in a period processing )
+ * 
  * @author Patrick M Lima
- * Date: 09/01/2015
  */
 public class PeriodFigure {
 	private List<WeatherDay> weatherDay;
-	
+
 	private int X_PERIOD;
 	private int Y_PERIOD = 370;
-	
+
 	/**
 	 * The class constructor which initializes the weatherDay class attribute
-	 * @param weatherDay a list containing WeatherDay objects
+	 * 
+	 * @param weatherDay
+	 *            a list containing WeatherDay objects (where from the figures
+	 *            will be generated)
 	 */
 	public PeriodFigure(List<WeatherDay> weatherDay) {
-		this.weatherDay = weatherDay; 
+		this.weatherDay = weatherDay;
 	}
 	
+	/**
+	 * returns a boolean which represents if there are still figures to be
+	 * generated
+	 * 
+	 * @return true if the figures still can be generated, false otherwise
+	 */
 	public boolean hasFiguresToGenerate() {
-		if(this.weatherDay == null)
+		if (this.weatherDay == null)
 			return false;
 		return true;
 	}
 	
 	
 	/**
-	 * Takes the first weatherDay List attribute, find the periods and send them to
-	 * the figure being generated
-	 * @return a vector with 4 period figures (periods of one day) or null if there's
-	 * no data to generate the figures
+	 * Takes the first weatherDay List attribute, find the periods and send them
+	 * to the figure being organized
+	 * 
+	 * @return a vector with 4 period figures (periods of one day) or null if
+	 *         there's no data to generate the figures
 	 */
 	public BufferedImage[] generateADayFigures() {
 		if (!weatherDay.isEmpty()) {
@@ -71,17 +81,24 @@ public class PeriodFigure {
 	}
 	
 	/**
-	 * Mount the image to be saved
-	 * @param dayPeriod a DayPeriod object which represents a turn
-	 * @param date the date of the object DayPeriod
-	 * @param turnName a specific turn name which can be either, dawn, morning, afternoon, night.
+	 * Sets up the image to be saved
+	 * 
+	 * @param dayPeriod
+	 *            a DayPeriod object which represents a period
+	 * @param date
+	 *            the date of the DayPeriod object
+	 * @param periodName
+	 *            a specific period name which can be either, dawn, morning,
+	 *            afternoon, night.
+	 * @return a period figure
 	 */
-	private BufferedImage organizeImage(DayPeriod dayPeriod, String date, String periodName, double heatIndex) {
+	private BufferedImage organizeImage(DayPeriod dayPeriod, String date,
+			String periodName, double heatIndex) {
 		Graphics2D g2d = null;
 		BufferedImage biToSave = null;
 		Image img = null;
-		
-		if( periodName.equals("madrugada")) {
+
+		if (periodName.equals("madrugada")) {
 			X_PERIOD = 715;
 		} else {
 			X_PERIOD = 1250;
@@ -102,20 +119,22 @@ public class PeriodFigure {
 			}
 		}
 		
-		if(periodName.equals("manha")) {
+		if (periodName.equals("manha")) {
 			periodName = "manhã";
 		}
 		
-		biToSave = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+		biToSave = new BufferedImage(img.getWidth(null), img.getHeight(null),
+				BufferedImage.TYPE_INT_ARGB);
+		
 		g2d = (Graphics2D) biToSave.getGraphics();
 		g2d.drawImage(img, 0, 0, null);
-		
+
 		g2d.setColor(Color.BLACK);
-		g2d.setFont(new Font("Cambria", Font.BOLD, 240));	
+		g2d.setFont(new Font("Cambria", Font.BOLD, 240));
 		g2d.drawString(periodName.toUpperCase(), X_PERIOD, Y_PERIOD);
 		g2d.setFont(new Font("Cambria", Font.BOLD, 220));
-		g2d.drawString(date.replace(".",  "/"), 1040, 680);
-		
+		g2d.drawString(date.replace(".", "/"), 1040, 680);
+
 		g2d.setFont(new Font("Cambria", Font.BOLD, 200));
 		
 		g2d.drawString(String.format("%.2f", dayPeriod.getHighTemp() ).replace(",", ".") + "°C", 1500, 1370);
@@ -126,18 +145,7 @@ public class PeriodFigure {
 			g2d.drawString( String.format("%.2f", dayPeriod.getAcumRain()).replace(",", ".") + " mm", 50, 1400);
 		}
 		g2d.dispose();
-		
+
 		return biToSave;
-//		try {
-//			File folder = new File(Util.PERIOD_FIGURES_FOLDER);
-//			if(!folder.exists()) {
-//				folder.mkdir();
-//			}
-//			//Salvar a imagem
-//			ImageIO.write(biToSave, "png", new File(Util.PERIOD_FIGURES_FOLDER + date + "-" + periodName + ".png"));
-//		}
-//		catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 }

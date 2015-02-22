@@ -8,25 +8,26 @@ import java.util.ArrayList;
 import model.util.DateUtil;
 
 /**
- * It's the interface to WeatherDay class. Through this class it's possible
- * to access the logic and data within WeatherDay.
+ * It's the interface to WeatherDay class. Through this class it's possible to
+ * access the logic and data within WeatherDay.
+ * 
  * @author Patrick M Lima
  *
  */
 public class WeatherDayFacade {
-	
+
 	private FileManager fm;
 	private List<WeatherDay> days;
 	private SerializeWeatherDay swd;
 	private PeriodFigure figureGenerator;
 	private String fileName = "default";
-	
+
 	public WeatherDayFacade() throws IOException {
 		fm = new FileManager();
-		days = new ArrayList<WeatherDay>(); 
-		
+		days = new ArrayList<WeatherDay>();
+
 	}
-	
+
 	public PeriodFigure getFigureGenerator() {
 		return figureGenerator;
 	}
@@ -34,19 +35,23 @@ public class WeatherDayFacade {
 	/**
 	 * Reads all days within the file and processes their data
 	 */
-	public void readAllDays(){
+	public void readAllDays() {
 		fileName = "allDays";
-		while (fm.hasNextLine()){
+		while (fm.hasNextLine()) {
 			makeWeatherDays(fm.nextLine());
-		}	
+		}
 		process();
 	}
 	
 	/**
-	 * Reads a range of days (beginning in dInitial and ending in dFinal, including it)
-	 * to process their data
-	 * @param dtInitial first day to read
-	 * @param dtFinal last day to read
+	 * Reads a range of days (beginning in dInitial and ending in dFinal,
+	 * including it) to process their data
+	 * 
+	 * @param dtInitial
+	 *            first day to read
+	 * @param dtFinal
+	 *            last day to read
+	 * @return true if the days were find and processed, false otherwise
 	 */
 	public boolean readRangeDays(String dtInitial, String dtFinal) {
 		fileName = dtInitial.replace("/", ".") + "_to_" + dtFinal.replace("/", ".");
@@ -55,7 +60,10 @@ public class WeatherDayFacade {
 	
 	/**
 	 * Reads only a day and processes its data
-	 * @param day the day to be read
+	 * 
+	 * @param day
+	 *            the day to be read
+	 * @return true if the day was find and processed, false otherwise
 	 */
 	public boolean readADay(String day) {
 		fileName = day.replace("/", ".");
@@ -64,8 +72,12 @@ public class WeatherDayFacade {
 	
 	/**
 	 * Reads a set of data line and process them.
-	 * @param dateInit the initial date 
-	 * @param dateFinal the final date in array format 
+	 * 
+	 * @param dateInit
+	 *            the initial date
+	 * @param dateFinal
+	 *            the final date in array format
+	 * @return true if the days were find and processed, false otherwise
 	 */
 	private boolean findDays(String dateInit, int[] dateFinal) {
 		String line = null;
@@ -121,7 +133,7 @@ public class WeatherDayFacade {
 	 * Process the measurements in days list
 	 */
 	public void process() {
-		//process the data about weather days
+		// process the data about weather days
 		for (WeatherDay weatherDay : days) {
 			weatherDay.processMeasurements();
 		}
@@ -129,9 +141,10 @@ public class WeatherDayFacade {
 	}
 	
 	/**
-	 * Saves the data in the days list in a XML file and generate the turn figures.
+	 * Saves the data in the days list in a XML file and generate the turn
+	 * figures.
 	 */
-	public void saveDays(){
+	public void saveDays() {
 		swd = new SerializeWeatherDay(days, fileName);
 		try {
 			swd.writeDaybyDay();
@@ -142,7 +155,8 @@ public class WeatherDayFacade {
 	}
 	
 	/**
-	 * generates the period figures of a day
+	 * Generates the period figures of a day
+	 * 
 	 * @return a vector with 4 period figures
 	 */
 	public BufferedImage[] generatePeriodFigures() {
@@ -150,8 +164,7 @@ public class WeatherDayFacade {
 	}
 	
 	/**
-	 * Clear the weatherDay data processed references as
-	 * well the fileManager 
+	 * Clear the weatherDay data processed references as well the fileManager
 	 */
 	public void clearDays() {
 		this.days.clear();
@@ -162,6 +175,4 @@ public class WeatherDayFacade {
 			e.printStackTrace();
 		}
 	}
-	
-	
 }

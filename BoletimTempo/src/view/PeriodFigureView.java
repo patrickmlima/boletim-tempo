@@ -8,14 +8,14 @@ import javax.swing.GroupLayout.Alignment;
 
 import java.awt.Font;
 
-import model.actionlistener.ShowFigureBtnsHandler;
-import model.componentchangelistener.PeriodFigureViewChanges;
 import model.util.ApplicationStatus;
 import model.util.ImageUtil;
 
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import view.actionlistener.ShowFigureBtnsHandler;
+import view.componentchangelistener.PeriodFigureViewChanges;
 import view.popup.DialogBox;
 import controller.Controller;
 
@@ -24,8 +24,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * JPanel which contains the necessary components to
- * show the Period figures generated and save them
+ * JPanel which contains the necessary components to show the Period figures
+ * generated and save them
+ * 
  * @author Patrick M Lima
  *
  */
@@ -34,7 +35,7 @@ public class PeriodFigureView extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private JPanel panelShowFigures;
 
 	/**
@@ -48,7 +49,12 @@ public class PeriodFigureView extends JPanel {
 	public void setPanelShowFigure(JPanel panelShowFigures) {
 		this.panelShowFigures = panelShowFigures;
 	}
-	
+
+	/**
+	 * Gets the JPanel which shows the period figures
+	 * 
+	 * @return a JPanel instance
+	 */
 	public JPanel getPanelShowFigures() {
 		return panelShowFigures;
 	}
@@ -57,7 +63,7 @@ public class PeriodFigureView extends JPanel {
 	 * Initializes the components
 	 */
 	public void initialize() {
-		//Create the panel to show the figures
+		// Create the panel to show the figures
 		panelShowFigures = new JPanel();
 		panelShowFigures.setBackground(Color.GRAY);
 		
@@ -104,9 +110,11 @@ public class PeriodFigureView extends JPanel {
 	}
 	
 	/**
-	 * Adds the period figures icons to be shown in a JPanel. There
-	 * the user can switch what figures will be save
-	 * @throws IOException case the controller instance can't be taken
+	 * Adds the period figures icons to be shown in a JPanel. There the user can
+	 * switch what figures will be save
+	 * 
+	 * @throws IOException
+	 *             case the controller instance can't be taken
 	 */
 	public void addFigures() throws IOException {
 		getPanelShowFigures().removeAll();
@@ -131,7 +139,8 @@ public class PeriodFigureView extends JPanel {
 			(new DialogBox())
 					.initialize(
 							"Conclu\u00EDdo",
-							"Todas as imagens foram geradas.\nRetorne \u00E0 primeira aba para processar mais dados\nou finalize a aplica\u00E7\u00E3o",
+							"Todas as imagens foram geradas.\nRetorne \u00E0 primeira aba "
+							+ "para processar mais dados\nou finalize a aplica\u00E7\u00E3o",
 							this, "OK");
 		}
 		revalidate();

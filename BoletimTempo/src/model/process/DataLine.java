@@ -1,10 +1,10 @@
 package model.process;
 
 /**
- * Representa uma linha do arquivo contendo apenas os dados de interesse
- *  timestamp + 6 últimas colunas.
- *  
- * @author Elloa
+ * Represents the file line containing only the data of interest:
+ *  Timestamp + 6 last columns
+ * 
+ * @author Elloá B. Guedes
  *
  */
 public class DataLine {
@@ -21,11 +21,12 @@ public class DataLine {
 	private double speed;
 	private double direction;
 	private double rain;
-	
+
 	/**
-	 * Made from an extracted file string 
+	 * Made from an extracted file string
 	 * 
-	 * @param s string extracted from baixa1 file
+	 * @param s
+	 *            string extracted from baixa1 file
 	 */
 	public DataLine(String s){
 		String[] lista = s.split(",");
@@ -55,42 +56,37 @@ public class DataLine {
 		minute = Integer.parseInt(temp2[4]);
 	}
 
-
 	public String getTimeStamp() {
 		return timeStamp;
 	}
-
 
 	public double getPressure() {
 		return pressure;
 	}
 
-
 	public double getTemperature() {
 		return temperature;
 	}
-
 
 	public double getHumidity() {
 		return humidity;
 	}
 
-
 	public double getDirection() {
 		return direction;
 	}
 
-
 	public double getRain() {
 		return rain;
 	}
-	
-	public double getSpeed(){
+
+	public double getSpeed() {
 		return speed;
 	}
-	
-	public String toString(){
-		return timeStamp + " " +pressure +" " + temperature + " " +humidity + " " + speed+ " " +direction +" " + rain;
+
+	public String toString() {
+		return timeStamp + " " + pressure + " " + temperature + " " + humidity
+				+ " " + speed + " " + direction + " " + rain;
 	}
 
 	public int getDay() {
@@ -114,11 +110,11 @@ public class DataLine {
 	}
 
 	public String getDate() {
-		return Integer.toString(getDay()) + "/" + Integer.toString(getMonth()) + "/" + Integer.toString(getYear());
+		return Integer.toString(getDay()) + "/" + Integer.toString(getMonth())
+				+ "/" + Integer.toString(getYear());
 	}
-	
+
 	public boolean equals(int day, int month, int year) {
 		return (this.day == day && this.month == month && this.year == year);
 	}
-	
 }

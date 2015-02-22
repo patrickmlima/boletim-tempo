@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a meteorological day, which is composed from 4 periods and
- * your respective measurements. The data from this day are initially stored
- * and then are processed 
- * 	
- * @author Elloa
+ * Represents a meteorological day, which is composed from 4 periods and your
+ * respective measurements. The data from this day are initially stored and then
+ * are processed
+ * 
+ * @author Elloá B. Guedes
  *
  */
 public class WeatherDay {
@@ -27,17 +27,20 @@ public class WeatherDay {
 	private List<DataLine> listMorning;
 	private List<DataLine> listAfternoon;
 	private List<DataLine> listNight;
-	
+
 	private int size = 0;
 
 	/**
 	 * Informations about the date of this weather day
 	 * 
-	 * @param year the weather day year
-	 * @param month the weather day month
-	 * @param day the day of the weather day 
+	 * @param year
+	 *            the weather day year
+	 * @param month
+	 *            the weather day month
+	 * @param day
+	 *            the day of the weather day
 	 */
-	public WeatherDay(int year, int month, int day){
+	public WeatherDay(int year, int month, int day) {
 		this.year = year;
 		this.day = day;
 		this.month = month;
@@ -48,19 +51,29 @@ public class WeatherDay {
 	}
 
 	/**
-	 * After use the constructor a DataLine with the informations
-	 * which should be added to this day must be passed.
-	 * Only after all the lines has been inserted must have processing. 
+	 * After use the constructor a DataLine with the informations which should
+	 * be added to this day must be passed. Only after all the lines has been
+	 * inserted must have processing.
 	 * 
-	 * @param d a DataLine to be added on the weather of this day.
+	 * @param d
+	 *            a DataLine to be added on the weather of this day.
 	 */
 	public void addMeasurement(DataLine d){
-		if ((d.getHour()==0 && d.getMinute()>=10) || (d.getHour()>0 && d.getHour()<6) || (d.getHour()==6 && d.getMinute()==0)){
+		if ((d.getHour() == 0 && d.getMinute() >= 10)
+				|| (d.getHour() > 0 && d.getHour() < 6)
+				|| (d.getHour() == 6 && d.getMinute() == 0)) {
 			listDawn.add(d);
-		} else if ((d.getHour()==6 && d.getMinute()>=10) || (d.getHour()>6 && d.getHour()<12) || (d.getHour()==12 && d.getMinute()==0)){
+			
+		} else if ((d.getHour() == 6 && d.getMinute() >= 10)
+				|| (d.getHour() > 6 && d.getHour() < 12)
+				|| (d.getHour() == 12 && d.getMinute() == 0)) {
 			listMorning.add(d);
-		} else if ((d.getHour()==12 && d.getMinute()>=10) || (d.getHour()>12 && d.getHour()<18) || (d.getHour()==18 && d.getMinute()==0)){
+			
+		} else if ((d.getHour() == 12 && d.getMinute() >= 10)
+				|| (d.getHour() > 12 && d.getHour() < 18)
+				|| (d.getHour() == 18 && d.getMinute() == 0)) {
 			listAfternoon.add(d);
+			
 		} else {
 			listNight.add(d);
 		}
@@ -68,10 +81,9 @@ public class WeatherDay {
 		size++;
 	}
 
-
 	/**
-	 * After all the data of the day have been added, then 
-	 * must have processing of the measurements of the day.
+	 * After all the data of the day have been added, then must have processing
+	 * of the measurements of the day.
 	 */
 	public void processMeasurements(){
 		dawn = new DayPeriod(listDawn);
@@ -79,48 +91,58 @@ public class WeatherDay {
 		afternoon = new DayPeriod(listAfternoon);
 		night = new DayPeriod(listNight);
 
-		double highTemp=0.0, humidityHTemp=0.0;
-		for(DayPeriod d : getDayPeriods())
-		{
-			if(d.getHighTemp()>highTemp)
-			{
+		double highTemp = 0.0, humidityHTemp = 0.0;
+		for (DayPeriod d : getDayPeriods()) {
+			if (d.getHighTemp() > highTemp) {
 				highTemp = d.getHighTemp();
 				humidityHTemp = d.getHumidityHighTemp();
 			}
 		}
-		this.heatIndex = (new HeatIndex(highTemp, humidityHTemp)).getIndex();
-
+		this.heatIndex = (new HeatIndex(highTemp, humidityHTemp)).getIndexInCelsius();
 	}
 
 	/**
 	 * Checks if two dates are equals
 	 * 
 	 * @param year
+	 *            the year of the WeatherDay object
 	 * @param month
+	 *            the month of the WeatherDay object
 	 * @param day
-	 * @return if the year, month and day are equals to this day.
+	 *            the day of the WeatherDay object
+	 * @return true if the year, month and day are equals to this day, false
+	 *         otherwise
 	 */
-	public boolean equals(int year, int month, int day){
+	public boolean equals(int year, int month, int day) {
 		return (this.day == day && this.month == month && this.year == year);
 	}
-	
+
 	/**
-	 * Checks if a date belongs to the same WeatherDay
-	 * @param year 
+	 * Checks if a dataLine object belongs to the same WeatherDay instance
+	 * 
+	 * @param year
+	 *            year of a DataLine object
 	 * @param month
+	 *            month of a DataLine object
 	 * @param day
+	 *            day of a DataLine object
 	 * @param hour
+	 *            hour of a DataLine object
 	 * @param minute
-	 * @return if the date and time (hour and minute) belongs to this WeatherDay
+	 *            minute of a DataLine object
+	 * @return true if the date and time (hour and minute) belongs to this
+	 *         WeatherDay, false otherwise
 	 */
-	public boolean isSameWeatherDay(int year, int month, int day, int hour, int minute) {
-		return ( this.equals(year, month, day) || (this.equals(year, month, day-1) && hour == 0 && minute == 0) ); 
+	public boolean isSameWeatherDay(int year, int month, int day, int hour,
+			int minute) {
+		return (this.equals(year, month, day) || (this.equals(year, month,
+				day - 1) && hour == 0 && minute == 0));
 	}
 
 	/**
 	 * Prints the current day in the format year, month and day
 	 */
-	public String toString(){
+	public String toString() {
 		return this.year + "-" + this.month + "-" + this.day;
 	}
 
@@ -162,6 +184,7 @@ public class WeatherDay {
 
 	/**
 	 * Returns year
+	 * 
 	 * @return an integer that contains the year of this day
 	 */
 	public int getYear() {
@@ -179,6 +202,7 @@ public class WeatherDay {
 
 	/**
 	 * returns day
+	 * 
 	 * @return a integer that contains the day of this meteorological day
 	 */
 	public int getDay() {
@@ -190,7 +214,7 @@ public class WeatherDay {
 	 * 
 	 * @return list containing the four day periods
 	 */
-	public List<DayPeriod> getDayPeriods(){
+	public List<DayPeriod> getDayPeriods() {
 		List<DayPeriod> d = new ArrayList<DayPeriod>();
 		d.add(dawn);
 		d.add(morning);
@@ -201,16 +225,18 @@ public class WeatherDay {
 	}
 
 	/**
-	 * Returns the number of measurements used to compose the data of this meteorological day.
+	 * Returns the number of measurements used to compose the data of this
+	 * meteorological day.
 	 * 
 	 * @return an integer containing the number of measurements of the day
 	 */
 	public int getSize() {
 		return size;
 	}
-	
+
 	/**
 	 * Returns the heat index of this day
+	 * 
 	 * @return a double containing the heat index of this meteorological day.
 	 */
 	public double getHeatIndex() {

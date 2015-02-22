@@ -12,22 +12,23 @@ import model.util.DateUtil;
 /**
  * It's the means to access the weather report
  * 
- * @author Elloa
+ * @author Elloa B. Guedes
  *
  */
 public class Controller {
 
 	private static Controller instance;
-	private WeatherDayFacade wdInterface;
+	private WeatherDayFacade wdFacade;
 	private BufferedImage[] periodFigures;
 
 	/**
+	 * Controller class constructor
 	 * 
 	 * @throws IOException
 	 *             if the file can't be accessed or doesn't exist
 	 */
 	private Controller() throws IOException {
-		wdInterface = new WeatherDayFacade();
+		wdFacade = new WeatherDayFacade();
 	}
 
 	/**
@@ -35,6 +36,8 @@ public class Controller {
 	 * 
 	 * @return the Controller instance reference
 	 * @throws IOException
+	 *             if the class constructor can't create a WeatherDayFacade
+	 *             instance
 	 */
 	public static Controller getInstance() throws IOException {
 		if (instance == null) {
@@ -44,57 +47,63 @@ public class Controller {
 	}
 	
 	/**
-	 * gets the actual period figures 
-	 * @return the period figures (os one day)
+	 * gets the actual period figures
+	 * 
+	 * @return the period figures (of one day)
 	 */
 	public BufferedImage[] getPeriodFigures() {
 		return periodFigures;
 	}
 
 	/**
-	 * Communicates with WeatherDay instance and computes all days
+	 * Communicates with WeatherDay Facade instance to computes all days
 	 */
 	public void computeWeatherDay() {
-		wdInterface.readAllDays();
-		wdInterface.saveDays();
+		wdFacade.readAllDays();
+		wdFacade.saveDays();
 	}
 
 	/**
-	 * Communicates with WeatherDay instance and computes only a day
+	 * Communicates with WeatherDay Facade instance to computes only a day
 	 * 
 	 * @param day
 	 *            the day to be processed
+	 * @return true if the day was computed, false otherwise
 	 */
 	public boolean computeWeatherDay(String day) {
-		if(wdInterface.readADay(day)) {
-			wdInterface.saveDays();
+		if(wdFacade.readADay(day)) {
+			wdFacade.saveDays();
 			return true;
 		}
-		wdInterface.clearDays();
+		wdFacade.clearDays();
 		return false;
 	}
 
 	/**
-	 * Communicates with WeatherDay instance and computes a range of days
+	 * Communicates with WeatherDay Facade instance to computes a range of days
 	 * 
 	 * @param initialDay
 	 *            the day to begins the processing
 	 * @param finalDay
 	 *            the day to finalize the processing
+	 * @return true if the range of days were computed, false otherwise
 	 */
 	public boolean computeWeatherDay(String initialDay, String finalDay) {
-		if(wdInterface.readRangeDays(initialDay, finalDay)) {
-			wdInterface.saveDays();
+		if(wdFacade.readRangeDays(initialDay, finalDay)) {
+			wdFacade.saveDays();
 			return true;
 		}
-		wdInterface.clearDays();
+		wdFacade.clearDays();
 		return false;
 	}
 	
 	/**
 	 * Validates a range of dates
+	 * 
 	 * @param firstDate
+	 *            initial date
 	 * @param lastDate
+	 *            final date
 	 * @return true if the date are chronological
 	 */
 	public boolean validateDate(String firstDate, String lastDate) {
@@ -105,22 +114,25 @@ public class Controller {
 	 * Clear the reference to processed data in memory
 	 */
 	public void clear() {
-		wdInterface.clearDays();
+		wdFacade.clearDays();
 		periodFigures = null;
 	}
 	
 	/**
-	 * gets the images of a period.
+	 * generate the images of a period and returns them.
+	 * 
 	 * @return a vector which contains the figures
 	 */
 	public BufferedImage[] getImages() {
-		periodFigures = wdInterface.generatePeriodFigures();
+		periodFigures = wdFacade.generatePeriodFigures();
 		return periodFigures;
 	}
 	
 	/**
 	 * storage the figures
-	 * @param saveFile reference to save the figures (chosen by the user)
+	 * 
+	 * @param saveFile
+	 *            reference to save the figures (chosen by the user)
 	 * @return a boolean indicating the result
 	 */
 	public boolean saveFigures(File saveFile) {
@@ -143,9 +155,10 @@ public class Controller {
 	
 	/**
 	 * Indicates if there are still period figures to be generated
+	 * 
 	 * @return a boolean as an answer
 	 */
 	public boolean hasPeriodFiguresToGenerate() {
-		return wdInterface.getFigureGenerator().hasFiguresToGenerate();
+		return wdFacade.getFigureGenerator().hasFiguresToGenerate();
 	}
 }

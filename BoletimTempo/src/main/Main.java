@@ -4,11 +4,14 @@ import java.awt.EventQueue;
 
 import view.WorkWindow;
 
+/**
+ * It's the class which starts the software execution
+ * 
+ * @author Patrick M Lima
+ *
+ */
 public class Main{
-
-	/**
-	 * Launch the application.
-	 */
+	//lauchs the application
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

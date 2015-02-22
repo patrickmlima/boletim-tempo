@@ -3,12 +3,11 @@ package model.process;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
- * It's equivalent to a day period and their measurements.
- * Made from a set of DataLine in which are extracted and
- * processed the metrics of interest  
- * @author Elloa
+ * It's equivalent to a day period and their measurements. Made from a set of
+ * DataLine in which are extracted and processed the metrics of interest
+ * 
+ * @author Elloá B. Guedes
  *
  */
 public class DayPeriod {
@@ -21,19 +20,18 @@ public class DayPeriod {
 	private double maxSpeed;
 	private double maxDirect;
 	private double acumRain = 0.0;
-	
-	private double humidityHighTemp = 0.0;
 
+	private double humidityHighTemp = 0.0;
 
 	/**
 	 * Creates a DayPeriod and processes its metrics
 	 * 
-	 * @param data a List which contains DataLine objects
+	 * @param data
+	 *            a List which contains DataLine objects
 	 */
-	public DayPeriod(List<DataLine> data){
-
+	public DayPeriod(List<DataLine> data) {
 		size = data.size();
-		if (!data.isEmpty()){
+		if (!data.isEmpty()) {
 
 			highTemp = data.get(0).getTemperature();
 			lowTemp = data.get(0).getTemperature();
@@ -44,25 +42,25 @@ public class DayPeriod {
 
 			Iterator<DataLine> it = data.iterator();
 
-			while (it.hasNext()){
+			while (it.hasNext()) {
 
 				DataLine d = it.next();
 
-				//update Max Temperature
+				// update Max Temperature
 				if (d.getTemperature() > highTemp) {
 					highTemp = d.getTemperature();
 					humidityHighTemp = d.getHumidity();
-				}else if (d.getTemperature() < lowTemp) {
+				} else if (d.getTemperature() < lowTemp) {
 					lowTemp = d.getTemperature();
 				}
 
-				if (d.getHumidity() > highHumid){
+				if (d.getHumidity() > highHumid) {
 					highHumid = d.getHumidity();
-				}else if (d.getHumidity() < lowHumid){
+				} else if (d.getHumidity() < lowHumid) {
 					lowHumid = d.getHumidity();
 				}
 
-				if (d.getSpeed() > maxSpeed){
+				if (d.getSpeed() > maxSpeed) {
 					maxSpeed = d.getSpeed();
 					maxDirect = d.getDirection();
 				}
@@ -73,17 +71,13 @@ public class DayPeriod {
 			}
 			avgPressure /= size;
 		}	
-
-
 	}
 
-
-
 	/**
-	 * Returns the number of measurements passed through
-	 * parameter for this day period
+	 * Returns the number of measurements passed through parameter for this day
+	 * period
 	 * 
-	 * @return the number of measurements from this day period 
+	 * @return the number of measurements from this day period
 	 */
 	public int getSize() {
 		return size;
@@ -121,7 +115,7 @@ public class DayPeriod {
 		return acumRain;
 	}
 
-	public double getHumidityHighTemp(){
+	public double getHumidityHighTemp() {
 		return humidityHighTemp;
 	}
 }

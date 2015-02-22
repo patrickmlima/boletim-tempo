@@ -12,16 +12,18 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 
-import model.actionlistener.ProcessDataBtnHandler;
-import model.actionlistener.DaysRadioBtnListener;
-
 import com.toedter.calendar.JDateChooser;
+
 import javax.swing.SwingConstants;
+
+import view.actionlistener.DaysRadioBtnListener;
+import view.actionlistener.ProcessDataBtnHandler;
+
 import java.awt.FlowLayout;
 
 /**
- * Class which brings together all necessary elements to process
- * the data file 
+ * Class which brings together all necessary elements to process the data file
+ * 
  * @author Patrick M Lima
  *
  */
@@ -30,7 +32,7 @@ public class ProcessDataView extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JRadioButton rdbtnAllDays;
 	private JRadioButton rdbtnADay;
@@ -41,54 +43,84 @@ public class ProcessDataView extends JPanel {
 	private JLabel lblSelect1;
 	private JLabel lblSelect2;
 	private JLabel lblA;
-	
+
+	/**
+	 * Returns the selected state of 'Todos os dias' radio button
+	 * 
+	 * @return true if the radio button is selected, false otherwise
+	 */
 	public boolean isAllDaysSelected() {
 		return rdbtnAllDays.isSelected();
 	}
-	
+
+	/**
+	 * Returns the selected state of 'Único dia' radio button
+	 * 
+	 * @return true if the radio button is selected, false otherwise
+	 */
 	public boolean isADaySelected() {
 		return rdbtnADay.isSelected();
 	}
-	
+
+	/**
+	 * Returns the selected state of 'Intervalo de dias' radio button
+	 * 
+	 * @return true if the radio button is selected, false otherwise
+	 */
 	public boolean isRangeDaysSelected() {
 		return rdbtnRangeDays.isSelected();
 	}
-	
+
+	/**
+	 * Gets the JDateChooser of one day option
+	 * 
+	 * @return JDateChooser of one day option
+	 */
 	public JDateChooser getDateChooserADay() {
 		return dateChooserADay;
 	}
-	
+
+	/**
+	 * Gets the JDateChooser of the first day from the range of days option
+	 * 
+	 * @return JDateChooser of the first day (range of days option)
+	 */
 	public JDateChooser getDateChooserFirstDay() {
 		return dateChooserFirstDay;
 	}
-	
+
+	/**
+	 * Gets the JDateChooser of the last day from the range of days option
+	 * 
+	 * @return JDateChooser of the last day (range of days option)
+	 */
 	public JDateChooser getDateChooserLastDay() {
 		return dateChooserLastDay;
 	}
-	
+
 	public JLabel getLabelSelect1() {
 		return lblSelect1;
 	}
-	
+
 	public JLabel getLabelSelect2() {
 		return lblSelect2;
 	}
-	
+
 	public JLabel getLabelA() {
 		return lblA;
 	}
-	
+
 	/**
 	 * Create the panel.
 	 */
 	public ProcessDataView() {
 		initialize();
 	}
-	
+
 	/**
 	 * Initializes the components
 	 */
-	public void initialize() {		
+	public void initialize() {
 		//Cria os labels com a mensagem inicial
 		JLabel lblSelecioneUmaOpo = new JLabel("Selecione uma op\u00E7\u00E3o para processamento dos");
 		lblSelecioneUmaOpo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -228,4 +260,3 @@ public class ProcessDataView extends JPanel {
 		setLayout(groupLayout);
 	}
 }
-

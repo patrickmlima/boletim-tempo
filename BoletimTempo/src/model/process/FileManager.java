@@ -5,19 +5,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * model.FileManager
- * Creation date: 10/11/2014
- * @author Elloá B. Guedes
+ * Class which returns a BufferedReader object associated with the file which
+ * contains the data that will be processed
  * 
- * Class which returns a BufferedReader object associated with
- * the file which contains the data that will be processed 
+ * @author Elloá B. Guedes
  */
 public class FileManager {
 
 	private int linesToSkip = 3;
 	private BufferedReader br;
 
-	public FileManager() throws IOException{
+	public FileManager() throws IOException {
 		br = new BufferedReader(
 				new InputStreamReader(
 						ClassLoader
@@ -25,49 +23,51 @@ public class FileManager {
 		skipLines();
 	}
 
-	public BufferedReader getFile(){
+	public BufferedReader getFile() {
 		return br;
 	}
 
-
 	/**
-	 * The number of lines to skip in the baixa1 file before the data, regarding the file header.
+	 * The number of lines to skip in the baixa1 file before the data, regarding
+	 * the file header.
 	 * 
 	 * @throws IOException
 	 */
-	private void skipLines() throws IOException{
-		for (int i = 0; i<= linesToSkip; i++){
+	private void skipLines() throws IOException {
+		for (int i = 0; i <= linesToSkip; i++) {
 			br.readLine();
+		}
+	}
+
+	/**
+	 * Checks if there are still available lines in the file yet
+	 * 
+	 * @return true if there are still lines
+	 */
+	public boolean hasNextLine() {
+
+		try {
+			br.mark(1);
+			if (br.read() < 0) {
+				return false;
+			}
+			return true;
+		} catch (IOException e) {
+			return false;
 		}
 	}
 	
 	/**
-	 * Checks if there are still available lines in the file yet
+	 * Takes the next file line
 	 * 
-	 * @return true, se ainda há linhas no arquivo
-	 */
-	public boolean hasNextLine() {
-		
-        try {
-            br.mark(1);
-            if (br.read() < 0) {
-                return false;
-            }
-            return true;
-        } catch (IOException e) {
-        	return false;
-          }
-    }
-	
-	/**
-	 * Takes the next file line, if there
 	 * @return a file line
+	 * @return null if there are no lines to read in the file
 	 */
 	public String nextLine() {
-        try {
-            return br.readLine();
-        } catch (IOException e) {
-            return null;
-        }
-    }
+		try {
+			return br.readLine();
+		} catch (IOException e) {
+			return null;
+		}
+	}
 }

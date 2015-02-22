@@ -17,10 +17,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Classe que recebe um conjunto de dias meteorologicos e faz a
- * serializacao em um arquivo xml.
+ * Class which receive a set of meteorological days and make the serialization
+ * in a XML file
  * 
- * @author Elloa
+ * @author Elloá B. Guedes
  *
  */
 public class SerializeWeatherDay {
@@ -29,22 +29,26 @@ public class SerializeWeatherDay {
 	private String fileName;
 
 	/**
-	 * Constroi um arquivo a partir de um conjunto de dias meteorologicos passados como parametro
+	 * Makes a file from a set of meteorological days passed by parameter
 	 * 
 	 * @param list
+	 *            list of WeatherDay objects which are going to be saved
+	 * @param fileName
+	 *            the name of the temporary file (date of the day processed)
 	 */
-	public SerializeWeatherDay(List<WeatherDay> list, String fileName){
+	public SerializeWeatherDay(List<WeatherDay> list, String fileName) {
 		this.days = list;
 		this.fileName = fileName;
 	}
 
 	/**
-	 * Processa e escreve os dados sobre os dias meteorológicos em
-	 * um arquivo
+	 * Process and writes the data about the meteorological days in a temporary
+	 * file
 	 * 
-	 * @throws Throwable se houver problemas na escrita do arquivo.
+	 * @throws Throwable
+	 *             if there are problems in the file writing
 	 */
-	public void writeDaybyDay() throws Throwable{
+	public void writeDaybyDay() throws Throwable {
 		DocumentBuilderFactory dayBuilder = DocumentBuilderFactory
 				.newInstance();
 		dayBuilder.setNamespaceAware(true);
@@ -146,5 +150,4 @@ public class SerializeWeatherDay {
 		transformer.transform(new DOMSource(doc), new StreamResult(outputFile));
 		Util.weatherDataFile = outputFile;
 	}
-	
 }

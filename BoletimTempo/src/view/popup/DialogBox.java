@@ -1,36 +1,57 @@
 package view.popup;
 
 import java.awt.Component;
-import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
 
 import model.util.ImageUtil;
 
+/**
+ * Class which shows the dialog boxes used in the application
+ * 
+ * @author Patrick M Lima
+ *
+ */
 public class DialogBox {
 	public DialogBox() {
+		
 	}
 	
+	/**
+	 * Initializes and show the dialog box
+	 * 
+	 * @param title
+	 *            the title to be shown in the dialog window
+	 * @param text
+	 *            the message to be shown in the dialog window
+	 * @param parent
+	 *            the parent component
+	 * @param type
+	 *            type of the message which can be either OK, information,
+	 *            incorrect, error
+	 */
 	public void initialize(String title, String text, Component parent, String type) {		
-		Font fontPopup = new Font("Cambria Math", Font.PLAIN, 18);
-		UIManager.put("OptionPane.messageFont", new FontUIResource(fontPopup));
-		UIManager.put("OptionPane.buttonFont", new FontUIResource(fontPopup));
 		if(type.equals("OK")) {
 			JOptionPane.setDefaultLocale(null);
 			JOptionPane.showMessageDialog(parent, text, title, JOptionPane.PLAIN_MESSAGE, 
 					ImageUtil.resize(50, 50, new ImageIcon(ClassLoader.getSystemResource("resources/img/ok-icon.png")).getImage()));
-		}else if(type.equals("information")) {
+		} else if (type.equals("information")) {
 			JOptionPane.setDefaultLocale(null);
-			JOptionPane.showMessageDialog(parent, text, title, JOptionPane.INFORMATION_MESSAGE);
-		} else if(type.equals("incorrect")) {
+			JOptionPane.showMessageDialog(parent, text, title,
+					JOptionPane.INFORMATION_MESSAGE);
+		} else if (type.equals("incorrect")) {
 			JOptionPane.setDefaultLocale(null);
-			JOptionPane.showMessageDialog(parent, text, title, JOptionPane.WARNING_MESSAGE);
-		} else if(type.equals("error")) {
+			JOptionPane.showMessageDialog(parent, text, title,
+					JOptionPane.WARNING_MESSAGE);
+		} else if (type.equals("error")) {
 			JOptionPane.setDefaultLocale(null);
-			JOptionPane.showMessageDialog(parent, text, title, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parent, text, title,
+					JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.setDefaultLocale(null);
+			JOptionPane.showMessageDialog(parent, text, title,
+					JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 }
