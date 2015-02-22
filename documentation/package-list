@@ -1,8 +1,8 @@
 controller
 main
-model.actionlistener
-model.componentchangelistener
 model.process
 model.util
 view
+view.actionlistener
+view.componentchangelistener
 view.popup
