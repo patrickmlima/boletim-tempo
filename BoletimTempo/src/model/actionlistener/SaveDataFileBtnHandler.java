@@ -42,8 +42,8 @@ public class SaveDataFileBtnHandler implements ActionListener{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent action) {
-		title = "Arquivo não pôde ser salvo";
-		msg = "Verifique se você inseriu um nome ou diretório válido e tente novamente.";
+		title = "Arquivo n\u00E3o p\u00F4de ser salvo";
+		msg = "Verifique se você inseriu um nome ou diret\u00F3rio v\u00E1lido e tente novamente.";
 		//Pega a instância de WeatherDayView 
 		WeatherDayView wdView = (WeatherDayView) ((JButton) action.getSource()).getParent();
 		
@@ -162,8 +162,8 @@ public class SaveDataFileBtnHandler implements ActionListener{
 	private boolean chooseReplaceFile(File file) {
 		if (file.exists()) {
 			int result = JOptionPane.showConfirmDialog(null,
-					"O arquivo com o nome selecionado já existe\n"
-							+ "Deseja sobrescrever-lo?", "Aviso",
+					"O arquivo com o nome selecionado j\u00E1 existe\n"
+							+ "Deseja sobrescrev\u00EA-lo?", "Aviso",
 					JOptionPane.OK_OPTION, JOptionPane.CANCEL_OPTION);
 			if (result == JOptionPane.NO_OPTION) {
 				title = null;

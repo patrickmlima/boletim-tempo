@@ -86,7 +86,7 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 		NodeList childs;
 		NodeList data;
 		NodeList periods;
-		String[] periodNames = { "Madrugada", "Manhã", "Tarde", "Noite" };
+		String[] periodNames = { "Madrugada", "Manh\u00E3", "Tarde", "Noite" };
 		int k;
 
 		Font fontNormal = new Font("Cambria", Font.PLAIN, 18);
@@ -102,7 +102,7 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 					+ data.item(1).getTextContent());
 			tArea.append("\n");
 
-			tArea.append("Índice de calor: ");
+			tArea.append("\u00CDndice de calor: ");
 			tArea.append(childs.item(11).getTextContent() + " °C\n");
 			;
 			tArea.append("Turnos:\n");
@@ -112,21 +112,21 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 				periods = childs.item(j).getChildNodes();
 
 				tArea.append("    " + periodNames[k] + "\n");
-				tArea.append("        Pressão Média: "
+				tArea.append("        Press\u00E3o M\u00E9dia: "
 						+ periods.item(1).getTextContent() + " hPa\n");
-				tArea.append("        Temperatura Mínima: "
+				tArea.append("        Temperatura M\u00EDnima: "
 						+ periods.item(3).getTextContent() + " °C\n");
-				tArea.append("        Temperatura Máxima: "
+				tArea.append("        Temperatura M\u00E1xima: "
 						+ periods.item(5).getTextContent() + " °C\n");
-				tArea.append("        Umidade mínima: "
+				tArea.append("        Umidade m\u00EDnima: "
 						+ periods.item(7).getTextContent() + " %\n");
-				tArea.append("        Umidade Máxima: "
+				tArea.append("        Umidade M\u00E1xima: "
 						+ periods.item(9).getTextContent() + " %\n");
-				tArea.append("        Velocidade Máxima do vento: "
+				tArea.append("        Velocidade M\u00E1xima do vento: "
 						+ periods.item(11).getTextContent()
-						+ " m/s - Direção: "
+						+ " m/s - Dire\u00E7\u00E3o: "
 						+ periods.item(13).getTextContent() + " °\n");
-				tArea.append("        Precipitação acumulada: "
+				tArea.append("        Precipita\u00E7\u00E3o acumulada: "
 						+ periods.item(15).getTextContent() + " mm\n");
 				tArea.append("\n");
 				k++;

@@ -35,8 +35,8 @@ public class ShowFigureBtnsHandler implements ActionListener {
 		if (!hasPeriodFigures()) {
 			(new DialogBox())
 					.initialize(
-							"Você gerou todas as figuras",
-							"Retorne à primeira aba para processar mais dados\n ou finalize a aplicação.",
+							"Voc\u00EA gerou todas as figuras",
+							"Retorne \u00E0 primeira aba para processar mais dados\n ou finalize a aplicaç\u00E3o.",
 							pfView, "information");
 			//muda o status da aplicação
 			WorkWindow.getInstance().setStatus(
@@ -91,7 +91,7 @@ public class ShowFigureBtnsHandler implements ActionListener {
 					(new DialogBox())
 							.initialize(
 									"ERRO",
-									"Figuras não puderam ser salvas.\nVerifique se você inseriu um nome\nou diretório válido.",
+									"Figuras n\u00E3o puderam ser salvas.\nVerifique se voc\u00EA inseriu um nome\nou diret\u00F3rio v\u00E1lido.",
 									pfView, "error");
 				}
 				WorkWindow.getInstance().setClosable();
@@ -104,10 +104,10 @@ public class ShowFigureBtnsHandler implements ActionListener {
 			int result = JOptionPane
 					.showConfirmDialog(
 							null,
-							"Descartando essas imagens não será possível salvá-las novamente\n "
+							"Descartando essas imagens n\u00E3o ser\u00E1 poss\u00EDvel salv\u00E1-las novamente\n "
 							+ "a menos que um novo processamento deste dia seja feito.\n"
 									+ "Deseja mesmo descartar as imagens?",
-							"Atenção", JOptionPane.OK_OPTION,
+							"Aten\u00E7\u00E3o", JOptionPane.OK_OPTION,
 							JOptionPane.CANCEL_OPTION);
 			//se o usuário desejar descartar
 			if(result == JOptionPane.OK_OPTION) {

@@ -31,7 +31,7 @@ public class ProcessDataBtnHandler implements ActionListener {
 		try {
 			controller = Controller.getInstance();
 		} catch (IOException | NullPointerException e) {
-			(new DialogBox()).initialize("Erro", "Não foi possível encontrar o arquivo de dados", null, "error");
+			(new DialogBox()).initialize("Erro", "N\u00E3o foi poss\u00EDvel encontrar o arquivo de dados", null, "error");
 			return;
 		}
 		
@@ -83,8 +83,8 @@ public class ProcessDataBtnHandler implements ActionListener {
 			//senão, exibe uma mensagem informando que o dia não foi processado
 			else {
 				WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
-				(new DialogBox()).initialize("Processamento não realizado",
-						"O dia não é válido ou ainda\n não foi salvo no arquivo de dados.",
+				(new DialogBox()).initialize("Processamento n\u00E3o realizado",
+						"O dia n\u00E3o \u00E9 v\u00E1lido ou ainda\n n\u00E3o foi salvo no arquivo de dados.",
 						processDataView, "error");
 			}
 			workWindow.setClosable();
@@ -117,28 +117,28 @@ public class ProcessDataBtnHandler implements ActionListener {
 				//senão, exibe uma mesagem informando o não processamento
 				else {
 					WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
-					(new DialogBox()).initialize("Processamento não realizado",
-							"O dia não é válido ou ainda\n não foi salvo no arquivo de dados.",
+					(new DialogBox()).initialize("Processamento n\u00E3o realizado",
+							"O dia n\u00E3o \u00E9 v\u00E1lido ou ainda\n n\u00E3o foi salvo no arquivo de dados.",
 							processDataView, "error");
 				}
 				workWindow.setClosable();
 
 				//se as datas não são cronológicas exibe uma mensagem informando o fato
 			} else {
-				(new DialogBox()).initialize("Processamento não realizado",
-						"As datas precisam estar em\n ordem cronológica.",
+				(new DialogBox()).initialize("Processamento n\u00E3o realizado",
+						"As datas precisam estar em\n ordem cronol\u00F3gica.",
 						processDataView, "incorrect");
 			}
 			break;
 
 		case NO_DATE_SELECTED:
-			(new DialogBox()).initialize("Processamento não realizado",
+			(new DialogBox()).initialize("Processamento n\u00E3o realizado",
 					"Selecione a(s) data(s) para iniciar o processamento",
 					processDataView, "incorrect");
 			break;
 
 		case NO_OPTIONS_SELECTED:
-			(new DialogBox()).initialize("Por favor", "Selecione uma opção para iniciar o processamento", processDataView, "information");
+			(new DialogBox()).initialize("Por favor", "Selecione uma op\u00E7\u00E3o para iniciar o processamento", processDataView, "information");
 			break;
 		}
 	}		

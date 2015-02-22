@@ -68,7 +68,7 @@ public class PeriodFigureView extends JPanel {
 		
 		//Cria o JButton 'Descartar'
 		JButton btnRuleOut = new JButton("Descartar");
-		btnRuleOut.setToolTipText("Clique aqui para descartar a figura exibida");
+		btnRuleOut.setToolTipText("Clique aqui para descartar as figuras exibidas");
 		btnRuleOut.setFont(new Font("Cambria Math", Font.PLAIN, 18));
 		
 		//Cria e adiciona o listener
@@ -130,8 +130,8 @@ public class PeriodFigureView extends JPanel {
 					ApplicationStatus.PERIOD_FIGURES_SAVED);
 			(new DialogBox())
 					.initialize(
-							"Concluído",
-							"Todas as imagens foram geradas.\nRetorne à primeira aba para processar mais dados\nou finalize a aplicação",
+							"Conclu\u00EDdo",
+							"Todas as imagens foram geradas.\nRetorne \u00E0 primeira aba para processar mais dados\nou finalize a aplica\u00E7\u00E3o",
 							this, "OK");
 		}
 		revalidate();
