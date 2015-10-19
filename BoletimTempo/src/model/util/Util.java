@@ -15,6 +15,8 @@ public class Util {
 	 */
 	public static File weatherDataFile;
 
+	public static String pathBaixa1;
+	public static String pathBaixa2;
 	/**
 	 * Method to ranks a period
 	 * 

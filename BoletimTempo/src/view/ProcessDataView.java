@@ -1,5 +1,6 @@
 package view;
 
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.GroupLayout;
@@ -16,10 +17,16 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.SwingConstants;
 
+import model.util.ApplicationStatus;
+import model.util.Util;
 import view.actionlistener.DaysRadioBtnListener;
 import view.actionlistener.ProcessDataBtnHandler;
 
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 /**
  * Class which brings together all necessary elements to process the data file
@@ -79,6 +86,10 @@ public class ProcessDataView extends JPanel {
 	public JDateChooser getDateChooserADay() {
 		return dateChooserADay;
 	}
+	
+	public ButtonGroup getRadioButtonsGroup() {
+		return buttonGroup;
+	}
 
 	/**
 	 * Gets the JDateChooser of the first day from the range of days option
@@ -108,6 +119,18 @@ public class ProcessDataView extends JPanel {
 
 	public JLabel getLabelA() {
 		return lblA;
+	}
+	
+	public JRadioButton getRadioButtonAllDays() {
+		return rdbtnAllDays;
+	}
+	
+	public JRadioButton getRadioButtonADay() {
+		return rdbtnADay;
+	}
+	
+	public JRadioButton getRadioButtonRangeDays() {
+		return rdbtnRangeDays;
 	}
 
 	/**
@@ -186,16 +209,33 @@ public class ProcessDataView extends JPanel {
 		
 		//cria um panel para "abrigar" o botão 'Processar' (usando flow layout para garantir a centralização)
 		JPanel panel = new JPanel();
+		
+		SelectFileButtonHandler selectFileHandler = new SelectFileButtonHandler();
+		
+		JButton btnSelectBaixa1 = new JButton("Selecionar Baixa1");
+		btnSelectBaixa1.addActionListener(selectFileHandler);
+		btnSelectBaixa1.setToolTipText("Clique aqui para selecionar o arquivo Baixa1.");
+		btnSelectBaixa1.setFont(new Font("Cambria Math", Font.PLAIN, 16));
+		
+		JButton btnSelectBaixa2 = new JButton("Selecionar Baixa2");
+		btnSelectBaixa2.addActionListener(selectFileHandler);
+		btnSelectBaixa2.setToolTipText("Clique aqui para selecionar o arquivo Baixa2.");
+		btnSelectBaixa2.setFont(new Font("Cambria Math", Font.PLAIN, 16));
 
 		//Cria o layout e adiciona os componentes
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(lblSelecioneUmaOpo, GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
-				.addComponent(lblDiasMeteorolgicos, GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+				.addComponent(lblSelecioneUmaOpo, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+				.addComponent(lblDiasMeteorolgicos, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(37)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnSelectBaixa2)
+						.addComponent(btnSelectBaixa1)
 						.addComponent(rdbtnADay)
 						.addComponent(rdbtnAllDays, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
@@ -213,10 +253,7 @@ public class ProcessDataView extends JPanel {
 							.addComponent(lblA)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(dateChooserLastDay, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(85, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE))
+					.addContainerGap(224, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -243,7 +280,11 @@ public class ProcessDataView extends JPanel {
 								.addComponent(dateChooserFirstDay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(lblA)
 						.addComponent(dateChooserLastDay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btnSelectBaixa1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnSelectBaixa2)
+					.addPreferredGap(ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
@@ -258,5 +299,61 @@ public class ProcessDataView extends JPanel {
 		panel.add(btnProcess);
 		
 		setLayout(groupLayout);
+		addComponentListener(new TabComponentHandler());
+	}
+}
+
+class SelectFileButtonHandler implements ActionListener {
+	public SelectFileButtonHandler() {
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent source) {
+		JFileChooser fc = new JFileChooser();
+		int r = fc.showOpenDialog(WorkWindow.getInstance().getFrame());
+		
+		if(r == JFileChooser.APPROVE_OPTION) {
+			JButton btn = (JButton)source.getSource();
+			String path = fc.getSelectedFile().getAbsolutePath();
+			if(btn.getText().equals("Selecionar Baixa1"))
+				Util.pathBaixa1 = path;
+			else
+				Util.pathBaixa2 = path;
+		}
+		
+	}
+}
+
+class TabComponentHandler implements ComponentListener {
+	@Override
+	public void componentShown(ComponentEvent source) {
+		ProcessDataView pdv  = (ProcessDataView) source.getSource();
+		if((WorkWindow.getInstance().getApplicationStatus() == ApplicationStatus.PERIOD_FIGURES_SAVED)
+				&& (pdv.getRadioButtonsGroup().getSelection() != null) ){
+			if(pdv.isADaySelected()) {
+				pdv.getDateChooserADay().setDate(null);
+				pdv.getDateChooserADay().setEnabled(false);
+			}
+			else if(pdv.isRangeDaysSelected()) {
+				pdv.getDateChooserFirstDay().setDate(null);
+				pdv.getDateChooserFirstDay().setEnabled(false);
+				pdv.getDateChooserLastDay().setDate(null);
+				pdv.getDateChooserLastDay().setEnabled(false);
+			}
+			pdv.getRadioButtonsGroup().clearSelection();
+		}
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent arg0) {	
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent arg0) {
+	}
+
+	@Override
+	public void componentResized(ComponentEvent arg0) {
+		
 	}
 }

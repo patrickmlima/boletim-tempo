@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.JButton;
 
 import model.util.ApplicationStatus;
+import model.util.Util;
 import view.ProcessDataView;
 import view.WorkWindow;
 import view.popup.DialogBox;
@@ -27,15 +28,27 @@ public class ProcessDataBtnHandler implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent source) {
+		if(Util.pathBaixa1 == null && Util.pathBaixa2 == null) {
+			(new DialogBox()).initialize("", "Por favor, selecione os arquivos de dados\n para iniciar o processamento", null, "error");
+			return;
+		}
 		Controller controller = null;
 		// pega uma instancia do controller
 		try {
 			controller = Controller.getInstance();
 		} catch (IOException | NullPointerException e) {
+			System.out.println("Erro ao carregar arquivo");
+			e.printStackTrace();
 			(new DialogBox()).initialize("Erro",
 					"N\u00E3o foi poss\u00EDvel encontrar o arquivo de dados",
 					null, "error");
 			return;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			(new DialogBox()).initialize("Erro", 
+					"Os arquivos selecionados n\u00E3o possuem a estrutura\ndos arquivos Baixa1 e Baixa2\n"
+							+ "Selecione os arquivos corretos para continuar", 
+							null, "error");
+			return ;
 		}
 		
 		//Caso o status seja diferente do status 'inicial' da aplicação
@@ -58,13 +71,19 @@ public class ProcessDataBtnHandler implements ActionListener {
 		case ALL_DAY_SELECTED:
 			workWindow.setNotClosable();
 			WorkWindow.getInstance().getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			controller.computeWeatherDay();
-			WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
+			if(controller.computeWeatherDay()) {
+				WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
 
-			(new DialogBox()).initialize("Processamento finalizado",
-					"Todos os dias foram processados\n e salvos com sucesso.",
-					processDataView, "OK");
-			changeToWeatherDayTab();
+				(new DialogBox()).initialize("Processamento finalizado",
+						"Todos os dias foram processados\n e salvos com sucesso.",
+						processDataView, "OK");
+				changeToWeatherDayTab();
+			} else {
+				WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
+				(new DialogBox()).initialize("Processamento n\u00E3o realizado",
+						"Os dados ainda n\u00E3o foram salvos ou h\u00E1\n uma disparidade nos arquivos de dados.",
+						processDataView, "error");
+			}
 			workWindow.setClosable();
 			break;
 
@@ -87,7 +106,7 @@ public class ProcessDataBtnHandler implements ActionListener {
 			else {
 				WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
 				(new DialogBox()).initialize("Processamento n\u00E3o realizado",
-						"O dia n\u00E3o \u00E9 v\u00E1lido ou ainda\n n\u00E3o foi salvo no arquivo de dados.",
+						"O dado ainda n\u00E3o foi salvo ou h\u00E1\n uma disparidade nos arquivos de dados.",
 						processDataView, "error");
 			}
 			workWindow.setClosable();
@@ -121,7 +140,7 @@ public class ProcessDataBtnHandler implements ActionListener {
 				else {
 					WorkWindow.getInstance().getFrame().setCursor(Cursor.getDefaultCursor());
 					(new DialogBox()).initialize("Processamento n\u00E3o realizado",
-							"O dia n\u00E3o \u00E9 v\u00E1lido ou ainda\n n\u00E3o foi salvo no arquivo de dados.",
+							"Os dados ainda n\u00E3o foram salvos ou h\u00E1\n uma disparidade nos arquivos de dados.",
 							processDataView, "error");
 				}
 				workWindow.setClosable();

@@ -10,6 +10,7 @@ import java.awt.Font;
 
 import model.util.ApplicationStatus;
 import model.util.ImageUtil;
+import model.util.Util;
 
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -142,6 +143,7 @@ public class PeriodFigureView extends JPanel {
 							"Todas as imagens foram geradas.\nRetorne \u00E0 primeira aba "
 							+ "para processar mais dados\nou finalize a aplica\u00E7\u00E3o",
 							this, "OK");
+			Util.pathBaixa1 = Util.pathBaixa2 = null;
 		}
 		revalidate();
 		repaint();

@@ -28,7 +28,7 @@ public class DataLine {
 	 * @param s
 	 *            string extracted from baixa1 file
 	 */
-	public DataLine(String s){
+	public DataLine(String s) throws ArrayIndexOutOfBoundsException {
 		String[] lista = s.split(",");
 		timeStamp = lista[0];
 		processDay();
@@ -110,8 +110,8 @@ public class DataLine {
 	}
 
 	public String getDate() {
-		return Integer.toString(getDay()) + "/" + Integer.toString(getMonth())
-				+ "/" + Integer.toString(getYear());
+		return Integer.toString(this.day) + "/" + Integer.toString(this.month)
+				+ "/" + Integer.toString(this.year);
 	}
 
 	public boolean equals(int day, int month, int year) {

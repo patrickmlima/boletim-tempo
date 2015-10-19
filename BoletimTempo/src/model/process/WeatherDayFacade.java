@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import model.util.DateUtil;
+import model.util.Util;
 
 /**
  * It's the interface to WeatherDay class. Through this class it's possible to
@@ -17,15 +18,26 @@ import model.util.DateUtil;
 public class WeatherDayFacade {
 
 	private FileManager fm;
+	private FileManager dfm;
 	private List<WeatherDay> days;
 	private SerializeWeatherDay swd;
 	private PeriodFigure figureGenerator;
 	private String fileName = "default";
 
-	public WeatherDayFacade() throws IOException {
-		fm = new FileManager();
+	public WeatherDayFacade() throws IOException, ArrayIndexOutOfBoundsException {
 		days = new ArrayList<WeatherDay>();
-
+		checkFiles();
+	}
+	
+	private void checkFiles() throws IOException, ArrayIndexOutOfBoundsException {
+		fm = new FileManager(Util.pathBaixa1);
+		dfm = new FileManager(Util.pathBaixa2);
+		if(fm.hasNextLine() && dfm.hasNextLine()) {
+			new DataLine(fm.nextLine());
+			new DailyDataLine(dfm.nextLine());
+		}
+		fm = new FileManager(Util.pathBaixa1);
+		dfm = new FileManager(Util.pathBaixa2);
 	}
 
 	public PeriodFigure getFigureGenerator() {
@@ -35,12 +47,14 @@ public class WeatherDayFacade {
 	/**
 	 * Reads all days within the file and processes their data
 	 */
-	public void readAllDays() {
+	public boolean readAllDays() {
 		fileName = "allDays";
 		while (fm.hasNextLine()) {
-			makeWeatherDays(fm.nextLine());
+			if(!makeWeatherDays(fm.nextLine()) )
+				return false;
 		}
 		process();
+		return true;
 	}
 	
 	/**
@@ -92,7 +106,8 @@ public class WeatherDayFacade {
 		
 		while(fm.hasNextLine()) {
 			line = fm.nextLine();
-			makeWeatherDays(line);
+			if(!makeWeatherDays(line))
+				return false;
 			dline = new DataLine(line);
 			if(dline.equals(dateFinal[0]+1, dateFinal[1], dateFinal[2]) && dline.getHour() == 0 && dline.getMinute() == 0) {
 				break;
@@ -111,9 +126,9 @@ public class WeatherDayFacade {
 	 * Makes the WeatheDays (creates the DataLine objects and separates the turns)
 	 * @param line a string which contains the data.
 	 */
-	public void makeWeatherDays(String line) {
+	public boolean makeWeatherDays(String line) {
 		DataLine dl = new DataLine(line);
-
+		
 		boolean found = false;
 		for (WeatherDay weatherDay : days) {
 			if ( weatherDay.isSameWeatherDay(dl.getYear(), dl.getMonth(), dl.getDay(), dl.getHour(), dl.getMinute()) ) {
@@ -123,10 +138,33 @@ public class WeatherDayFacade {
 		}
 
 		if (!found){
+			String dLine = null;
+			if(dfm.hasNextLine() ) {
+				DailyDataLine ddl;
+				while(dfm.hasNextLine()) {
+					dLine = dfm.nextLine();
+					ddl = new DailyDataLine(dLine);
+					if(ddl.getYear() > dl.getYear())
+						return false;
+					else if(ddl.getYear() == dl.getYear()) {
+						if(ddl.getMonth() > dl.getMonth())
+							return false;
+						else if(ddl.getMonth() == dl.getMonth()) {
+							if(ddl.getDay() > dl.getDay())
+								return false;
+							else if(ddl.getDay() == dl.getDay())
+								break;
+						}
+					}
+				}
+			} else
+				return false;
 			WeatherDay wd = new WeatherDay(dl.getYear(), dl.getMonth(), dl.getDay());
 			wd.addMeasurement(dl);
+			wd.addDailyData(dLine);
 			days.add(wd);
 		}
+		return true;
 	}
 	
 	/**
@@ -169,7 +207,8 @@ public class WeatherDayFacade {
 	public void clearDays() {
 		this.days.clear();
 		try {
-			fm = new FileManager();
+			fm = new FileManager(Util.pathBaixa1);
+			dfm = new FileManager(Util.pathBaixa2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

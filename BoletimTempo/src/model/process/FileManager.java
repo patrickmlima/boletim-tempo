@@ -1,8 +1,8 @@
 package model.process;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  * Class which returns a BufferedReader object associated with the file which
@@ -12,14 +12,17 @@ import java.io.InputStreamReader;
  */
 public class FileManager {
 
-	private int linesToSkip = 3;
+	private int linesToSkip = 4;
 	private BufferedReader br;
 
-	public FileManager() throws IOException {
+	public FileManager(String filePath) throws IOException {
+//		br = new BufferedReader(
+//				new InputStreamReader(
+//						ClassLoader
+//								.getSystemResourceAsStream(filePath)));
 		br = new BufferedReader(
-				new InputStreamReader(
-						ClassLoader
-								.getSystemResourceAsStream("./data/CR3000_Estacao_Baixa1.dat")));
+				new FileReader(filePath));
+		
 		skipLines();
 	}
 
@@ -34,7 +37,7 @@ public class FileManager {
 	 * @throws IOException
 	 */
 	private void skipLines() throws IOException {
-		for (int i = 0; i <= linesToSkip; i++) {
+		for (int i = 0; i < linesToSkip; i++) {
 			br.readLine();
 		}
 	}

@@ -39,7 +39,7 @@ public class Controller {
 	 *             if the class constructor can't create a WeatherDayFacade
 	 *             instance
 	 */
-	public static Controller getInstance() throws IOException {
+	public static Controller getInstance() throws IOException, ArrayIndexOutOfBoundsException {
 		if (instance == null) {
 			instance = new Controller();
 		}
@@ -58,9 +58,13 @@ public class Controller {
 	/**
 	 * Communicates with WeatherDay Facade instance to computes all days
 	 */
-	public void computeWeatherDay() {
-		wdFacade.readAllDays();
-		wdFacade.saveDays();
+	public boolean computeWeatherDay() {
+		if(wdFacade.readAllDays()) {
+			wdFacade.saveDays();
+			return true;
+		}
+		wdFacade.clearDays();
+		return false;
 	}
 
 	/**

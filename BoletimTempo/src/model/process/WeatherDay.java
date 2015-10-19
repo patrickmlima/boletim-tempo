@@ -27,6 +27,8 @@ public class WeatherDay {
 	private List<DataLine> listMorning;
 	private List<DataLine> listAfternoon;
 	private List<DataLine> listNight;
+	
+	private DailyDataLine dailyData;
 
 	private int size = 0;
 
@@ -80,6 +82,10 @@ public class WeatherDay {
 		
 		size++;
 	}
+	
+	public void addDailyData(String line) {
+		this.dailyData = new DailyDataLine(line);
+	}
 
 	/**
 	 * After all the data of the day have been added, then must have processing
@@ -91,14 +97,26 @@ public class WeatherDay {
 		afternoon = new DayPeriod(listAfternoon);
 		night = new DayPeriod(listNight);
 
-		double highTemp = 0.0, humidityHTemp = 0.0;
-		for (DayPeriod d : getDayPeriods()) {
-			if (d.getHighTemp() > highTemp) {
-				highTemp = d.getHighTemp();
-				humidityHTemp = d.getHumidityHighTemp();
+		double humidityHTemp = 0.0;
+		int diffMinute;
+//		for (DayPeriod d : getDayPeriods()) {
+//			if (d.getHighTemp() > highTemp) {
+//				highTemp = d.getHighTemp();
+//				humidityHTemp = d.getHumidityHighTemp();
+//			}
+//		}
+		
+		for(DataLine d : getDataLines() ) {
+			if(this.dailyData.getHighTempHour() == d.getHour()) {
+				diffMinute = this.dailyData.getHighTempMinute() - d.getMinute(); 
+				if( (diffMinute < 10) && (diffMinute > -1) ) {
+					humidityHTemp = d.getHumidity();
+					break;
+				}
 			}
 		}
-		this.heatIndex = (new HeatIndex(highTemp, humidityHTemp)).getIndexInCelsius();
+		
+		this.heatIndex = (new HeatIndex(dailyData.getHighTemperature(), humidityHTemp)).getIndexInCelsius();
 	}
 
 	/**
@@ -223,6 +241,15 @@ public class WeatherDay {
 		return d;
 
 	}
+	
+	public List<DataLine> getDataLines() {
+		List<DataLine> d = new ArrayList<DataLine>();
+		d.addAll(listDawn);
+		d.addAll(listMorning);
+		d.addAll(listAfternoon);
+		d.addAll(listNight);
+		return d;
+	}
 
 	/**
 	 * Returns the number of measurements used to compose the data of this
@@ -241,5 +268,9 @@ public class WeatherDay {
 	 */
 	public double getHeatIndex() {
 		return heatIndex;
+	}
+	
+	public DailyDataLine getDailyDataLine() {
+		return dailyData;
 	}
 }
