@@ -137,12 +137,12 @@ public class PeriodFigure {
 
 		g2d.setFont(new Font("Cambria", Font.BOLD, 200));
 		
-		g2d.drawString(String.format("%.2f", dayPeriod.getHighTemp() ).replace(",", ".") + "°C", 1500, 1370);
-		g2d.drawString(String.format("%.2f", dayPeriod.getLowTemp() ).replace(",", ".") + "°C", 1500, 1700);
-		g2d.drawString(String.format("%.2f", dayPeriod.getMaxSpeed()).replace(",", ".") + " km/h", 50, 2900);
-		g2d.drawString(String.format("%.2f", heatIndex).replace(",", ".") + "°C",  1500, 2900);
+		g2d.drawString(String.format("%.1f", dayPeriod.getHighTemp() ).replace(",", ".") + "°C", 1500, 1370);
+		g2d.drawString(String.format("%.1f", dayPeriod.getLowTemp() ).replace(",", ".") + "°C", 1500, 1700);
+		g2d.drawString(String.format("%.1f", dayPeriod.getMaxSpeed()).replace(",", ".") + " km/h", 50, 2900);
+		g2d.drawString(String.format("%.1f", heatIndex).replace(",", ".") + "°C",  1500, 2900);
 		if(dayPeriod.getAcumRain() > 0.0) {
-			g2d.drawString( String.format("%.2f", dayPeriod.getAcumRain()).replace(",", ".") + " mm", 50, 1400);
+			g2d.drawString( String.format("%.1f", dayPeriod.getAcumRain()).replace(",", ".") + " mm", 50, 1400);
 		}
 		g2d.dispose();
 
