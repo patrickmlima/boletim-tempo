@@ -22,7 +22,6 @@ public class WeatherDayFacade {
 	private List<WeatherDay> days;
 	private SerializeWeatherDay swd;
 	private PeriodFigure figureGenerator;
-	private String fileName = "default";
 
 	public WeatherDayFacade() throws IOException, ArrayIndexOutOfBoundsException {
 		days = new ArrayList<WeatherDay>();
@@ -48,7 +47,6 @@ public class WeatherDayFacade {
 	 * Reads all days within the file and processes their data
 	 */
 	public boolean readAllDays() {
-		fileName = "allDays";
 		while (fm.hasNextLine()) {
 			if(!makeWeatherDays(fm.nextLine()) )
 				return false;
@@ -68,7 +66,6 @@ public class WeatherDayFacade {
 	 * @return true if the days were find and processed, false otherwise
 	 */
 	public boolean readRangeDays(String dtInitial, String dtFinal) {
-		fileName = dtInitial.replace("/", ".") + "_to_" + dtFinal.replace("/", ".");
 		return findDays(DateUtil.adjustDate(dtInitial), DateUtil.adjustDateToInt(dtFinal));
 	}
 	
@@ -80,7 +77,6 @@ public class WeatherDayFacade {
 	 * @return true if the day was find and processed, false otherwise
 	 */
 	public boolean readADay(String day) {
-		fileName = day.replace("/", ".");
 		return findDays(DateUtil.adjustDate(day), DateUtil.adjustDateToInt(day));
 	}
 	
@@ -182,8 +178,8 @@ public class WeatherDayFacade {
 	 * Saves the data in the days list in a XML file and generate the turn
 	 * figures.
 	 */
-	public void saveDays() {
-		swd = new SerializeWeatherDay(days, fileName);
+	public void saveDays(String filePath) {
+		swd = new SerializeWeatherDay(days, filePath);
 		try {
 			swd.writeDaybyDay();
 		} catch (Throwable e) {
@@ -213,5 +209,9 @@ public class WeatherDayFacade {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public List<WeatherDay> getDays() {
+		return days;
 	}
 }

@@ -15,6 +15,7 @@ public class DailyDataLine {
 	private double lowTemperature;
 	private double windVelocity;
 	private double totalRain;
+	private double heatIndex;
 	
 	
 	public DailyDataLine(String line) throws ArrayIndexOutOfBoundsException
@@ -121,6 +122,14 @@ public class DailyDataLine {
 
 	public void setTotalRain(double totalRain) {
 		this.totalRain = totalRain;
+	}
+	
+	public double getHeatIndex() {
+		return heatIndex;
+	}
+	
+	public void setHeatIndex(double heatIndex) {
+		this.heatIndex = heatIndex;
 	}
 	
 	public String getDate() {

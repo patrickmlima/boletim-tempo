@@ -4,11 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.nio.channels.FileChannel;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -16,8 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import controller.Controller;
 import model.util.ApplicationStatus;
-import model.util.Util;
 import view.WeatherDayView;
 import view.WorkWindow;
 import view.popup.DialogBox;
@@ -92,9 +90,13 @@ public class SaveDataFileBtnHandler implements ActionListener {
 	 * @return a boolean confirming the save success or failure
 	 */
 	private boolean saveAsXmlFile(File file) {
-		File f = new File(file.getAbsolutePath() + ".xml");
 		try {
-			return copyXmlFile(Util.weatherDataFile, f);
+			String fPath = file.getAbsolutePath();
+			if(!fPath.endsWith(".xml"))
+				fPath = fPath + ".xml";
+			
+			Controller.getInstance().saveXMLDataFile(fPath);
+			return true;
 		} catch (IOException e) {
 			return false;
 		}
@@ -112,7 +114,11 @@ public class SaveDataFileBtnHandler implements ActionListener {
 	 */
 	private boolean saveAsTxtFile(File file, JTextArea textArea) {
 		try {
-			File f = new File(file.getAbsolutePath() + ".txt");
+			String fPath = file.getAbsolutePath();
+			if(!fPath.endsWith(".txt"))
+				fPath = fPath + ".txt";
+			
+			File f = new File(fPath);
 			if (chooseReplaceFile(f)) {
 
 				BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
@@ -128,19 +134,8 @@ public class SaveDataFileBtnHandler implements ActionListener {
 		}
 		return false;
 	}
-	
-	/**
-	 * method which makes a copy of the XML temporary file that contains the
-	 * WeatherDay data processed
-	 * 
-	 * @param source
-	 *            the XML temporary file
-	 * @param destination
-	 *            the file which will be save
-	 * @return the confirmation of the method success of failure
-	 * @throws IOException
-	 *             if the file can't be accessed
-	 */
+
+	/*
 	private boolean copyXmlFile(File source, File destination) throws IOException {    
 		if (chooseReplaceFile(destination)) {
 			FileChannel sourceChannel = null;
@@ -163,6 +158,7 @@ public class SaveDataFileBtnHandler implements ActionListener {
 		}
 		return false;
 	}
+	*/
 	
 	/**
 	 * Assistant method which verifies the file existence and give to user the

@@ -70,7 +70,7 @@ public class PeriodFigure {
 						+ Integer.toString(wd.getYear());
 
 				bi[count] = organizeImage(period, date, periodName,
-						wd.getHeatIndex());
+						wd.getDailyDataLine().getHeatIndex());
 				count++;
 			}
 			weatherDay.remove(0);

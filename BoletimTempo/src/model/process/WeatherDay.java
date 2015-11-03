@@ -16,7 +16,6 @@ public class WeatherDay {
 	private int year;
 	private int month;
 	private int day;
-	private double heatIndex = 0.0;
 
 	private DayPeriod dawn;
 	private DayPeriod morning;
@@ -116,7 +115,7 @@ public class WeatherDay {
 			}
 		}
 		
-		this.heatIndex = (new HeatIndex(dailyData.getHighTemperature(), humidityHTemp)).getIndexInCelsius();
+		dailyData.setHeatIndex( (new HeatIndex(dailyData.getHighTemperature(), humidityHTemp)).getIndexInCelsius() );
 	}
 
 	/**
@@ -267,7 +266,7 @@ public class WeatherDay {
 	 * @return a double containing the heat index of this meteorological day.
 	 */
 	public double getHeatIndex() {
-		return heatIndex;
+		return dailyData.getHeatIndex();
 	}
 	
 	public DailyDataLine getDailyDataLine() {

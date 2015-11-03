@@ -3,10 +3,12 @@ package controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import model.process.WeatherDayFacade;
+import model.process.WeatherDay;
 import model.util.DateUtil;
 
 /**
@@ -59,10 +61,9 @@ public class Controller {
 	 * Communicates with WeatherDay Facade instance to computes all days
 	 */
 	public boolean computeWeatherDay() {
-		if(wdFacade.readAllDays()) {
-			wdFacade.saveDays();
+		if(wdFacade.readAllDays())
 			return true;
-		}
+
 		wdFacade.clearDays();
 		return false;
 	}
@@ -75,10 +76,8 @@ public class Controller {
 	 * @return true if the day was computed, false otherwise
 	 */
 	public boolean computeWeatherDay(String day) {
-		if(wdFacade.readADay(day)) {
-			wdFacade.saveDays();
+		if(wdFacade.readADay(day))
 			return true;
-		}
 		wdFacade.clearDays();
 		return false;
 	}
@@ -93,10 +92,9 @@ public class Controller {
 	 * @return true if the range of days were computed, false otherwise
 	 */
 	public boolean computeWeatherDay(String initialDay, String finalDay) {
-		if(wdFacade.readRangeDays(initialDay, finalDay)) {
-			wdFacade.saveDays();
+		if(wdFacade.readRangeDays(initialDay, finalDay))
 			return true;
-		}
+		
 		wdFacade.clearDays();
 		return false;
 	}
@@ -164,5 +162,13 @@ public class Controller {
 	 */
 	public boolean hasPeriodFiguresToGenerate() {
 		return wdFacade.getFigureGenerator().hasFiguresToGenerate();
+	}
+	
+	public List<WeatherDay> getProcessedDays() {
+		return wdFacade.getDays();
+	}
+	
+	public void saveXMLDataFile(String fPath) {
+		wdFacade.saveDays(fPath);
 	}
 }

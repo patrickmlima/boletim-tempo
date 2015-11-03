@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
 public class SerializeWeatherDay {
 
 	private List<WeatherDay> days;
-	private String fileName;
+	private String filePath;
 
 	/**
 	 * Makes a file from a set of meteorological days passed by parameter
@@ -36,9 +36,9 @@ public class SerializeWeatherDay {
 	 * @param fileName
 	 *            the name of the temporary file (date of the day processed)
 	 */
-	public SerializeWeatherDay(List<WeatherDay> list, String fileName) {
+	public SerializeWeatherDay(List<WeatherDay> list, String filePath) {
 		this.days = list;
-		this.fileName = fileName;
+		this.filePath = filePath;
 	}
 
 	/**
@@ -60,84 +60,104 @@ public class SerializeWeatherDay {
 		Document doc = docBuilder.newDocument();
 		doc.setXmlStandalone(true);
 
-		Element dias = doc.createElement("dias");
-		doc.appendChild(dias);
+		Element days = doc.createElement("dias");
+		doc.appendChild(days);
 		String precFormat = "%.2f";
-		for (WeatherDay weatherDay : days) {
+		for (WeatherDay weatherDay : this.days) {
 
 
-			// Dia
-			Element dia = doc.createElement("dia");
-			dias.appendChild(dia);
+			// day
+			Element day = doc.createElement("dia");
+			days.appendChild(day);
 
-			// Data
-			Element data = doc.createElement("data");
-			dia.appendChild(data);
+			// Date
+			Element date = doc.createElement("data");
+			day.appendChild(date);
 
-			Element ano = doc.createElement("ano");
-			ano.appendChild(doc.createTextNode(Integer.toString(weatherDay.getYear())));
-			data.appendChild(ano);
+			// Year
+			Element year = doc.createElement("ano");
+			year.appendChild(doc.createTextNode(Integer.toString(weatherDay.getYear())));
+			date.appendChild(year);
 			
-			// Mês
-			Element mes = doc.createElement("mes");
-			mes.appendChild(doc.createTextNode(Integer.toString(weatherDay.getMonth())));
-			data.appendChild(mes);
-			// Número do dia
-			Element nDia = doc.createElement("nDia");
-			nDia.appendChild(doc.createTextNode(Integer.toString(weatherDay.getDay())));
-			data.appendChild(nDia);
+			// Month
+			Element month = doc.createElement("mes");
+			month.appendChild(doc.createTextNode(Integer.toString(weatherDay.getMonth())));
+			date.appendChild(month);
+			
+			// day's number
+			Element nDay = doc.createElement("nDia");
+			nDay.appendChild(doc.createTextNode(Integer.toString(weatherDay.getDay())));
+			date.appendChild(nDay);
 
 			int counter = 0;
 			List<DayPeriod> turnos = weatherDay.getDayPeriods();
 
 			for (DayPeriod dayPeriod : turnos) {
 
-				String sTurno = Util.ranksPeriod(counter);
+				String sPeriod = Util.ranksPeriod(counter);
 
 				// Elementos de cada dia		
-				Element turno = doc.createElement(sTurno);
-				dia.appendChild(turno);
+				Element period = doc.createElement(sPeriod);
+				day.appendChild(period);
 				{
-					Element pressaoMedia = doc.createElement("pressao_media");
-					pressaoMedia.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getAvgPressure())));
-					turno.appendChild(pressaoMedia);
+					Element meanPressure = doc.createElement("pressao_media");
+					meanPressure.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getAvgPressure())));
+					period.appendChild(meanPressure);
 					
-					Element temperaturaMin = doc.createElement("temperatura_minima");
-					temperaturaMin.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getLowTemp())));
-					turno.appendChild(temperaturaMin);
+					Element lowTemperature = doc.createElement("temperatura_minima");
+					lowTemperature.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getLowTemp())));
+					period.appendChild(lowTemperature);
 
-					Element temperaturaMax = doc.createElement("temperatura_maxima");
-					temperaturaMax.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getHighTemp())));
-					turno.appendChild(temperaturaMax);
+					Element highTemperature = doc.createElement("temperatura_maxima");
+					highTemperature.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getHighTemp())));
+					period.appendChild(highTemperature);
 
-					Element umidadeMin = doc.createElement("umidade_minima");
-					umidadeMin.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getLowHumid())));
-					turno.appendChild(umidadeMin);
+					Element lowHumidity = doc.createElement("umidade_minima");
+					lowHumidity.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getLowHumid())));
+					period.appendChild(lowHumidity);
 
-					Element umidadeMax = doc.createElement("umidade_maxima");
-					umidadeMax.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getHighHumid())));
-					turno.appendChild(umidadeMax);
+					Element highHumidity = doc.createElement("umidade_maxima");
+					highHumidity.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getHighHumid())));
+					period.appendChild(highHumidity);
 
-					Element speed = doc.createElement("velocidade_maxima");
-					speed.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getMaxSpeed())));
-					turno.appendChild(speed);
+					Element windSpeed = doc.createElement("velocidade_maxima");
+					windSpeed.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getMaxSpeed())));
+					period.appendChild(windSpeed);
 
-					Element direction = doc.createElement("direcao_velocidade_maxima");
-					direction.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getMaxDirect())));
-					turno.appendChild(direction);
+					Element windDirection = doc.createElement("direcao_velocidade_maxima");
+					windDirection.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getMaxDirect())));
+					period.appendChild(windDirection);
 
-					Element rain = doc.createElement("precipitacao_acumulada");
-					rain.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getAcumRain())));
-					turno.appendChild(rain);
+					Element totalRain = doc.createElement("precipitacao_acumulada");
+					totalRain.appendChild(doc.createTextNode(String.format(precFormat,dayPeriod.getAcumRain())));
+					period.appendChild(totalRain);
 				}
 				
 				counter++;
 
 			}
+			Element daily = doc.createElement("diario");
+			day.appendChild(daily);
+			
+			Element dLowTemperature = doc.createElement("temperatura_minima");
+			dLowTemperature.appendChild(doc.createTextNode(String.format(precFormat, weatherDay.getDailyDataLine().getLowTemperature())));
+			daily.appendChild(dLowTemperature);
+			
+			Element dHighTemperature = doc.createElement("temperatura_maxima");
+			dHighTemperature.appendChild(doc.createTextNode(String.format(precFormat, weatherDay.getDailyDataLine().getHighTemperature())));
+			daily.appendChild(dHighTemperature);
+			
+			Element dWindVelocity = doc.createElement("velocidade_maxima");
+			dWindVelocity.appendChild(doc.createTextNode(String.format(precFormat, weatherDay.getDailyDataLine().getWindVelocity())));
+			daily.appendChild(dWindVelocity);
+			
+			Element dTotalRain = doc.createElement("precipitacao_acumulada");
+			dTotalRain.appendChild(doc.createTextNode(String.format(precFormat, weatherDay.getDailyDataLine().getTotalRain())));
+			daily.appendChild(dTotalRain);
+			
 			Element indiceCalor = doc.createElement("indice_de_calor");
-			indiceCalor.appendChild(doc.createTextNode(String.format(precFormat,weatherDay.getHeatIndex())));
-			dia.appendChild(indiceCalor);
-
+			indiceCalor.appendChild(doc.createTextNode(String.format(precFormat,weatherDay.getDailyDataLine().getHeatIndex())));
+			daily.appendChild(indiceCalor);
 		}
 
 		final Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -145,9 +165,7 @@ public class SerializeWeatherDay {
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 		transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,
 				"weatherDay.dtd");
-		File outputFile = File.createTempFile(fileName, ".xml");
-		outputFile.deleteOnExit();
+		File outputFile = new File(filePath);
 		transformer.transform(new DOMSource(doc), new StreamResult(outputFile));
-		Util.weatherDataFile = outputFile;
 	}
 }

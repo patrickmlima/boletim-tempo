@@ -1,7 +1,5 @@
 package model.util;
 
-import java.io.File;
-
 /**
  * Class which contains useful informations for the system works
  * 
@@ -9,11 +7,6 @@ import java.io.File;
  *
  */
 public class Util {
-	/**
-	 * The reference to temporary XML file which contains the processed
-	 * meteorological data
-	 */
-	public static File weatherDataFile;
 
 	public static String pathBaixa1;
 	public static String pathBaixa2;

@@ -3,23 +3,18 @@ package view.componentchangelistener;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JTextArea;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import model.util.ApplicationStatus;
-import model.util.Util;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import model.util.ApplicationStatus;
+import model.process.DayPeriod;
+import model.process.WeatherDay;
+import controller.Controller;
 import view.WeatherDayView;
 import view.WorkWindow;
 
@@ -41,10 +36,10 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 		
 		try {
 			if(WorkWindow.getInstance().getApplicationStatus().ordinal() < ApplicationStatus.PERIOD_FIGURES_SAVED.ordinal())
-				showDataFile(Util.weatherDataFile, wdView);
+				showDataFile(wdView);
 			
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			
 		}
 	}
 	
@@ -55,89 +50,71 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 	 *            which contains the processed data
 	 * @param wdv
 	 *            an instance of WeahterDayView to update the textArea
+	 * @throws ArrayIndexOutOfBoundsException 
 	 * @throws ParserConfigurationException
 	 *             if the XML file can't be parsed
 	 * @throws SAXException
 	 * @throws IOException
 	 *             if the XML file can't be opened
 	 */
-	private void showDataFile(File file, WeatherDayView wdv)
-			throws ParserConfigurationException, SAXException, IOException {
+	private void showDataFile(WeatherDayView wdv) throws ArrayIndexOutOfBoundsException, IOException {
 		if(!wdv.getTextAreaWeatherDay().getText().isEmpty()) {
 			wdv.setTextAreaWeatherDay(null);
 		}
-
-		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
-				.newDocumentBuilder();
-		//Declare an entity resolver to get the DTD file 
-		docBuilder.setEntityResolver(new EntityResolver() {
-			@Override
-			public InputSource resolveEntity(String publicId, String systemId)
-					throws SAXException, IOException {
-				if (systemId.contains("weatherDay.dtd")) {
-					return new InputSource(
-							ClassLoader
-									.getSystemResourceAsStream("resources/xml/weatherDay.dtd"));
-				} else {
-					return null;
-				}
-			}
-		});
 		
-		Document doc = docBuilder.parse(file);
-
-		NodeList dias = doc.getElementsByTagName("dia");
-
 		JTextArea tArea = wdv.getTextAreaWeatherDay();
-		NodeList childs;
-		NodeList data;
-		NodeList periods;
-		String[] periodNames = { "Madrugada", "Manh\u00E3", "Tarde", "Noite" };
-		int k;
-
 		Font fontNormal = new Font("Cambria", Font.PLAIN, 18);
 		tArea.setFont(fontNormal);
-		for (int i = 0; i < dias.getLength(); i++) {
-			childs = dias.item(i).getChildNodes();
-
-			data = childs.item(1).getChildNodes();
-
-			tArea.append("Data: ");
-			tArea.append(data.item(5).getTextContent() + "-"
-					+ data.item(3).getTextContent() + "-"
-					+ data.item(1).getTextContent());
+		
+		String precisionFormatter = "%.2f";
+		
+		List<WeatherDay> days = Controller.getInstance().getProcessedDays();
+		
+		String[] periodNames = { "Madrugada", "Manh\u00E3", "Tarde", "Noite" };
+		int periodNameIndex;
+		
+		for(WeatherDay wd : days) {
+			tArea.append("Data: " + wd.getDay() + "-" + wd.getMonth() + "-" + wd.getYear() + "\n");
+			
+			tArea.append("    Di\u00E1rio:\n");
+			tArea.append("        Temperatura M\u00EDnima: "
+					+ String.format(precisionFormatter, wd.getDailyDataLine().getLowTemperature()) 
+					+ " °C\n");
+			tArea.append("        Temperatura M\u00E1xima: "
+					+ String.format(precisionFormatter, wd.getDailyDataLine().getHighTemperature()) 
+					+ " °C\n");
+			tArea.append("        Velocidade M\u00E1xima do vento: "
+					+ String.format(precisionFormatter, wd.getDailyDataLine().getWindVelocity())
+					+ " m/s\n");
+			tArea.append("        Precipita\u00E7\u00E3o acumulada: "
+					+ String.format(precisionFormatter, wd.getDailyDataLine().getTotalRain())
+					+ " mm\n");			
+			tArea.append("        \u00CDndice de calor: ");
+			tArea.append(String.format(precisionFormatter, wd.getDailyDataLine().getHeatIndex())
+					+ " °C\n");
 			tArea.append("\n");
-
-			tArea.append("\u00CDndice de calor: ");
-			tArea.append(childs.item(11).getTextContent() + " °C\n");
-			;
-			tArea.append("Turnos:\n");
-
-			k = 0;
-			for (int j = 3; j < childs.getLength() - 2; j = j + 2) {
-				periods = childs.item(j).getChildNodes();
-
-				tArea.append("    " + periodNames[k] + "\n");
+			
+			periodNameIndex = 0;
+			for(DayPeriod dp : wd.getDayPeriods()) {
+				tArea.append("    " + periodNames[periodNameIndex++] + "\n");
 				tArea.append("        Press\u00E3o M\u00E9dia: "
-						+ periods.item(1).getTextContent() + " hPa\n");
+						+ String.format(precisionFormatter, dp.getAvgPressure()) + " hPa\n");
 				tArea.append("        Temperatura M\u00EDnima: "
-						+ periods.item(3).getTextContent() + " °C\n");
+						+ String.format(precisionFormatter, dp.getHighTemp()) + " °C\n");
 				tArea.append("        Temperatura M\u00E1xima: "
-						+ periods.item(5).getTextContent() + " °C\n");
+						+ String.format(precisionFormatter, dp.getLowTemp()) + " °C\n");
 				tArea.append("        Umidade m\u00EDnima: "
-						+ periods.item(7).getTextContent() + " %\n");
+						+ String.format(precisionFormatter, dp.getLowHumid()) + " %\n");
 				tArea.append("        Umidade M\u00E1xima: "
-						+ periods.item(9).getTextContent() + " %\n");
+						+ String.format(precisionFormatter, dp.getHighHumid()) + " %\n");
 				tArea.append("        Velocidade M\u00E1xima do vento: "
-						+ periods.item(11).getTextContent()
+						+ String.format(precisionFormatter, dp.getMaxSpeed())
 						+ " m/s - Dire\u00E7\u00E3o: "
-						+ periods.item(13).getTextContent() + " °\n");
+						+ String.format(precisionFormatter, dp.getMaxDirect()) + " °\n");
 				tArea.append("        Precipita\u00E7\u00E3o acumulada: "
-						+ periods.item(15).getTextContent() + " mm\n");
+						+ String.format(precisionFormatter, dp.getAcumRain()) + " mm\n");
 				tArea.append("\n");
-				k++;
 			}
-			tArea.append("\n");
 		}
 	}
 }

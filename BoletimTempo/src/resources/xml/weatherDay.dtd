@@ -12,6 +12,7 @@
 <!ELEMENT manha (pressao_media, temperatura_minima, temperatura_maxima, umidade_minima, umidade_maxima, velocidade_maxima, direcao_velocidade_maxima, precipitacao_acumulada)>
 <!ELEMENT tarde (pressao_media, temperatura_minima, temperatura_maxima, umidade_minima, umidade_maxima, velocidade_maxima, direcao_velocidade_maxima, precipitacao_acumulada)>
 <!ELEMENT noite (pressao_media, temperatura_minima, temperatura_maxima, umidade_minima, umidade_maxima, velocidade_maxima, direcao_velocidade_maxima, precipitacao_acumulada)>
+<!ELEMENT diario (temperatura_minima, temperatura_maxima, velocidade_maxima, precipitacao_acumulada, indice_de_calor)>
 <!ELEMENT pressao_media (#PCDATA)>
 <!ELEMENT temperatura_minima (#PCDATA)>
 <!ELEMENT temperatura_maxima (#PCDATA)>
@@ -22,4 +23,3 @@
 <!ELEMENT precipitacao_acumulada (#PCDATA)>
 
 <!ELEMENT indice_de_calor (#PCDATA)>
-
