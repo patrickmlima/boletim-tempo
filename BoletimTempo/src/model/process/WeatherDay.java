@@ -159,8 +159,11 @@ public class WeatherDay {
 	/**
 	 * Prints the current day in the format year, month and day
 	 */
-	public String toString() {
-		return this.year + "-" + this.month + "-" + this.day;
+	public String getWeatherDayDate(String separator, int option) {
+		if(option == 0)
+			return this.year + separator + this.month + separator + this.day;
+		else
+			return this.day + separator + this.month + separator + this.year;
 	}
 
 	/**

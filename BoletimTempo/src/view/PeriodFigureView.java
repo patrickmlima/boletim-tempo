@@ -119,7 +119,7 @@ public class PeriodFigureView extends JPanel {
 	 */
 	public void addFigures() throws IOException {
 		getPanelShowFigures().removeAll();
-		int w = getPanelShowFigures().getWidth()/4 -10;
+		int w = getPanelShowFigures().getWidth()/5 -10;
 		int h = getPanelShowFigures().getHeight() -10;
 
 		Controller controller = null;
@@ -129,6 +129,7 @@ public class PeriodFigureView extends JPanel {
 		BufferedImage[] imgs = controller.getImages();
 		if(imgs != null) {
 			for (BufferedImage bi : imgs) {
+				System.out.println("repetição para adicionar imagens");
 				label = new JLabel();
 				label.setSize(w, h);
 				label.setIcon(new ImageIcon(ImageUtil.resize(bi, w, h)));

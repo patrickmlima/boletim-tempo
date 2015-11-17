@@ -59,20 +59,23 @@ public class PeriodFigure {
 			int count;
 			
 			WeatherDay wd = weatherDay.get(0);
+			String date = wd.getWeatherDayDate(".", 1);
 			count = 0;
 			String periodName = "";
-			BufferedImage[] bi = new BufferedImage[4];
+			BufferedImage[] bi = new BufferedImage[5];
 			for (DayPeriod period : wd.getDayPeriods()) {
 				periodName = Util.ranksPeriod(count);
 
-				String date = Integer.toString(wd.getDay()) + "."
-						+ Integer.toString(wd.getMonth()) + "."
-						+ Integer.toString(wd.getYear());
-
-				bi[count] = organizeImage(period, date, periodName,
-						wd.getDailyDataLine().getHeatIndex());
-				count++;
+				bi[count++] = organizeImage(date, periodName, period.getHighTemp(),
+						period.getLowTemp(), period.getMaxSpeed(), period.getAcumRain(), wd.getHeatIndex());
 			}
+			System.out.println("gerando imagem diária");
+			DailyDataLine ddl = wd.getDailyDataLine();
+			periodName = Util.ranksPeriod(count);
+			System.out.println(periodName);
+			bi[count] = organizeImage(date, periodName, ddl.getHighTemperature(), ddl.getLowTemperature(),
+					ddl.getWindVelocity(), ddl.getTotalRain(), ddl.getHeatIndex());
+			System.out.println("figura diária gerada");
 			weatherDay.remove(0);
 			return bi;
 		}
@@ -92,8 +95,8 @@ public class PeriodFigure {
 	 *            afternoon, night.
 	 * @return a period figure
 	 */
-	private BufferedImage organizeImage(DayPeriod dayPeriod, String date,
-			String periodName, double heatIndex) {
+	private BufferedImage organizeImage(String date, String periodName, double highTemp, double lowTemp, 
+			double windVelocity, double acumRain, double heatIndex) {
 		Graphics2D g2d = null;
 		BufferedImage biToSave = null;
 		Image img = null;
@@ -105,18 +108,20 @@ public class PeriodFigure {
 		}
 		
 		if( periodName.equals("manha") || periodName.equals("tarde") ) {
-			if(dayPeriod.getAcumRain() == 0.0) {
+			if(acumRain == 0.0) {
 				img = new ImageIcon(ClassLoader.getSystemResource("resources/img/sunny.png")).getImage();
 			} else {
 				img = new ImageIcon(ClassLoader.getSystemResource("resources/img/rainy.png")).getImage();
 			}
-		} else {
-			if(dayPeriod.getAcumRain() == 0.0) {
+		} else if(periodName.equals("noite") || periodName.equals("madrugada")) {
+			if(acumRain == 0.0) {
 				img = new ImageIcon(ClassLoader.getSystemResource("resources/img/night.png")).getImage();
 			}
 			else {
 				img = new ImageIcon(ClassLoader.getSystemResource("resources/img/rainy_night.png")).getImage();
 			}
+		} else {
+			img = new ImageIcon(ClassLoader.getSystemResource("resources/img/daily.png")).getImage();
 		}
 		
 		if (periodName.equals("manha")) {
@@ -129,23 +134,24 @@ public class PeriodFigure {
 		g2d = (Graphics2D) biToSave.getGraphics();
 		g2d.drawImage(img, 0, 0, null);
 
-		g2d.setColor(Color.BLACK);
+		g2d.setColor(new Color(51,51,51));
 		g2d.setFont(new Font("Cambria", Font.BOLD, 240));
 		g2d.drawString(periodName.toUpperCase(), X_PERIOD, Y_PERIOD);
 		g2d.setFont(new Font("Cambria", Font.BOLD, 220));
-		g2d.drawString(date.replace(".", "/"), 1040, 680);
+		g2d.drawString(date.replace(".", "/"), 1040, 660);
 
 		g2d.setFont(new Font("Cambria", Font.BOLD, 200));
 		
-		g2d.drawString(String.format("%.1f", dayPeriod.getHighTemp() ).replace(",", ".") + "°C", 1500, 1370);
-		g2d.drawString(String.format("%.1f", dayPeriod.getLowTemp() ).replace(",", ".") + "°C", 1500, 1700);
-		g2d.drawString(String.format("%.1f", dayPeriod.getMaxSpeed()).replace(",", ".") + " km/h", 50, 2900);
+		g2d.drawString(String.format("%.1f", highTemp ).replace(",", ".") + "°C", 1500, 1450);
+		g2d.drawString(String.format("%.1f", lowTemp ).replace(",", ".") + "°C", 1500, 1760);
+		g2d.drawString(String.format("%.1f", windVelocity).replace(",", ".") + " m/s", 50, 2900);
 		g2d.drawString(String.format("%.1f", heatIndex).replace(",", ".") + "°C",  1500, 2900);
-		if(dayPeriod.getAcumRain() > 0.0) {
-			g2d.drawString( String.format("%.1f", dayPeriod.getAcumRain()).replace(",", ".") + " mm", 50, 1400);
+		if(acumRain > 0.0) {
+			g2d.drawString( String.format("%.1f", acumRain).replace(",", ".") + " mm", 50, 1400);
 		}
 		g2d.dispose();
-
+		
+		System.out.println("fim organizar figura");
 		return biToSave;
 	}
 }

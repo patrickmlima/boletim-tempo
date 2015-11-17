@@ -138,18 +138,20 @@ public class Controller {
 	 * @return a boolean indicating the result
 	 */
 	public boolean saveFigures(File saveFile) {
+		String ending = saveFile.getName().endsWith(".png") ? "":".png";
+		
 			String[] periodsName = new String[] { "madrugada", "manha",
-					"tarde", "noite" };
+					"tarde", "noite", "diario" };
 			try {
 				for (int i = 0; i < periodFigures.length; i++) {
 					ImageIO.write(periodFigures[i], "png",
 							new File(saveFile.getAbsolutePath() + "-"
-									+ periodsName[i] + ".png"));
+									+ periodsName[i] + ending));
 				}
 				periodFigures = null;
 				return true;
 			} catch (IOException e) {
-
+				e.printStackTrace();
 			}
 
 		return false;

@@ -18,14 +18,15 @@ public class Util {
 	 * @return the period's name
 	 */
 	public static String ranksPeriod(int counter) {
-		if (counter == 0) {
+		if (counter == 0)
 			return "madrugada";
-		} else if (counter == 1) {
+		else if (counter == 1)
 			return "manha";
-		} else if (counter == 2) {
+		else if (counter == 2)
 			return "tarde";
-		} else {
+		else if(counter == 3)
 			return "noite";
-		}
+		else
+			return "di\u00E1rio";
 	}
 }

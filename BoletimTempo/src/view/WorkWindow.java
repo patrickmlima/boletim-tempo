@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -146,7 +147,8 @@ public class WorkWindow {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("BoCLIMA ");
-		frame.setBounds(100, 100, 800, 600);
+		int height = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight() - 60;
+		frame.setBounds(100, 100, (int)(height*1.33333), height);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		setClosable();
