@@ -1,6 +1,6 @@
 package model.process;
 
-/**
+/** FOM BAIXA2 FILE
  * 
  * @author Patrick M Lima
  *
@@ -22,9 +22,9 @@ public class DailyDataLine {
 	{
 		String data[] = line.split(",");
 		highTemperature = Double.parseDouble(data[2]);
-		lowTemperature = Double.parseDouble(data[4]);
-		windVelocity = Double.parseDouble(data[10]);
-		totalRain = Double.parseDouble(data[12]);
+		lowTemperature = Double.parseDouble(data[5]); //alteracao aqui
+		windVelocity = Double.parseDouble(data[11]);  //aqui
+		totalRain = Double.parseDouble(data[13]);     //aqui
 		setDataTimeStamp(processTimeStamp(data[3]));
 	}
 	

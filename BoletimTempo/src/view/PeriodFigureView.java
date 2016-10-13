@@ -129,7 +129,7 @@ public class PeriodFigureView extends JPanel {
 		BufferedImage[] imgs = controller.getImages();
 		if(imgs != null) {
 			for (BufferedImage bi : imgs) {
-				System.out.println("repetição para adicionar imagens");
+				System.out.println("repetiÃ§Ã£o para adicionar imagens");
 				label = new JLabel();
 				label.setSize(w, h);
 				label.setIcon(new ImageIcon(ImageUtil.resize(bi, w, h)));

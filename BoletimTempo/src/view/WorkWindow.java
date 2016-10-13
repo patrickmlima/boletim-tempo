@@ -184,24 +184,24 @@ public class WorkWindow {
             {  
 				if (frame.getDefaultCloseOperation() == JFrame.EXIT_ON_CLOSE) {
 					new DialogBox();
-					// caixa de dialogo retorna a opÁ„o
+					// caixa de dialogo retorna a op√ß√£o
 					int option = JOptionPane.showConfirmDialog(null,
 							"Deseja mesmo fechar o BoCLIMA?", "Finalizar",
 							JOptionPane.YES_NO_OPTION);
 					// se sim
 					if (option == JOptionPane.YES_OPTION) {
 						System.exit(0);
-					//sen„o
+					//sen√£o
 					} else {
 						frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 					}
 				}                
             }
             
-            //quando a janela volta a estar ativa (apÛs o fechamento do dialog anterior)
+            //quando a janela volta a estar ativa (ap√≥s o fechamento do dialog anterior)
             @Override
             public void windowActivated(WindowEvent e) {
-            	//torna-a novamente "fech·vel"
+            	//torna-a novamente "fech√°vel"
             	setClosable();
             }
             

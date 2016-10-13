@@ -8,7 +8,7 @@ import java.util.List;
  * respective measurements. The data from this day are initially stored and then
  * are processed
  * 
- * @author Elloá B. Guedes
+ * @author Elloï¿½ B. Guedes
  *
  */
 public class WeatherDay {
@@ -109,13 +109,13 @@ public class WeatherDay {
 			if(this.dailyData.getHighTempHour() == d.getHour()) {
 				diffMinute = this.dailyData.getHighTempMinute() - d.getMinute(); 
 				if( (diffMinute < 10) && (diffMinute > -1) ) {
-					humidityHTemp = d.getHumidity();
+					humidityHTemp = d.getHumidity();							//
 					break;
 				}
 			}
 		}
 		
-		dailyData.setHeatIndex( (new HeatIndex(dailyData.getHighTemperature(), humidityHTemp)).getIndexInCelsius() );
+		dailyData.setHeatIndex( (new HeatIndex(dailyData.getHighTemperature(), humidityHTemp)).getIndexInCelsius() ); 	//HEAT INDEX
 	}
 
 	/**

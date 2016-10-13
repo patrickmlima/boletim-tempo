@@ -1,10 +1,10 @@
 package model.process;
 
 /**
- * Represents the file line containing only the data of interest:
+ * Represents the file line containing only the data of interest from the BAIXA1 file:
  *  Timestamp + 6 last columns
  * 
- * @author Elloá B. Guedes
+ * @author Elloï¿½ B. Guedes
  *
  */
 public class DataLine {
@@ -17,7 +17,7 @@ public class DataLine {
 	private int minute;
 	private double pressure;
 	private double temperature;
-	private double humidity;
+	private double humidity;	//baixa1
 	private double speed;
 	private double direction;
 	private double rain;
@@ -26,7 +26,7 @@ public class DataLine {
 	 * Made from an extracted file string
 	 * 
 	 * @param s
-	 *            string extracted from baixa1 file
+	 *            string extracted from BAIXA1 file
 	 */
 	public DataLine(String s) throws ArrayIndexOutOfBoundsException {
 		String[] lista = s.split(",");
@@ -35,8 +35,8 @@ public class DataLine {
 		rain = Double.parseDouble(lista[25]);
 		direction = Double.parseDouble(lista[24]);
 		speed = Double.parseDouble(lista[23]);
-		humidity = Double.parseDouble(lista[22]);
-		temperature = Double.parseDouble(lista[21]);
+		humidity = Double.parseDouble(lista[22]);	 //RH_Avg
+		temperature = Double.parseDouble(lista[21]); //temperatura atual
 		pressure = Double.parseDouble(lista[20]);
 	}
 	

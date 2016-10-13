@@ -79,10 +79,10 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 			tArea.append("    Di\u00E1rio:\n");
 			tArea.append("        Temperatura M\u00EDnima: "
 					+ String.format(precisionFormatter, wd.getDailyDataLine().getLowTemperature()) 
-					+ " °C\n");
+					+ " ÂºC\n");
 			tArea.append("        Temperatura M\u00E1xima: "
 					+ String.format(precisionFormatter, wd.getDailyDataLine().getHighTemperature()) 
-					+ " °C\n");
+					+ " ÂºC\n");
 			tArea.append("        Velocidade M\u00E1xima do vento: "
 					+ String.format(precisionFormatter, wd.getDailyDataLine().getWindVelocity())
 					+ " m/s\n");
@@ -91,7 +91,7 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 					+ " mm\n");			
 			tArea.append("        \u00CDndice de calor: ");
 			tArea.append(String.format(precisionFormatter, wd.getDailyDataLine().getHeatIndex())
-					+ " °C\n");
+					+ " ÂºC\n");
 			tArea.append("\n");
 			
 			periodNameIndex = 0;
@@ -100,9 +100,9 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 				tArea.append("        Press\u00E3o M\u00E9dia: "
 						+ String.format(precisionFormatter, dp.getAvgPressure()) + " hPa\n");
 				tArea.append("        Temperatura M\u00EDnima: "
-						+ String.format(precisionFormatter, dp.getHighTemp()) + " °C\n");
+						+ String.format(precisionFormatter, dp.getLowTemp()) + " ÂºC\n");
 				tArea.append("        Temperatura M\u00E1xima: "
-						+ String.format(precisionFormatter, dp.getLowTemp()) + " °C\n");
+						+ String.format(precisionFormatter, dp.getHighTemp()) + " ÂºC\n");
 				tArea.append("        Umidade m\u00EDnima: "
 						+ String.format(precisionFormatter, dp.getLowHumid()) + " %\n");
 				tArea.append("        Umidade M\u00E1xima: "
@@ -110,7 +110,7 @@ public class WeatherDayViewChanges extends ComponentAdapter {
 				tArea.append("        Velocidade M\u00E1xima do vento: "
 						+ String.format(precisionFormatter, dp.getMaxSpeed())
 						+ " m/s - Dire\u00E7\u00E3o: "
-						+ String.format(precisionFormatter, dp.getMaxDirect()) + " °\n");
+						+ String.format(precisionFormatter, dp.getMaxDirect()) + " ï¿½\n");
 				tArea.append("        Precipita\u00E7\u00E3o acumulada: "
 						+ String.format(precisionFormatter, dp.getAcumRain()) + " mm\n");
 				tArea.append("\n");

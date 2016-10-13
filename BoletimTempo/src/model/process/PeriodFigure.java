@@ -67,15 +67,15 @@ public class PeriodFigure {
 				periodName = Util.ranksPeriod(count);
 
 				bi[count++] = organizeImage(date, periodName, period.getHighTemp(),
-						period.getLowTemp(), period.getMaxSpeed(), period.getAcumRain(), wd.getHeatIndex());
+						period.getLowTemp(), period.getMaxSpeed(), period.getAcumRain(), wd.getHeatIndex());	//remover Ãndice de calor
 			}
-			System.out.println("gerando imagem diária");
+			System.out.println("gerando imagem diï¿½ria");
 			DailyDataLine ddl = wd.getDailyDataLine();
 			periodName = Util.ranksPeriod(count);
 			System.out.println(periodName);
 			bi[count] = organizeImage(date, periodName, ddl.getHighTemperature(), ddl.getLowTemperature(),
-					ddl.getWindVelocity(), ddl.getTotalRain(), ddl.getHeatIndex());
-			System.out.println("figura diária gerada");
+					ddl.getWindVelocity(), ddl.getTotalRain(), ddl.getHeatIndex());	//remover Ãndice de calor
+			System.out.println("figura diï¿½ria gerada");
 			weatherDay.remove(0);
 			return bi;
 		}
@@ -125,7 +125,7 @@ public class PeriodFigure {
 		}
 		
 		if (periodName.equals("manha")) {
-			periodName = "manhã";
+			periodName = "manhï¿½";
 		}
 		
 		biToSave = new BufferedImage(img.getWidth(null), img.getHeight(null),
@@ -142,10 +142,10 @@ public class PeriodFigure {
 
 		g2d.setFont(new Font("Cambria", Font.BOLD, 200));
 		
-		g2d.drawString(String.format("%.1f", highTemp ).replace(",", ".") + "°C", 1500, 1450);
-		g2d.drawString(String.format("%.1f", lowTemp ).replace(",", ".") + "°C", 1500, 1760);
+		g2d.drawString(String.format("%.1f", highTemp ).replace(",", ".") + "ï¿½C", 1500, 1450);
+		g2d.drawString(String.format("%.1f", lowTemp ).replace(",", ".") + "ï¿½C", 1500, 1760);
 		g2d.drawString(String.format("%.1f", windVelocity).replace(",", ".") + " m/s", 50, 2900);
-		g2d.drawString(String.format("%.1f", heatIndex).replace(",", ".") + "°C",  1500, 2900);
+		g2d.drawString(String.format("%.1f", heatIndex).replace(",", ".") + "ï¿½C",  1500, 2900);
 		if(acumRain > 0.0) {
 			g2d.drawString( String.format("%.1f", acumRain).replace(",", ".") + " mm", 50, 1400);
 		}
