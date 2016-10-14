@@ -16,6 +16,7 @@ public class DailyDataLine {
 	private double windVelocity;
 	private double totalRain;
 	private double heatIndex;
+	private double humidityTempMax;
 	
 	
 	public DailyDataLine(String line) throws ArrayIndexOutOfBoundsException
@@ -25,9 +26,10 @@ public class DailyDataLine {
 		lowTemperature = Double.parseDouble(data[5]); //alteracao aqui
 		windVelocity = Double.parseDouble(data[11]);  //aqui
 		totalRain = Double.parseDouble(data[13]);     //aqui
+		humidityTempMax = Double.parseDouble(data[4]);//nova coluna do arquivo
 		setDataTimeStamp(processTimeStamp(data[3]));
 	}
-	
+
 	private void setDataTimeStamp(int tStamp[]) {
 		day = tStamp[0];
 		month = tStamp[1];
@@ -130,6 +132,14 @@ public class DailyDataLine {
 	
 	public void setHeatIndex(double heatIndex) {
 		this.heatIndex = heatIndex;
+	}
+	
+	public double getHumidityTempMax() {
+		return humidityTempMax;
+	}
+
+	public void setHumidityTempMax(double humidityTempMax) {
+		this.humidityTempMax = humidityTempMax;
 	}
 	
 	public String getDate() {

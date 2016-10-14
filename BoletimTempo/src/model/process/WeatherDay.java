@@ -114,6 +114,9 @@ public class WeatherDay {
 				}
 			}
 		}
+	  /*for ()
+	   * 
+	  */
 		
 		dailyData.setHeatIndex( (new HeatIndex(dailyData.getHighTemperature(), humidityHTemp)).getIndexInCelsius() ); 	//HEAT INDEX
 	}
