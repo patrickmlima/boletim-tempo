@@ -17,17 +17,17 @@ public class WeatherDay {
 	private int month;
 	private int day;
 
-	private DayPeriod dawn;
+	private DayPeriod dawn;				//periodos
 	private DayPeriod morning;
 	private DayPeriod afternoon;
 	private DayPeriod night;
 
-	private List<DataLine> listDawn;
+	private List<DataLine> listDawn;	 
 	private List<DataLine> listMorning;
 	private List<DataLine> listAfternoon;
 	private List<DataLine> listNight;
 	
-	private DailyDataLine dailyData;
+	private DailyDataLine dailyData;	//diario
 
 	private int size = 0;
 
@@ -90,7 +90,7 @@ public class WeatherDay {
 	 * After all the data of the day have been added, then must have processing
 	 * of the measurements of the day.
 	 */
-	public void processMeasurements(){
+	public void processMeasurements(){				//informacoes diarias
 		dawn = new DayPeriod(listDawn);
 		morning = new DayPeriod(listMorning);
 		afternoon = new DayPeriod(listAfternoon);
@@ -105,11 +105,11 @@ public class WeatherDay {
 //			}
 //		}
 		
-		for(DataLine d : getDataLines() ) {
+		for(DataLine d : getDataLines() ) {						//compara os dados do baixa1 com baixa2
 			if(this.dailyData.getHighTempHour() == d.getHour()) {
 				diffMinute = this.dailyData.getHighTempMinute() - d.getMinute(); 
 				if( (diffMinute < 10) && (diffMinute > -1) ) {
-					humidityHTemp = d.getHumidity();							//
+					humidityHTemp = d.getHumidity();
 					break;
 				}
 			}

@@ -45,7 +45,7 @@ public class DayPeriod {
 			while (it.hasNext()) {
 
 				DataLine d = it.next();
-
+				//busca a MaxTemp e pega a umidade
 				// update Max Temperature
 				if (d.getTemperature() > highTemp) {
 					highTemp = d.getTemperature();

@@ -67,14 +67,14 @@ public class PeriodFigure {
 				periodName = Util.ranksPeriod(count);
 
 				bi[count++] = organizeImage(date, periodName, period.getHighTemp(),
-						period.getLowTemp(), period.getMaxSpeed(), period.getAcumRain(), wd.getHeatIndex());	//remover Índice de calor
+						period.getLowTemp(), period.getMaxSpeed(), period.getAcumRain(), wd.getHeatIndex());	//Índice de calor
 			}
 			System.out.println("gerando imagem di�ria");
 			DailyDataLine ddl = wd.getDailyDataLine();
 			periodName = Util.ranksPeriod(count);
 			System.out.println(periodName);
 			bi[count] = organizeImage(date, periodName, ddl.getHighTemperature(), ddl.getLowTemperature(),
-					ddl.getWindVelocity(), ddl.getTotalRain(), ddl.getHeatIndex());	//remover Índice de calor
+					ddl.getWindVelocity(), ddl.getTotalRain(), ddl.getHeatIndex());	//Índice de calor
 			System.out.println("figura di�ria gerada");
 			weatherDay.remove(0);
 			return bi;

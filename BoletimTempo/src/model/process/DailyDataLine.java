@@ -1,6 +1,6 @@
 package model.process;
 
-/** FOM BAIXA2 FILE
+/** FROM BAIXA2 FILE
  * 
  * @author Patrick M Lima
  *

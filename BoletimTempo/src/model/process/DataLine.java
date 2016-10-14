@@ -35,7 +35,7 @@ public class DataLine {
 		rain = Double.parseDouble(lista[25]);
 		direction = Double.parseDouble(lista[24]);
 		speed = Double.parseDouble(lista[23]);
-		humidity = Double.parseDouble(lista[22]);	 //RH_Avg
+		humidity = Double.parseDouble(lista[22]);	 //RH_Avg	//VERIFICAR
 		temperature = Double.parseDouble(lista[21]); //temperatura atual
 		pressure = Double.parseDouble(lista[20]);
 	}
