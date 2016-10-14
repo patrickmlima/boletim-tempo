@@ -96,6 +96,7 @@ public class WeatherDay {
 		afternoon = new DayPeriod(listAfternoon);
 		night = new DayPeriod(listNight);
 
+		/*
 		double humidityHTemp = 0.0;
 		int diffMinute;
 //		for (DayPeriod d : getDayPeriods()) {
@@ -105,7 +106,7 @@ public class WeatherDay {
 //			}
 //		}
 		
-		for(DataLine d : getDataLines() ) {						//compara os dados do baixa1 com baixa2
+		for(DataLine d : getDataLines() ) {						//compara os dados do baixa1 com baixa2 para entao pegar a umidade
 			if(this.dailyData.getHighTempHour() == d.getHour()) {
 				diffMinute = this.dailyData.getHighTempMinute() - d.getMinute(); 
 				if( (diffMinute < 10) && (diffMinute > -1) ) {
@@ -114,11 +115,11 @@ public class WeatherDay {
 				}
 			}
 		}
-	  /*for ()
+	 
 	   * 
 	  */
 		
-		dailyData.setHeatIndex( (new HeatIndex(dailyData.getHighTemperature(), humidityHTemp)).getIndexInCelsius() ); 	//HEAT INDEX
+		dailyData.setHeatIndex( (new HeatIndex(dailyData.getHighTemperature(), dailyData.getHumidityTempMax())).getIndexInCelsius() ); 	//HEAT INDEX
 	}
 
 	/**
