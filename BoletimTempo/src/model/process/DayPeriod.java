@@ -7,7 +7,7 @@ import java.util.List;
  * It's equivalent to a day period and their measurements. Made from a set of
  * DataLine in which are extracted and processed the metrics of interest
  * 
- * @author Elloá B. Guedes
+ * @author Elloï¿½ B. Guedes
  *
  */
 public class DayPeriod {
@@ -21,7 +21,7 @@ public class DayPeriod {
 	private double maxDirect;
 	private double acumRain = 0.0;
 
-	private double humidityHighTemp = 0.0;
+	private double humidityHighTemp = 0.0;    //UR instante da mÃ¡xima
 
 	/**
 	 * Creates a DayPeriod and processes its metrics
@@ -29,7 +29,7 @@ public class DayPeriod {
 	 * @param data
 	 *            a List which contains DataLine objects
 	 */
-	public DayPeriod(List<DataLine> data) {
+	public DayPeriod(List<DataLine> data) {  //DataLine.java
 		size = data.size();
 		if (!data.isEmpty()) {
 
@@ -45,7 +45,7 @@ public class DayPeriod {
 			while (it.hasNext()) {
 
 				DataLine d = it.next();
-
+				//busca a MaxTemp e pega a umidade
 				// update Max Temperature
 				if (d.getTemperature() > highTemp) {
 					highTemp = d.getTemperature();

@@ -20,7 +20,7 @@ import org.w3c.dom.Element;
  * Class which receive a set of meteorological days and make the serialization
  * in a XML file
  * 
- * @author Elloá B. Guedes
+ * @author Elloï¿½ B. Guedes
  *
  */
 public class SerializeWeatherDay {
@@ -156,7 +156,7 @@ public class SerializeWeatherDay {
 			daily.appendChild(dTotalRain);
 			
 			Element indiceCalor = doc.createElement("indice_de_calor");
-			indiceCalor.appendChild(doc.createTextNode(String.format(precFormat,weatherDay.getDailyDataLine().getHeatIndex())));
+			indiceCalor.appendChild(doc.createTextNode(String.format(precFormat,weatherDay.getDailyDataLine().getHeatIndex())));	//Heat Index
 			daily.appendChild(indiceCalor);
 		}
 

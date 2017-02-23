@@ -8,7 +8,7 @@ import java.util.List;
  * respective measurements. The data from this day are initially stored and then
  * are processed
  * 
- * @author Elloá B. Guedes
+ * @author Elloï¿½ B. Guedes
  *
  */
 public class WeatherDay {
@@ -17,17 +17,17 @@ public class WeatherDay {
 	private int month;
 	private int day;
 
-	private DayPeriod dawn;
+	private DayPeriod dawn;				//periodos
 	private DayPeriod morning;
 	private DayPeriod afternoon;
 	private DayPeriod night;
 
-	private List<DataLine> listDawn;
+	private List<DataLine> listDawn;	 
 	private List<DataLine> listMorning;
 	private List<DataLine> listAfternoon;
 	private List<DataLine> listNight;
 	
-	private DailyDataLine dailyData;
+	private DailyDataLine dailyData;	//diario
 
 	private int size = 0;
 
@@ -90,12 +90,13 @@ public class WeatherDay {
 	 * After all the data of the day have been added, then must have processing
 	 * of the measurements of the day.
 	 */
-	public void processMeasurements(){
+	public void processMeasurements(){				//informacoes diarias
 		dawn = new DayPeriod(listDawn);
 		morning = new DayPeriod(listMorning);
 		afternoon = new DayPeriod(listAfternoon);
 		night = new DayPeriod(listNight);
 
+		/*
 		double humidityHTemp = 0.0;
 		int diffMinute;
 //		for (DayPeriod d : getDayPeriods()) {
@@ -105,7 +106,7 @@ public class WeatherDay {
 //			}
 //		}
 		
-		for(DataLine d : getDataLines() ) {
+		for(DataLine d : getDataLines() ) {						//compara os dados do baixa1 com baixa2 para entao pegar a umidade
 			if(this.dailyData.getHighTempHour() == d.getHour()) {
 				diffMinute = this.dailyData.getHighTempMinute() - d.getMinute(); 
 				if( (diffMinute < 10) && (diffMinute > -1) ) {
@@ -114,8 +115,11 @@ public class WeatherDay {
 				}
 			}
 		}
+	 
+	   * 
+	  */
 		
-		dailyData.setHeatIndex( (new HeatIndex(dailyData.getHighTemperature(), humidityHTemp)).getIndexInCelsius() );
+		dailyData.setHeatIndex( (new HeatIndex(dailyData.getHighTemperature(), dailyData.getHumidityTempMax())).getIndexInCelsius() ); 	//HEAT INDEX
 	}
 
 	/**

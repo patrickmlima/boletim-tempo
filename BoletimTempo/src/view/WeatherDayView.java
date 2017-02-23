@@ -58,7 +58,7 @@ public class WeatherDayView extends JPanel {
 	 * Initializes the components
 	 */
 	public void initialize() {
-		//Cria o text area que exibirá os dados
+		//Cria o text area que exibirï¿½ os dados
 		textAreaWeatherDay = new JTextArea();
 		textAreaWeatherDay.setWrapStyleWord(true);
 		textAreaWeatherDay.setLineWrap(true);
@@ -69,7 +69,7 @@ public class WeatherDayView extends JPanel {
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
-		//Cria o botão Save
+		//Cria o botÃ£o Save
 		JButton btnSave = new JButton("Salvar");
 		btnSave.setFont(new Font("Cambria Math", Font.PLAIN, 18));
 		btnSave.addActionListener(new SaveDataFileBtnHandler());

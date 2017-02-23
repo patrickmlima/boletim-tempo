@@ -61,7 +61,7 @@ public class ProcessDataView extends JPanel {
 	}
 
 	/**
-	 * Returns the selected state of 'Único dia' radio button
+	 * Returns the selected state of 'Ãºnico dia' radio button
 	 * 
 	 * @return true if the radio button is selected, false otherwise
 	 */
@@ -158,7 +158,7 @@ public class ProcessDataView extends JPanel {
 		rdbtnAllDays.setToolTipText("Selecione para processar todos os dias");
 		rdbtnAllDays.setFont(new Font("Cambria Math", Font.PLAIN, 20));
 
-		//cria o radiobutton para processar um único dia
+		//cria o radiobutton para processar um ï¿½nico dia
 		rdbtnADay = new JRadioButton("\u00DAnico dia");
 		rdbtnADay.setToolTipText("Selecione para processar um \u00FAnico dia");
 		rdbtnADay.setFont(new Font("Cambria Math", Font.PLAIN, 20));
@@ -189,7 +189,7 @@ public class ProcessDataView extends JPanel {
 		lblA = new JLabel("a");
 		lblA.setFont(new Font("Cambria Math", Font.ITALIC, 18));
 		lblA.setEnabled(false);
-		//cria o datechooser para o último dia
+		//cria o datechooser para o ï¿½ltimo dia
 		dateChooserLastDay = new JDateChooser();
 		dateChooserLastDay.getCalendarButton().setToolTipText("Clique para escolher o \u00FAltimo dia");
 		dateChooserLastDay.setToolTipText("");
@@ -207,7 +207,7 @@ public class ProcessDataView extends JPanel {
 		rdbtnADay.addActionListener(rdbtnlistener);
 		rdbtnRangeDays.addActionListener(rdbtnlistener);
 		
-		//cria um panel para "abrigar" o botão 'Processar' (usando flow layout para garantir a centralização)
+		//cria um panel para "abrigar" o botÃ£o 'Processar' (usando flow layout para garantir a centralizaÃ§Ã£o)
 		JPanel panel = new JPanel();
 		
 		SelectFileButtonHandler selectFileHandler = new SelectFileButtonHandler();
@@ -290,12 +290,12 @@ public class ProcessDataView extends JPanel {
 		);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		//Cria o botão 'Processar'
+		//Cria o botï¿½o 'Processar'
 		JButton btnProcess = new JButton("Processar");
 		btnProcess.setToolTipText("Clique aqui para iniciar o processamento");
 		btnProcess.setFont(new Font("Cambria Math", Font.PLAIN, 18));
 		btnProcess.addActionListener(new ProcessDataBtnHandler());
-		//Aciona ele a um panel com FlowLayout (para centralizá-lo)
+		//Aciona ele a um panel com FlowLayout (para centralizÃ¡-lo)
 		panel.add(btnProcess);
 		
 		setLayout(groupLayout);
